@@ -2,8 +2,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 
 // Load Data
-const lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8'));
-const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8'));
+const lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8').replace(/^\uFEFF/, ''));
+const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8').replace(/^\uFEFF/, ''));
 
 const token = '8816258838:AAEUKvrASp9XfwfapeEG-ibsFgvTeY24Bw8';
 
