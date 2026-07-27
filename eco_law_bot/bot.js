@@ -7,6 +7,9 @@ const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8'));
 
 const token = '8816258838:AAEUKvrASp9XfwfapeEG-ibsFgvTeY24Bw8';
 
+// SUN'IY INTELLEKT (GEMINI API) UCHUN KALIT:
+// Ushbu bepul kalitni https://aistudio.google.com/ saytidan olasiz
+const GEMINI_API_KEY = "AQ.Ab8RN6KtJ_OItM4gV3hKIQrfoZCBMfegpak3DA4NF-EKYAZSCA";
 const bot = new TelegramBot(token, { polling: true });
 
 console.log('Eco Law Bot ishga tushdi...');
@@ -53,17 +56,26 @@ bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     const data = query.data;
     
-    // Qonunlarni o'rganish bo'limi
     if (data === 'menu_learn') {
-        let text = "📚 **Asosiy Ekologik Qonunlar:**\n\n";
+        let text1 = "📚 **Asosiy Ekologik Qonunlar (1-qism):**\n\n";
+        let text2 = "📚 **Asosiy Ekologik Qonunlar (2-qism):**\n\n";
+        
         lawsData.forEach((law, idx) => {
-            text += `🔹 ${idx + 1}. [${law.title}](${law.url})\n`;
-            text += `📝 _Mazmuni:_ ${law.desc}\n`;
-            text += `📌 _Asosiy moddalar:_ ${law.key_articles}\n`;
-            text += `⚖️ _Javobgarlik:_ ${law.punishment}\n\n`;
+            let lawText = `🔹 ${idx + 1}. [${law.title}](${law.url})\n`;
+            lawText += `📝 _Mazmuni:_ ${law.desc}\n`;
+            lawText += `📌 _Asosiy moddalar:_ ${law.key_articles}\n`;
+            lawText += `⚖️ _Javobgarlik:_ ${law.punishment}\n\n`;
+            
+            if (idx < 5) {
+                text1 += lawText;
+            } else {
+                text2 += lawText;
+            }
         });
         
-        bot.sendMessage(chatId, text, { parse_mode: 'Markdown', disable_web_page_preview: true, reply_markup: { inline_keyboard: [[{ text: "⬅️ Orqaga", callback_data: "menu_back" }]] } });
+        bot.sendMessage(chatId, text1, { parse_mode: 'Markdown', disable_web_page_preview: true }).then(() => {
+            bot.sendMessage(chatId, text2, { parse_mode: 'Markdown', disable_web_page_preview: true, reply_markup: { inline_keyboard: [[{ text: "⬅️ Orqaga", callback_data: "menu_back" }]] } });
+        });
     }
     
     // Test va savollar bo'limlari uchun umumiy tutib oluvchi
@@ -98,9 +110,11 @@ bot.on('callback_query', (query) => {
             // Boshqa tasodifiy savolni yuboramiz
             sendRandomQuestion(chatId, type);
         } else {
-            bot.sendMessage(chatId, `❌ **Notog'ri.** Qayta urinib ko'ring yoki to'g'ri qonunni topishga harakat qiling.`);
-            // Xato bo'lsa, o'sha savolni o'zini qayta yuboramiz to to'g'ri topmaguncha
-            sendSpecificQuestion(chatId, type, qIndex);
+            bot.sendMessage(chatId, `❌ **Noto'g'ri!** \n\n✅ To'g'ri javob: *${questionData.options[questionData.answer_index]}*\n\n${questionData.explanation}`, { parse_mode: 'Markdown' });
+            
+            // Xato qilsa ham keyingi savolga o'tkazamiz. 
+            // Lekin to'g'rilar ro'yxatiga (session) yozilmagani uchun, bu savol keyinroq random tarzda yana chiqadi!
+            sendRandomQuestion(chatId, type);
         }
     }
     
@@ -153,3 +167,47 @@ function sendSpecificQuestion(chatId, type, qIndex) {
     
     bot.sendMessage(chatId, text, { reply_markup: { inline_keyboard: keyboard }, parse_mode: 'Markdown' });
 }
+
+// --------------------------------------------------------
+// SUN'IY INTELLEKT (AI) BILAN MULOQOT QILISH BO'LIMI
+// --------------------------------------------------------
+bot.on('message', async (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text;
+
+    // Agar yozilgan narsa buyruq (masalan /start) bo'lsa yoki menyudagi tugma bo'lsa javob bermaydi
+    if (!text || text.startsWith('/')) return;
+
+    // AI o'ylab javob yozguncha "Typing..." (yozyapti...) statusini ko'rsatish
+    bot.sendChatAction(chatId, 'typing');
+
+    if (GEMINI_API_KEY === "SHU_YERGA_GEMINI_API_KEY_QO'YASIZ") {
+        return bot.sendMessage(chatId, "⚠️ Sun'iy intellekt ishlashi uchun dasturchi **Gemini API** kalitini kodga kiritishi kerak.");
+    }
+
+    try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        
+        // AI ga so'rov yuborish (fetch orqali)
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: text }] }]
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.candidates && data.candidates.length > 0) {
+            const aiReply = data.candidates[0].content.parts[0].text;
+            // AI javobini yuborish
+            bot.sendMessage(chatId, aiReply, { parse_mode: 'Markdown' });
+        } else {
+            bot.sendMessage(chatId, "Kechirasiz, tushunarsiz xatolik yuz berdi.");
+        }
+    } catch (error) {
+        console.error("AI bilan ishlashda xatolik:", error);
+        bot.sendMessage(chatId, "Kechirasiz, sun'iy intellekt serveriga ulanishda xatolik yuz berdi.");
+    }
+});
