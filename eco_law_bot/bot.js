@@ -15,7 +15,7 @@ console.log('Eco Law Bot ishga tushdi...');
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
-            [{ text: "🌐 Veb-saytga kirish", web_app: { url: "https://verdant-creponne-6d4742.netlify.app" } }],
+            [{ text: "🌐 Veb-saytga kirish", web_app: { url: "https://fantastic-fairy-9815e1.netlify.app" } }],
             [{ text: "📖 Qonunlarni o'rganish", callback_data: "menu_learn" }],
             [{ text: "📝 Ekologiya Quiz", callback_data: "menu_quiz" }],
             [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzle" }]
