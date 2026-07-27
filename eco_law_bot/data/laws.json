@@ -38,5 +38,45 @@
         "key_articles": "Modda 24: Atmosfera havosiga ifloslantiruvchi moddalar chiqarilishini nazorat qilish.",
         "punishment": "MJtKning 85-moddasi: Atmosfera havosini muhofaza qilish qoidalarini buzish mansabdor shaxslarga BHMning 10 baravaridan 20 baravarigacha jarima solishga sabab bo'ladi.",
         "url": "https://lex.uz/docs/28221"
+    },
+    {
+        "id": "suv",
+        "title": "Suv va suvdan foydalanish to'g'risida",
+        "desc": "Suv zaxiralarini asrash, ifloslanishning oldini olish va suvdan oqilona foydalanish qoidalarini belgilaydi.",
+        "key_articles": "Modda 99: Suvlarni ifloslanishdan va bulg'anishdan muhofaza qilish.",
+        "punishment": "MJtKning 72-moddasi: Suvlarni ifloslantirish yoki bulg'atish BHMning 3 dan 5 baravarigacha jarima solishga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/105343"
+    },
+    {
+        "id": "osimlik",
+        "title": "O'simlik dunyosini muhofaza qilish va undan foydalanish",
+        "desc": "Noyob va yo'qolib borayotgan o'simlik turlarini, shuningdek yovvoyi holda o'suvchi o'simliklarni saqlab qolish va ko'paytirish tartibi.",
+        "key_articles": "Modda 33: Qizil kitobga kiritilgan o'simlik turlarini muhofaza qilish.",
+        "punishment": "MJtKning 79-moddasi asosida yovvoyi o'simliklarni noqonuniy yig'ish yirik miqdordagi jarimalarga olib keladi.",
+        "url": "https://lex.uz/docs/3029311"
+    },
+    {
+        "id": "ekspertiza",
+        "title": "Ekologik ekspertiza to'g'risida",
+        "desc": "Yangi qurilayotgan obyektlar, zavodlar va loyihalar atrof-muhitga qanchalik zarar yetkazishini oldindan baholash mexanizmini belgilaydi.",
+        "key_articles": "Modda 11: Davlat ekologik ekspertizasi obyektlari.",
+        "punishment": "MJtKning 96-moddasi: Ekologik ekspertiza talablarini bajarmaslik faoliyatni to'xtatib qo'yishga va jarimaga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/51848"
+    },
+    {
+        "id": "hududlar",
+        "title": "Muhofaza etiladigan tabiiy hududlar to'g'risida",
+        "desc": "Qo'riqxonalar, milliy bog'lar va buyurtmaxonalarni tashkil etish, ularning daxlsizligini ta'minlash va asrash tartibi.",
+        "key_articles": "Modda 17: Davlat qo'riqxonalari va ularning rejimi.",
+        "punishment": "MJtKning 82-moddasi: Qo'riqxonalar va milliy bog'lar rejimini buzish qat'iy javobgarlikka, shu jumladan jinoiy ish ochilishiga olib kelishi mumkin.",
+        "url": "https://lex.uz/docs/49320"
+    },
+    {
+        "id": "yer",
+        "title": "Yer kodeksi (Ekologik normalar)",
+        "desc": "Yer resurslaridan oqilona foydalanish, tuproq unumdorligini saqlash, yerni kimyoviy va radioaktiv ifloslanishdan asrash.",
+        "key_articles": "Modda 79: Yerlarni muhofaza qilishning maqsadi va vazifalari.",
+        "punishment": "MJtKning 65-moddasi: Yerlardan xo'jasizlarcha foydalanish yoki ularni yaroqsiz holga keltirish jarima yoki yer huquqidan mahrum qilishga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/152653"
     }
 ]

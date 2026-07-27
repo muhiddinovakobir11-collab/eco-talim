@@ -11,20 +11,41 @@ const bot = new TelegramBot(token, { polling: true });
 
 console.log('Eco Law Bot ishga tushdi...');
 
+// Foydalanuvchilar sessiyasini saqlash xotirasi (random va takrorlanmaslik uchun)
+const userSessions = {};
+
+function getUserSession(chatId) {
+    if (!userSessions[chatId]) {
+        userSessions[chatId] = {
+            quizzes: [],
+            puzzles: [],
+            terms: [],
+            penalties: [],
+            truefalse: []
+        };
+    }
+    return userSessions[chatId];
+}
+
 // Bosh menyu klaviaturasi
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
-            [{ text: "🌐 Veb-saytga kirish", web_app: { url: "https://fantastic-fairy-9815e1.netlify.app" } }],
             [{ text: "📖 Qonunlarni o'rganish", callback_data: "menu_learn" }],
-            [{ text: "📝 Ekologiya Quiz", callback_data: "menu_quiz" }],
-            [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzle" }]
+            [{ text: "📝 Ekologiya Quiz", callback_data: "menu_quizzes" }],
+            [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
+            [{ text: "🔤 Ekologik Atamalar", callback_data: "menu_terms" }],
+            [{ text: "⚖️ Jazolar va Jarimalar", callback_data: "menu_penalties" }],
+            [{ text: "✅ To'g'ri / Noto'g'ri", callback_data: "menu_truefalse" }]
         ]
     }
 };
 
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
+    // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
+    userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [] };
+    
     bot.sendMessage(chatId, "🌱 Assalomu alaykum! Eco Law Botga xush kelibsiz.\nBu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.", mainMenuOptions);
 });
 
@@ -36,7 +57,7 @@ bot.on('callback_query', (query) => {
     if (data === 'menu_learn') {
         let text = "📚 **Asosiy Ekologik Qonunlar:**\n\n";
         lawsData.forEach((law, idx) => {
-            text += `🔹 **${idx + 1}. [${law.title}](${law.url})**\n`;
+            text += `🔹 ${idx + 1}. [${law.title}](${law.url})\n`;
             text += `📝 _Mazmuni:_ ${law.desc}\n`;
             text += `📌 _Asosiy moddalar:_ ${law.key_articles}\n`;
             text += `⚖️ _Javobgarlik:_ ${law.punishment}\n\n`;
@@ -45,14 +66,10 @@ bot.on('callback_query', (query) => {
         bot.sendMessage(chatId, text, { parse_mode: 'Markdown', disable_web_page_preview: true, reply_markup: { inline_keyboard: [[{ text: "⬅️ Orqaga", callback_data: "menu_back" }]] } });
     }
     
-    // Quiz bo'limi
-    if (data === 'menu_quiz') {
-        sendQuestion(chatId, quizData.quizzes[0], 0, 'quiz');
-    }
-    
-    // Jumboq bo'limi
-    if (data === 'menu_puzzle') {
-        sendQuestion(chatId, quizData.puzzles[0], 0, 'puzzle');
+    // Test va savollar bo'limlari uchun umumiy tutib oluvchi
+    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back') {
+        const type = data.replace('menu_', ''); // quizzes, puzzles, terms, penalties, truefalse bo'ladi
+        sendRandomQuestion(chatId, type);
     }
     
     // Orqaga qaytish
@@ -60,39 +77,72 @@ bot.on('callback_query', (query) => {
         bot.sendMessage(chatId, "Bosh menyu:", mainMenuOptions);
     }
     
-    // Javobni tekshirish (Answer_Type_Index_QuestionId)
+    // Javobni tekshirish (ans_type_selectedIndex_qIndex formatida keladi)
     if (data.startsWith('ans_')) {
         const parts = data.split('_');
-        const type = parts[1]; // quiz yoki puzzle
+        const type = parts[1]; // quizzes, puzzles ...
         const selectedIndex = parseInt(parts[2]);
         const qIndex = parseInt(parts[3]);
         
-        let questionData = type === 'quiz' ? quizData.quizzes[qIndex] : quizData.puzzles[qIndex];
+        let questionData = quizData[type][qIndex];
         
         if (selectedIndex === questionData.answer_index) {
             bot.sendMessage(chatId, `✅ **To'g'ri javob!**\n\n${questionData.explanation}`, { parse_mode: 'Markdown' });
             
-            // Keyingi savolga o'tish
-            const nextIndex = qIndex + 1;
-            const sourceArray = type === 'quiz' ? quizData.quizzes : quizData.puzzles;
-            
-            if (nextIndex < sourceArray.length) {
-                sendQuestion(chatId, sourceArray[nextIndex], nextIndex, type);
-            } else {
-                bot.sendMessage(chatId, `🎉 Siz barcha ${type} savollarini yakunladingiz!`, mainMenuOptions);
+            // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
+            const session = getUserSession(chatId);
+            if (!session[type].includes(qIndex)) {
+                session[type].push(qIndex);
             }
+            
+            // Boshqa tasodifiy savolni yuboramiz
+            sendRandomQuestion(chatId, type);
         } else {
             bot.sendMessage(chatId, `❌ **Notog'ri.** Qayta urinib ko'ring yoki to'g'ri qonunni topishga harakat qiling.`);
-            // Savolni qayta yuborish
-            sendQuestion(chatId, questionData, qIndex, type);
+            // Xato bo'lsa, o'sha savolni o'zini qayta yuboramiz to to'g'ri topmaguncha
+            sendSpecificQuestion(chatId, type, qIndex);
         }
     }
     
     bot.answerCallbackQuery(query.id);
 });
 
-function sendQuestion(chatId, questionObj, qIndex, type) {
-    let text = type === 'puzzle' ? `🧩 **Vaziyat:** ${questionObj.story}\n\n❓ ${questionObj.question}` : `📝 **Savol:** ${questionObj.question}`;
+// Tasodifiy, takrorlanmas savol yuborish funksiyasi
+function sendRandomQuestion(chatId, type) {
+    const session = getUserSession(chatId);
+    const allQuestions = quizData[type];
+    
+    // Hali foydalanuvchi yechmagan savollar indeksini ajratib olamiz
+    const unansweredIndexes = [];
+    allQuestions.forEach((q, idx) => {
+        if (!session[type].includes(idx)) {
+            unansweredIndexes.push(idx);
+        }
+    });
+    
+    // Agar hamma savollarni tugatgan bo'lsa
+    if (unansweredIndexes.length === 0) {
+        bot.sendMessage(chatId, `🎉 Qoyil! Siz ushbu bo'limdagi barcha savollarni muvaffaqiyatli yakunladingiz!`, mainMenuOptions);
+        return;
+    }
+    
+    // Yechilmaganlari orasidan bittasini tasodifiy tanlaymiz
+    const randomPos = Math.floor(Math.random() * unansweredIndexes.length);
+    const qIndex = unansweredIndexes[randomPos];
+    
+    // Tanlangan savolni ekranga chiqaramiz
+    sendSpecificQuestion(chatId, type, qIndex);
+}
+
+// Aniq bitta savolni ekranga chiqarish funksiyasi
+function sendSpecificQuestion(chatId, type, qIndex) {
+    const questionObj = quizData[type][qIndex];
+    const session = getUserSession(chatId);
+    const answeredCount = session[type].length;
+    const totalCount = quizData[type].length;
+    
+    let text = `📊 **Natija: ${answeredCount + 1} / ${totalCount}**\n\n`;
+    text += type === 'puzzles' ? `🧩 **Vaziyat:** ${questionObj.story}\n\n❓ ${questionObj.question}` : `📝 **Savol:** ${questionObj.question}`;
     
     let keyboard = [];
     questionObj.options.forEach((opt, idx) => {
