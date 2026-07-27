@@ -1,0 +1,42 @@
+[
+    {
+        "id": "tabiat",
+        "title": "Tabiatni muhofaza qilish to'g'risida",
+        "desc": "Tabiiy muhitni saqlash, inson va tabiat o'rtasidagi munosabatlarni uyg'unlashtirish, ekologik tizimlarni asrashning huquqiy, iqtisodiy va tashkiliy asoslarini belgilab beradi.",
+        "key_articles": "Modda 14: Ekologik nazorat. Modda 17: Tabiatdan foydalanish huquqi va majburiyatlari.",
+        "punishment": "MJtKning tegishli moddalariga asosan, tabiatni muhofaza qilish qoidalarini buzganlik uchun jarima solinadi.",
+        "url": "https://lex.uz/docs/100412"
+    },
+    {
+        "id": "ormon",
+        "title": "O'rmon to'g'risida",
+        "desc": "O'rmonlarni saqlash, ko'paytirish va ulardan oqilona foydalanish munosabatlarini tartibga soladi. Daraxtlarni noqonuniy kesish va o'rmon yong'inlari javobgarlikka tortiladi.",
+        "key_articles": "Modda 45: Daraxtlar va butalarni kesish tartibi. Modda 48: O'rmonlarni yong'indan saqlash.",
+        "punishment": "MJtKning 79-moddasiga asosan: Daraxtlar va butalarni qonunga xilof ravishda kesish BHMning 25 baravaridan 50 baravarigacha jarimaga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/35889"
+    },
+    {
+        "id": "chiqindi",
+        "title": "Chiqindilar to'g'risida",
+        "desc": "Chiqindilarning fuqarolar hayoti va sog'lig'iga, atrof-muhitga zararini oldini olish, chiqindilarni yig'ish, saqlash, tashish va utilizatsiya qilish tartibini belgilaydi.",
+        "key_articles": "Modda 13: Chiqindilar bilan bog'liq ishlarni amalga oshirishda ekologik talablar.",
+        "punishment": "MJtKning 91-1-moddasi: Belgilanmagan joylarga qattiq maishiy va qurilish chiqindilarini tashlash BHMning 1 dan 3 baravarigacha jarima solishga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/12838"
+    },
+    {
+        "id": "hayvonot",
+        "title": "Hayvonot dunyosini muhofaza qilish va undan foydalanish to'g'risida",
+        "desc": "Yovvoyi hayvonlarni asrash, ularning yashash muhitini himoya qilish, Qizil kitobga kiritilgan turlarni ovlashni taqiqlash qoidalarini belgilaydi.",
+        "key_articles": "Modda 34: Hayvonot dunyosidan foydalanishni cheklash va taqiqlash. Modda 42: O'zbekiston Respublikasining Qizil kitobi.",
+        "punishment": "MJtKning 90-moddasi: Ov qilish va baliq ovlash qoidalarini buzish ashyolarni musodara qilib, BHMning 10 baravaridan 15 baravarigacha jarima solishga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/3029272"
+    },
+    {
+        "id": "atmosfera",
+        "title": "Atmosfera havosini muhofaza qilish to'g'risida",
+        "desc": "Havo havzasini zararli gazlar va ishlab chiqarish chiqindilaridan toza saqlash, zavodlar va transport vositalaridan chiqadigan zaharli moddalarni nazorat qilish tartibi.",
+        "key_articles": "Modda 24: Atmosfera havosiga ifloslantiruvchi moddalar chiqarilishini nazorat qilish.",
+        "punishment": "MJtKning 85-moddasi: Atmosfera havosini muhofaza qilish qoidalarini buzish mansabdor shaxslarga BHMning 10 baravaridan 20 baravarigacha jarima solishga sabab bo'ladi.",
+        "url": "https://lex.uz/docs/28221"
+    }
+]

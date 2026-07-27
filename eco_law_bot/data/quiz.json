@@ -1,0 +1,102 @@
+{
+    "quizzes": [
+        {
+            "id": "q1",
+            "question": "Qaysi qonun yovvoyi hayvonlarni asrash va Qizil kitobga kiritilgan turlarni himoya qilishni tartibga soladi?",
+            "options": [
+                "O'rmon to'g'risida",
+                "Chiqindilar to'g'risida",
+                "Hayvonot dunyosini muhofaza qilish",
+                "Tabiatni muhofaza qilish"
+            ],
+            "answer_index": 2,
+            "explanation": "To'g'ri javob: Hayvonot dunyosini muhofaza qilish to'g'risida. Batafsil: https://lex.uz/docs/3029272"
+        },
+        {
+            "id": "q2",
+            "question": "Atmosfera havosiga zavodlar orqali zaharli gazlar chiqarish qaysi qonun bilan tartibga olinadi?",
+            "options": [
+                "Atmosfera havosini muhofaza qilish",
+                "Iqlim isishining oldini olish",
+                "Zavodlar va fabrikalar to'g'risida",
+                "Ekologik ekspertiza"
+            ],
+            "answer_index": 0,
+            "explanation": "To'g'ri javob: Atmosfera havosini muhofaza qilish to'g'risidagi qonun. Havoni toza saqlash choralari aynan shu qonunda ko'rsatilgan."
+        },
+        {
+            "id": "q3",
+            "question": "Tibbiy, maishiy va sanoat qoldiqlarini utilizatsiya qilish qaysi qonun doirasiga kiradi?",
+            "options": [
+                "Sanitariya to'g'risida",
+                "Chiqindilar to'g'risida",
+                "Tozalik to'g'risida",
+                "Tabiatni asrash"
+            ],
+            "answer_index": 1,
+            "explanation": "To'g'ri javob: Chiqindilar to'g'risida. Qonun barcha turdagi qoldiqlarni yo'q qilish va qayta ishlashni nazorat qiladi."
+        },
+        {
+            "id": "q4",
+            "question": "Daraxtlar va butalarni ruxsatsiz, qonunga xilof ravishda kesish Ma'muriy javobgarlik to'g'risidagi kodeksning qaysi moddasiga asosan javobgarlikka sabab bo'ladi?",
+            "options": [
+                "MJtK 60-modda",
+                "MJtK 79-modda",
+                "MJtK 91-modda",
+                "MJtK 111-modda"
+            ],
+            "answer_index": 1,
+            "explanation": "To'g'ri javob: MJtK 79-modda. Ushbu moddaga binoan daraxtlar va butalarni ruxsatsiz kesish BHMning ma'lum miqdorida jarimaga olib keladi."
+        },
+        {
+            "id": "q5",
+            "question": "Qaysi xatti-harakat uchun ashyolar (ov qurollari, to'rlar) majburiy musodara qilinishi belgilangan?",
+            "options": [
+                "Zavoddan tutun chiqarish",
+                "Daraxt shoxlarini butash",
+                "Noqonuniy ov qilish (brakonyerlik)",
+                "Ko'chaga qog'oz tashlash"
+            ],
+            "answer_index": 2,
+            "explanation": "To'g'ri javob: Noqonuniy ov qilish (brakonyerlik). MJtKning 90-moddasida qoidabuzarlik qurollari (ashyolari) musodara qilinishi qat'iy belgilangan."
+        }
+    ],
+    "puzzles": [
+        {
+            "id": "p1",
+            "story": "Tadbirkor o'ziga tegishli hududda qurilish boshlash maqsadida u yerdagi 10 ta ko'p yillik daraxtlarni hech qanday ruxsatnomasiz kesib tashladi. Ekologiya inspektorlari holatni rasmiylashtirishdi.",
+            "question": "Ushbu holatda tadbirkor qaysi qonun talablarini buzgan va unga qanday jazo qo'llanilishi mumkin?",
+            "options": [
+                "\"Chiqindilar to'g'risida\"gi qonun, MJtK 91-modda",
+                "\"O'rmon to'g'risida\"gi qonun, MJtK 79-modda",
+                "\"Tabiatni muhofaza qilish\" qonuni, jazosiz qoladi"
+            ],
+            "answer_index": 1,
+            "explanation": "To'g'ri! Tadbirkor \"O'rmon to'g'risida\"gi qonunni va O'zbekistonda joriy etilgan moratoriyni buzgan. Unga MJtK 79-moddasi asosida yirik miqdorda jarima solinadi va tabiatga yetkazilgan zarar qoplanadi."
+        },
+        {
+            "id": "p2",
+            "story": "Shahar chetidagi katta kimyo zavodi tunlari zaharli tutunni havoga filtrlamasdan chiqarib yuborayotgani aniqlandi. Aholida nafas yo'llari kasalliklari ko'paydi.",
+            "question": "Ekologiya inspektorlari ushbu zavodga qaysi qonun asosida chora ko'radilar va kim javobgarlikka tortiladi?",
+            "options": [
+                "Atmosfera havosini muhofaza qilish, zavod rahbari (mansabdor shaxs)",
+                "Kimyoviy qurollar to'g'risida, barcha ishchilar",
+                "Sanitariya normalari, faqat oddiy ishchilar"
+            ],
+            "answer_index": 0,
+            "explanation": "Juda to'g'ri! \"Atmosfera havosini muhofaza qilish to'g'risida\"gi qonun (MJtK 85-modda) asosida zavod rahbari yoki javobgar mansabdor shaxsga katta miqdorda jarima solinadi, faoliyati vaqtincha to'xtatilishi ham mumkin."
+        },
+        {
+            "id": "p3",
+            "story": "Daryo bo'yidagi dam olish maskaniga kelgan sayyohlar barcha ovqat qoldiqlari, plastik idishlar va salafan paketlarni o'zlari bilan olib ketmasdan, suvga oqizib yuborishdi.",
+            "question": "Bu xatti-harakat qaysi qonunchilik bilan taqiqlangan va qanday chora ko'riladi?",
+            "options": [
+                "Suv va suvdan foydalanish to'g'risida, qat'iy hayfsan",
+                "Chiqindilar to'g'risida, MJtK 91-1-moddasi bilan jarima",
+                "Turizm to'g'risida, jarima solinmaydi"
+            ],
+            "answer_index": 1,
+            "explanation": "Ajoyib! Belgilanmagan joylarga, ayniqsa suv havzalariga chiqindi tashlash \"Chiqindilar to'g'risida\"gi qonun bilan qat'iy taqiqlangan. Sayyohlarga MJtK 91-1-moddasi bilan jarima solinadi."
+        }
+    ]
+}
