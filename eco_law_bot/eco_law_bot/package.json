@@ -1,0 +1,12 @@
+{
+  "name": "eco_law_bot",
+  "version": "1.0.0",
+  "description": "Ecology Law Bot with Quizzes",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.65.0"
+  }
+}
