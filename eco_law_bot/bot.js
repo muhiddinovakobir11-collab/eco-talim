@@ -23,12 +23,11 @@ setInterval(() => {
 }, 14 * 60 * 1000);
 
 // Load Data
-const lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8').replace(/^\uFEFF/, ''));
-let lawsExpanded = [];
+let lawsData = [];
 try {
-    lawsExpanded = JSON.parse(fs.readFileSync('./data/laws_expanded.json', 'utf8').replace(/^\uFEFF/, ''));
+    lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8').replace(/^\uFEFF/, ''));
 } catch (e) {
-    console.log("laws_expanded.json hali yo'q");
+    console.error("laws.json yuklanmadi:", e);
 }
 const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8').replace(/^\uFEFF/, ''));
 
@@ -142,11 +141,11 @@ bot.on('callback_query', (query) => {
     
     if (data === 'menu_learn') {
         let keyboard = [];
-        for (let i = 0; i < lawsExpanded.length; i += 2) {
+        for (let i = 0; i < lawsData.length; i += 2) {
             let row = [];
-            row.push({ text: "🏛 " + lawsExpanded[i].category_title, callback_data: `law_cat_${lawsExpanded[i].id}` });
-            if (i + 1 < lawsExpanded.length) {
-                row.push({ text: "🏛 " + lawsExpanded[i+1].category_title, callback_data: `law_cat_${lawsExpanded[i+1].id}` });
+            row.push({ text: "🏛 " + lawsData[i].category_title, callback_data: `law_cat_${lawsData[i].id}` });
+            if (i + 1 < lawsData.length) {
+                row.push({ text: "🏛 " + lawsData[i+1].category_title, callback_data: `law_cat_${lawsData[i+1].id}` });
             }
             keyboard.push(row);
         }
@@ -170,7 +169,7 @@ bot.on('callback_query', (query) => {
             pageIdx = parseInt(parts[3]);
         }
         
-        const cat = lawsExpanded.find(c => c.id === catId);
+        const cat = lawsData.find(c => c.id === catId);
         
         if (cat && cat.rules.length > 0) {
             const total = cat.rules.length;
