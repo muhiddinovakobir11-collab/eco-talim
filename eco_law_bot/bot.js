@@ -23,12 +23,6 @@ setInterval(() => {
 }, 14 * 60 * 1000);
 
 // Load Data
-let lawsData = [];
-try {
-    lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8').replace(/^\uFEFF/, ''));
-} catch (e) {
-    console.error("laws.json yuklanmadi:", e);
-}
 const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8').replace(/^\uFEFF/, ''));
 
 let usersData = [];
@@ -80,7 +74,6 @@ function getUserSession(chatId) {
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
-            [{ text: "📖 Qonunlarni o'rganish", callback_data: "menu_learn" }],
             [{ text: "📝 Ekologiya Quiz", callback_data: "menu_quizzes" }],
             [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
             [{ text: "🔤 Ekologik Atamalar", callback_data: "menu_terms" }],
