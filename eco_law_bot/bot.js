@@ -158,41 +158,62 @@ bot.on('callback_query', (query) => {
         });
     }
     
-    if (data.startsWith('law_cat_')) {
-        const catId = data.replace('law_cat_', '');
+    if (data.startsWith('law_cat_') || data.startsWith('law_page_')) {
+        let catId, pageIdx;
+        
+        if (data.startsWith('law_cat_')) {
+            catId = data.replace('law_cat_', '');
+            pageIdx = 0;
+        } else {
+            const parts = data.split('_');
+            catId = parts[2];
+            pageIdx = parseInt(parts[3]);
+        }
+        
         const cat = lawsExpanded.find(c => c.id === catId);
         
-        if (cat) {
-            // Ma'lumot ko'p bo'lsa ikkiga bo'lib jo'natish
-            let msg1 = `🏛 **${cat.category_title}** yo'nalishi bo'yicha qoidalar (1-qism):\n\n`;
-            let msg2 = `🏛 **${cat.category_title}** yo'nalishi bo'yicha qoidalar (2-qism):\n\n`;
+        if (cat && cat.rules.length > 0) {
+            const total = cat.rules.length;
+            const rule = cat.rules[pageIdx];
             
-            const half = Math.ceil(cat.rules.length / 2);
+            let msgText = `🏛 **${cat.category_title}** yo'nalishi:\n\n`;
+            msgText += `🔹 ${pageIdx + 1}. ${rule.title}\n`;
+            msgText += `📝 _Mazmuni:_ ${rule.desc}\n`;
+            msgText += `📌 _Asosiy moddalar:_ ${rule.key_articles}\n`;
+            msgText += `⚖️ _Javobgarlik:_ ${rule.punishment}\n`;
             
-            cat.rules.slice(0, half).forEach((rule, idx) => {
-                msg1 += `🔹 ${idx + 1}. ${rule.title}\n`;
-                msg1 += `📝 _Mazmuni:_ ${rule.desc}\n`;
-                msg1 += `📌 _Asosiy moddalar:_ ${rule.key_articles}\n`;
-                msg1 += `⚖️ _Javobgarlik:_ ${rule.punishment}\n\n`;
-            });
+            let navRow = [];
             
-            cat.rules.slice(half).forEach((rule, idx) => {
-                msg2 += `🔹 ${idx + 1 + half}. ${rule.title}\n`;
-                msg2 += `📝 _Mazmuni:_ ${rule.desc}\n`;
-                msg2 += `📌 _Asosiy moddalar:_ ${rule.key_articles}\n`;
-                msg2 += `⚖️ _Javobgarlik:_ ${rule.punishment}\n\n`;
-            });
+            if (pageIdx > 0) {
+                navRow.push({ text: "⬅️ Oldingi", callback_data: `law_page_${catId}_${pageIdx - 1}` });
+            }
             
-            bot.sendMessage(chatId, msg1, { parse_mode: 'Markdown' }).then(() => {
-                bot.sendMessage(chatId, msg2, {
+            navRow.push({ text: `${pageIdx + 1}/${total}`, callback_data: "ignore" });
+            
+            if (pageIdx < total - 1) {
+                navRow.push({ text: "Keyingi ➡️", callback_data: `law_page_${catId}_${pageIdx + 1}` });
+            }
+            
+            const keyboard = [
+                navRow,
+                [{ text: "⬅️ Yo'nalishlarga qaytish", callback_data: "menu_learn" }]
+            ];
+            
+            if (data.startsWith('law_page_')) {
+                // Edit existing message for smooth pagination
+                bot.editMessageText(msgText, {
+                    chat_id: chatId,
+                    message_id: query.message.message_id,
                     parse_mode: 'Markdown',
-                    reply_markup: {
-                        inline_keyboard: [
-                            [{ text: "⬅️ Yo'nalishlarga qaytish", callback_data: "menu_learn" }]
-                        ]
-                    }
+                    reply_markup: { inline_keyboard: keyboard }
+                }).catch(e => console.log(e));
+            } else {
+                // Send new message when coming from menu
+                bot.sendMessage(chatId, msgText, {
+                    parse_mode: 'Markdown',
+                    reply_markup: { inline_keyboard: keyboard }
                 });
-            });
+            }
         }
     }
     
