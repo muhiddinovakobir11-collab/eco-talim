@@ -1,12 +1,16 @@
 {
-  "name": "eco_law_bot",
+  "name": "eco-law-bot",
   "version": "1.0.0",
-  "description": "Ecology Law Bot with Quizzes",
+  "description": "Telegram bot for ecological laws",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
   "dependencies": {
-    "node-telegram-bot-api": "^0.65.0"
+    "node-telegram-bot-api": "^0.65.0",
+    "@google/generative-ai": "^0.11.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

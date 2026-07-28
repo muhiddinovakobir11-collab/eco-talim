@@ -1,15 +1,57 @@
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const http = require('http');
+
+// Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
+// Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.write('Eco Law Bot is running!\n');
+    res.end();
+}).listen(port, () => {
+    console.log(`Web server portda ishga tushdi: ${port}`);
+});
+
+// Render'da tekin server uxlab qolmasligi uchun bot o'ziga-o'zi har 14 daqiqada so'rov yuboradi
+setInterval(() => {
+    http.get('http://akosheco.onrender.com').on('error', (err) => {
+        console.error("Ping xatosi:", err.message);
+    });
+    console.log("Ping yuborildi: Bot 24/7 ishlashi ta'minlanmoqda...");
+}, 14 * 60 * 1000);
 
 // Load Data
 const lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8').replace(/^\uFEFF/, ''));
+let lawsExpanded = [];
+try {
+    lawsExpanded = JSON.parse(fs.readFileSync('./data/laws_expanded.json', 'utf8').replace(/^\uFEFF/, ''));
+} catch (e) {
+    console.log("laws_expanded.json hali yo'q");
+}
 const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8').replace(/^\uFEFF/, ''));
 
-const token = '8816258838:AAEUKvrASp9XfwfapeEG-ibsFgvTeY24Bw8';
+let usersData = [];
+try {
+    const rawData = JSON.parse(fs.readFileSync('./data/users.json', 'utf8').replace(/^\uFEFF/, ''));
+    // Eski raqamli ID'larni yangi obyekt formatiga o'tkazish
+    usersData = rawData.map(u => typeof u === 'number' ? { id: u, first_name: 'Foydalanuvchi', username: '', is_blocked: false } : u);
+} catch (e) {
+    usersData = [];
+}
 
-// SUN'IY INTELLEKT (GEMINI API) UCHUN KALIT:
-// Ushbu bepul kalitni https://aistudio.google.com/ saytidan olasiz
-const GEMINI_API_KEY = "AQ.Ab8RN6KtJ_OItM4gV3hKIQrfoZCBMfegpak3DA4NF-EKYAZSCA";
+// Environment Variables (Maxfiy kalitlar)
+const token = process.env.TELEGRAM_TOKEN || "8816258838:AAEUKvrASp9XfwfapeEG-ibsFgvTeY24Bw8";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AQ.Ab8RN6Ij-ITyOZy09qfVaeBuoCqfbBsSTyhAABlYMMU0OQsA8w";
+
+const ADMIN_ID = 1860069506; // Sizning Telegram ID raqamingiz
+let isBroadcasting = false; // Xabar tarqatish holati
+
+if (!token) {
+    console.warn("DIQQAT: TELEGRAM_TOKEN yoki GEMINI_API_KEY topilmadi!");
+}
+
 const bot = new TelegramBot(token, { polling: true });
 
 console.log('Eco Law Bot ishga tushdi...');
@@ -24,8 +66,13 @@ function getUserSession(chatId) {
             puzzles: [],
             terms: [],
             penalties: [],
-            truefalse: []
+            truefalse: [],
+            attempts: { quizzes: 0, puzzles: 0, terms: 0, penalties: 0, truefalse: 0 }
         };
+    }
+    // Eski sessiyalar xatosi oldini olish uchun
+    if (!userSessions[chatId].attempts) {
+        userSessions[chatId].attempts = { quizzes: 0, puzzles: 0, terms: 0, penalties: 0, truefalse: 0 };
     }
     return userSessions[chatId];
 }
@@ -39,7 +86,8 @@ const mainMenuOptions = {
             [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
             [{ text: "🔤 Ekologik Atamalar", callback_data: "menu_terms" }],
             [{ text: "⚖️ Jazolar va Jarimalar", callback_data: "menu_penalties" }],
-            [{ text: "✅ To'g'ri / Noto'g'ri", callback_data: "menu_truefalse" }]
+            [{ text: "✅ To'g'ri / Noto'g'ri", callback_data: "menu_truefalse" }],
+            [{ text: "👨‍💻 Admin", url: "https://t.me/akoshprod" }]
         ]
     }
 };
@@ -49,7 +97,43 @@ bot.onText(/\/start/, (msg) => {
     // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
     userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [] };
     
-    bot.sendMessage(chatId, "🌱 Assalomu alaykum! Eco Law Botga xush kelibsiz.\nBu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.", mainMenuOptions);
+    // Tarqatish holatini bekor qilish (agar yoqilgan bo'lsa)
+    if (chatId === ADMIN_ID) isBroadcasting = false;
+
+    // Yangi foydalanuvchini bazaga qo'shish
+    let existingUser = usersData.find(u => u.id === chatId);
+    if (!existingUser) {
+        usersData.push({
+            id: chatId,
+            first_name: msg.from.first_name || 'Foydalanuvchi',
+            username: msg.from.username || '',
+            is_blocked: false
+        });
+        fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+        
+        // Adminga xabar yuborish
+        if (chatId !== ADMIN_ID) {
+            let userLink = `[${msg.from.first_name || 'Foydalanuvchi'}](tg://user?id=${chatId})`;
+            let username = msg.from.username ? ` (@${msg.from.username})` : '';
+            bot.sendMessage(ADMIN_ID, `🆕 **Yangi obunachi qo'shildi!**\n👤 Profil: ${userLink}${username}`, { parse_mode: 'Markdown' });
+        }
+    } else if (existingUser.is_blocked) {
+        // Agar avval bloklagan bo'lsa va yana start bossa, blokni olib tashlaymiz
+        existingUser.is_blocked = false;
+        fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+    }
+    
+    const introText = "🌱 Assalomu alaykum! Eco Law Botga xush kelibsiz.\nBu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.\n\n📞 Murojaat uchun: @akoshprod";
+    const videoPath = './data/intro.mp4';
+    
+    if (fs.existsSync(videoPath)) {
+        bot.sendVideo(chatId, videoPath, {
+            caption: introText,
+            reply_markup: mainMenuOptions.reply_markup
+        });
+    } else {
+        bot.sendMessage(chatId, introText, mainMenuOptions);
+    }
 });
 
 bot.on('callback_query', (query) => {
@@ -57,25 +141,59 @@ bot.on('callback_query', (query) => {
     const data = query.data;
     
     if (data === 'menu_learn') {
-        let text1 = "📚 **Asosiy Ekologik Qonunlar (1-qism):**\n\n";
-        let text2 = "📚 **Asosiy Ekologik Qonunlar (2-qism):**\n\n";
-        
-        lawsData.forEach((law, idx) => {
-            let lawText = `🔹 ${idx + 1}. [${law.title}](${law.url})\n`;
-            lawText += `📝 _Mazmuni:_ ${law.desc}\n`;
-            lawText += `📌 _Asosiy moddalar:_ ${law.key_articles}\n`;
-            lawText += `⚖️ _Javobgarlik:_ ${law.punishment}\n\n`;
-            
-            if (idx < 5) {
-                text1 += lawText;
-            } else {
-                text2 += lawText;
+        let keyboard = [];
+        for (let i = 0; i < lawsExpanded.length; i += 2) {
+            let row = [];
+            row.push({ text: "🏛 " + lawsExpanded[i].category_title, callback_data: `law_cat_${lawsExpanded[i].id}` });
+            if (i + 1 < lawsExpanded.length) {
+                row.push({ text: "🏛 " + lawsExpanded[i+1].category_title, callback_data: `law_cat_${lawsExpanded[i+1].id}` });
             }
-        });
+            keyboard.push(row);
+        }
+        keyboard.push([{ text: "⬅️ Orqaga", callback_data: "menu_back" }]);
         
-        bot.sendMessage(chatId, text1, { parse_mode: 'Markdown', disable_web_page_preview: true }).then(() => {
-            bot.sendMessage(chatId, text2, { parse_mode: 'Markdown', disable_web_page_preview: true, reply_markup: { inline_keyboard: [[{ text: "⬅️ Orqaga", callback_data: "menu_back" }]] } });
+        bot.sendMessage(chatId, "📚 **O'rganish uchun kerakli yo'nalishni tanlang:**", {
+            parse_mode: 'Markdown',
+            reply_markup: { inline_keyboard: keyboard }
         });
+    }
+    
+    if (data.startsWith('law_cat_')) {
+        const catId = data.replace('law_cat_', '');
+        const cat = lawsExpanded.find(c => c.id === catId);
+        
+        if (cat) {
+            // Ma'lumot ko'p bo'lsa ikkiga bo'lib jo'natish
+            let msg1 = `🏛 **${cat.category_title}** yo'nalishi bo'yicha qoidalar (1-qism):\n\n`;
+            let msg2 = `🏛 **${cat.category_title}** yo'nalishi bo'yicha qoidalar (2-qism):\n\n`;
+            
+            const half = Math.ceil(cat.rules.length / 2);
+            
+            cat.rules.slice(0, half).forEach((rule, idx) => {
+                msg1 += `🔹 ${idx + 1}. ${rule.title}\n`;
+                msg1 += `📝 _Mazmuni:_ ${rule.desc}\n`;
+                msg1 += `📌 _Asosiy moddalar:_ ${rule.key_articles}\n`;
+                msg1 += `⚖️ _Javobgarlik:_ ${rule.punishment}\n\n`;
+            });
+            
+            cat.rules.slice(half).forEach((rule, idx) => {
+                msg2 += `🔹 ${idx + 1 + half}. ${rule.title}\n`;
+                msg2 += `📝 _Mazmuni:_ ${rule.desc}\n`;
+                msg2 += `📌 _Asosiy moddalar:_ ${rule.key_articles}\n`;
+                msg2 += `⚖️ _Javobgarlik:_ ${rule.punishment}\n\n`;
+            });
+            
+            bot.sendMessage(chatId, msg1, { parse_mode: 'Markdown' }).then(() => {
+                bot.sendMessage(chatId, msg2, {
+                    parse_mode: 'Markdown',
+                    reply_markup: {
+                        inline_keyboard: [
+                            [{ text: "⬅️ Yo'nalishlarga qaytish", callback_data: "menu_learn" }]
+                        ]
+                    }
+                });
+            });
+        }
     }
     
     // Test va savollar bo'limlari uchun umumiy tutib oluvchi
@@ -97,12 +215,15 @@ bot.on('callback_query', (query) => {
         const qIndex = parseInt(parts[3]);
         
         let questionData = quizData[type][qIndex];
+        const session = getUserSession(chatId);
+        
+        // Urinishlar sonini oshirish
+        session.attempts[type]++;
         
         if (selectedIndex === questionData.answer_index) {
             bot.sendMessage(chatId, `✅ **To'g'ri javob!**\n\n${questionData.explanation}`, { parse_mode: 'Markdown' });
             
             // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
-            const session = getUserSession(chatId);
             if (!session[type].includes(qIndex)) {
                 session[type].push(qIndex);
             }
@@ -110,12 +231,90 @@ bot.on('callback_query', (query) => {
             // Boshqa tasodifiy savolni yuboramiz
             sendRandomQuestion(chatId, type);
         } else {
-            bot.sendMessage(chatId, `❌ **Noto'g'ri!** \n\n✅ To'g'ri javob: *${questionData.options[questionData.answer_index]}*\n\n${questionData.explanation}`, { parse_mode: 'Markdown' });
+            bot.sendMessage(chatId, `❌ **Noto'g'ri!** Keyingi savolga o'tamiz...`);
             
             // Xato qilsa ham keyingi savolga o'tkazamiz. 
-            // Lekin to'g'rilar ro'yxatiga (session) yozilmagani uchun, bu savol keyinroq random tarzda yana chiqadi!
             sendRandomQuestion(chatId, type);
         }
+    }
+    
+    // Testni o'z xohishi bilan tugatish (Tugatish tugmasi)
+    if (data.startsWith('finish_')) {
+        const type = data.replace('finish_', '');
+        const session = getUserSession(chatId);
+        
+        const correct = session[type].length;
+        const totalAttempts = session.attempts[type];
+        const wrong = totalAttempts - correct;
+        
+        let msg = `🏁 **Test yakunlandi!**\n\n`;
+        msg += `📊 Jami ishlangan: **${totalAttempts}** ta\n`;
+        msg += `✅ To'g'ri javoblar: **${correct}** ta\n`;
+        msg += `❌ Xato javoblar: **${wrong}** ta\n\n`;
+        msg += `_Yana o'ynash uchun menyudan tanlang._`;
+        
+        bot.sendMessage(chatId, msg, { parse_mode: 'Markdown', ...mainMenuOptions });
+        
+        // Progressni tozalash
+        session[type] = [];
+        session.attempts[type] = 0;
+    }
+    
+    // ----- ADMIN FUNKSIYALARI TUGMALARI -----
+    if (data === 'admin_stats') {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        bot.sendMessage(chatId, "⏳ Statistika hisoblanmoqda... Kuting.");
+        
+        // Barcha foydalanuvchilarni tekshirib chiqish (bloklaganlarni aniqlash uchun)
+        let activeCount = 0;
+        let blockedCount = 0;
+        let usersList = "";
+        let blockedList = "";
+
+        (async () => {
+            for (let i = 0; i < usersData.length; i++) {
+                let user = usersData[i];
+                let userLink = `[${user.first_name || 'Foydalanuvchi'}](tg://user?id=${user.id})`;
+                let username = user.username ? ` (@${user.username})` : '';
+                let fullName = `${userLink}${username}`;
+
+                try {
+                    // Chat action orqali bot bloklangan yoki yo'qligini bilib olamiz
+                    await bot.sendChatAction(user.id, 'typing');
+                    user.is_blocked = false;
+                    activeCount++;
+                    usersList += `✅ ${fullName}\n`;
+                } catch (err) {
+                    user.is_blocked = true;
+                    blockedCount++;
+                    blockedList += `❌ ${fullName}\n`;
+                }
+            }
+            
+            // O'zgarishlarni saqlab qo'yamiz
+            fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+            
+            let statsText = `📊 **To'liq Statistika:**\n\n`;
+            statsText += `👥 Jami obunachilar: **${usersData.length}** ta\n`;
+            statsText += `✅ Faol foydalanuvchilar: **${activeCount}** ta\n`;
+            statsText += `❌ Botni bloklaganlar: **${blockedCount}** ta\n\n`;
+            
+            statsText += `📜 **Faol foydalanuvchilar:**\n${usersList || "Yo'q"}\n\n`;
+            statsText += `🚫 **Bloklaganlar:**\n${blockedList || "Yo'q"}`;
+            
+            // Agar text juda uzun bo'lib ketsa (Telegram 4096 belgi limiti) kesib tashlaymiz
+            if (statsText.length > 4000) {
+                statsText = statsText.substring(0, 4000) + "\n... (Ro'yxat juda uzun)";
+            }
+            
+            bot.sendMessage(chatId, statsText, { parse_mode: 'Markdown' });
+        })();
+    }
+    
+    if (data === 'admin_broadcast') {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        isBroadcasting = true;
+        bot.sendMessage(chatId, "✉️ **Xabar tarqatish:**\n\nEndi botga tarqatmoqchi bo'lgan xabaringizni yuboring. (Rasm, video, audio yoki oddiy matn bo'lishi mumkin).\n\n_Bekor qilish uchun /start ni bosing._", { parse_mode: 'Markdown' });
     }
     
     bot.answerCallbackQuery(query.id);
@@ -125,6 +324,7 @@ bot.on('callback_query', (query) => {
 function sendRandomQuestion(chatId, type) {
     const session = getUserSession(chatId);
     const allQuestions = quizData[type];
+    const SESSION_LIMIT = 20; // Har bir o'yin uchun savollar limiti
     
     // Hali foydalanuvchi yechmagan savollar indeksini ajratib olamiz
     const unansweredIndexes = [];
@@ -134,9 +334,22 @@ function sendRandomQuestion(chatId, type) {
         }
     });
     
-    // Agar hamma savollarni tugatgan bo'lsa
-    if (unansweredIndexes.length === 0) {
-        bot.sendMessage(chatId, `🎉 Qoyil! Siz ushbu bo'limdagi barcha savollarni muvaffaqiyatli yakunladingiz!`, mainMenuOptions);
+    // Agar hamma savollarni tugatgan bo'lsa yoki limitga (20 taga) yetgan bo'lsa
+    if (unansweredIndexes.length === 0 || session.attempts[type] >= SESSION_LIMIT) {
+        const correct = session[type].length;
+        const totalAttempts = session.attempts[type];
+        const wrong = totalAttempts - correct;
+        
+        let msg = `🎉 **Qoyil! Siz ushbu bo'limdagi ${totalAttempts} ta savolni yakunladingiz!**\n\n`;
+        msg += `✅ To'g'ri: **${correct}** ta\n`;
+        msg += `❌ Xato: **${wrong}** ta\n\n`;
+        msg += `🔄 Yana ishlash uchun tegishli bo'limni tanlang.`;
+        
+        bot.sendMessage(chatId, msg, mainMenuOptions);
+        
+        // Keyingi safar yana yangi 20 ta savol o'ynashi uchun progressni tozalaymiz
+        session[type] = []; 
+        session.attempts[type] = 0;
         return;
     }
     
@@ -145,17 +358,19 @@ function sendRandomQuestion(chatId, type) {
     const qIndex = unansweredIndexes[randomPos];
     
     // Tanlangan savolni ekranga chiqaramiz
-    sendSpecificQuestion(chatId, type, qIndex);
+    sendSpecificQuestion(chatId, type, qIndex, SESSION_LIMIT);
 }
 
 // Aniq bitta savolni ekranga chiqarish funksiyasi
-function sendSpecificQuestion(chatId, type, qIndex) {
+function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     const questionObj = quizData[type][qIndex];
     const session = getUserSession(chatId);
-    const answeredCount = session[type].length;
-    const totalCount = quizData[type].length;
+    const attemptsCount = session.attempts[type];
     
-    let text = `📊 **Natija: ${answeredCount + 1} / ${totalCount}**\n\n`;
+    // Ekranda ko'rsatiladigan maksimal savollar soni
+    const totalCount = Math.min(quizData[type].length, limit);
+    
+    let text = `📊 **Savol: ${attemptsCount + 1} / ${totalCount}**\n\n`;
     text += type === 'puzzles' ? `🧩 **Vaziyat:** ${questionObj.story}\n\n❓ ${questionObj.question}` : `📝 **Savol:** ${questionObj.question}`;
     
     let keyboard = [];
@@ -163,51 +378,79 @@ function sendSpecificQuestion(chatId, type, qIndex) {
         keyboard.push([{ text: opt, callback_data: `ans_${type}_${idx}_${qIndex}` }]);
     });
     
-    keyboard.push([{ text: "⬅️ Menyuga qaytish", callback_data: "menu_back" }]);
+    keyboard.push([
+        { text: "⬅️ Menyuga", callback_data: "menu_back" },
+        { text: "🛑 Tugatish", callback_data: `finish_${type}` }
+    ]);
     
-    bot.sendMessage(chatId, text, { reply_markup: { inline_keyboard: keyboard }, parse_mode: 'Markdown' });
+    let imagePath = null;
+    if (questionObj.image && fs.existsSync(questionObj.image)) {
+        imagePath = questionObj.image;
+    } else if (type === 'puzzles' && fs.existsSync('./data/puzzle_bg.jpg')) {
+        imagePath = './data/puzzle_bg.jpg';
+    }
+    
+    if (imagePath) {
+        bot.sendPhoto(chatId, imagePath, {
+            caption: text,
+            parse_mode: 'Markdown',
+            reply_markup: { inline_keyboard: keyboard }
+        });
+    } else {
+        bot.sendMessage(chatId, text, { reply_markup: { inline_keyboard: keyboard }, parse_mode: 'Markdown' });
+    }
 }
 
-// --------------------------------------------------------
-// SUN'IY INTELLEKT (AI) BILAN MULOQOT QILISH BO'LIMI
-// --------------------------------------------------------
-bot.on('message', async (msg) => {
-    const chatId = msg.chat.id;
-    const text = msg.text;
-
-    // Agar yozilgan narsa buyruq (masalan /start) bo'lsa yoki menyudagi tugma bo'lsa javob bermaydi
-    if (!text || text.startsWith('/')) return;
-
-    // AI o'ylab javob yozguncha "Typing..." (yozyapti...) statusini ko'rsatish
-    bot.sendChatAction(chatId, 'typing');
-
-    if (GEMINI_API_KEY === "SHU_YERGA_GEMINI_API_KEY_QO'YASIZ") {
-        return bot.sendMessage(chatId, "⚠️ Sun'iy intellekt ishlashi uchun dasturchi **Gemini API** kalitini kodga kiritishi kerak.");
+// ==========================================
+// ADMIN PANEL BO'LIMI
+// ==========================================
+const adminMenuOptions = {
+    reply_markup: {
+        inline_keyboard: [
+            [{ text: "📊 Statistika", callback_data: "admin_stats" }],
+            [{ text: "✉️ Hammaga xabar yuborish", callback_data: "admin_broadcast" }]
+        ]
     }
+};
 
-    try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+bot.onText(/\/admin/, (msg) => {
+    const chatId = msg.chat.id;
+    if (chatId !== ADMIN_ID) return; // Faqat adminga ruxsat
+    
+    bot.sendMessage(chatId, "🛠 **Admin Panelga xush kelibsiz!**\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'Markdown', ...adminMenuOptions });
+});
+
+bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    
+    // Agar xabar tarqatish yoqilgan bo'lsa va bu admin bo'lsa
+    if (chatId === ADMIN_ID && isBroadcasting && !msg.text?.startsWith('/')) {
+        isBroadcasting = false;
+        bot.sendMessage(chatId, "⏳ Xabar tarqatish boshlandi... Iltimos kuting.");
         
-        // AI ga so'rov yuborish (fetch orqali)
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: text }] }]
-            })
+        let successCount = 0;
+        let failCount = 0;
+        
+        usersData.forEach((userObj, index) => {
+            const uId = userObj.id || userObj;
+            setTimeout(() => {
+                bot.copyMessage(uId, chatId, msg.message_id)
+                    .then(() => { successCount++; })
+                    .catch(() => { failCount++; })
+                    .finally(() => {
+                        // Oxirgi odamga yuborilganda hisobot berish
+                        if (index === usersData.length - 1) {
+                            bot.sendMessage(chatId, `✅ **Xabar tarqatish yakunlandi!**\n\nYetib bordi: ${successCount} ta\nYetib bormadi (bloklaganlar): ${failCount} ta`, { parse_mode: 'Markdown' });
+                        }
+                    });
+            }, index * 50); // Telegram limitiga tushmaslik uchun 50ms kechikish
         });
-
-        const data = await response.json();
         
-        if (data.candidates && data.candidates.length > 0) {
-            const aiReply = data.candidates[0].content.parts[0].text;
-            // AI javobini yuborish
-            bot.sendMessage(chatId, aiReply, { parse_mode: 'Markdown' });
-        } else {
-            bot.sendMessage(chatId, "Kechirasiz, tushunarsiz xatolik yuz berdi.");
-        }
-    } catch (error) {
-        console.error("AI bilan ishlashda xatolik:", error);
-        bot.sendMessage(chatId, "Kechirasiz, sun'iy intellekt serveriga ulanishda xatolik yuz berdi.");
+        return; // Tarqatish paytida pastdagi xato xabari chiqmasligi uchun funksiyani to'xtatamiz
+    }
+    
+    // Boshqa har qanday (buyruq bo'lmagan) xabarlar uchun
+    if (msg.text && !msg.text.startsWith('/')) {
+        bot.sendMessage(chatId, "⚠️ Botdan foydalanish uchun /start buyrug'ini bosing yoki bot menyusidan foydalaning.");
     }
 });
