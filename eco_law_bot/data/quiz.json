@@ -4469,6 +4469,90 @@
                         "answer_index":  1,
                         "explanation":  "To\u0027g\u0027ri! Yovvoyi sudralib yuruvchilar (ilonlar, echkiemarlar) kemiruvchilar populyatsiyasini nazorat qiladi. Ularni ommaviy tutib ketish ekologik muvozanatni butunlay izdan chiqarib, cho\u0027lni zararkunandalar makoniga aylantiradi.",
                         "image":  "p31.jpg"
+                    },
+                    {
+                        "id":  "bp67_advanced",
+                        "story":  "Murakkablashgan holat: Odamlar daryo qirg\u0027og\u0027idagi qalin to\u0027qayzorlarni to\u0027liq kesib, o\u0027tin qilib yuborishdi. Yozga kelib daryo suvi juda tez qurib qoladigan bo\u0027ldi.",
+                        "question":  "Daryo bo\u0027yidagi daraxtlarning kesilishi daryoning qurishiga qanday aloqasi bor?",
+                        "options":  [
+                                        "Hech qanday aloqasi yo\u0027q, suv shunchaki issiqdan bug\u0027lanadi",
+                                        "Daraxtlar daryo suvini ichgani uchun suv kamayar edi, kesilgach ko\u0027payishi kerak",
+                                        "To\u0027qayzorlar quyosh nuri tushishini to\u0027sib, suvning parlanishini kamaytiradi va ildizlari bilan qirg\u0027oqlarni yemirilib ketishdan saqlab turadi",
+                                        "Suv qurishi baliqlar ko\u0027payib ketgani bilan bog\u0027liq"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! Daryo bo\u0027yidagi to\u0027qayzor o\u0027rmonlar suv yo\u0027qotilishining (bug\u0027lanishning) oldini oluvchi tabiiy soyabon hisoblanadi. Ular kesilsa, qirg\u0027oqlar nuraydi, suv loyqalanadi va tez qurib bitadi.",
+                        "image":  "p32.jpg"
+                    },
+                    {
+                        "id":  "bp68_advanced",
+                        "story":  "Murakkablashgan holat: Fermer paxta dalasini ko\u0027llatib, suvga bostirib sug\u0027ormoqda va bu orqali hosil zo\u0027r bo\u0027ladi deb o\u0027ylayapti.",
+                        "question":  "Dalani ortiqcha va uzluksiz suv bilan bostirib sug\u0027orish tuproqqa qanday fojiali ta\u0027sir qiladi?",
+                        "options":  [
+                                        "Tuproq yanada unumdor bo\u0027lib, o\u0027g\u0027itlanadi",
+                                        "Hech qanday salbiy ta\u0027siri yo\u0027q, suv doim foydali",
+                                        "Er osti sizot suvlari ko\u0027tarilib, o\u0027zi bilan yer tagidagi tuzlarni sirtga olib chiqadi, natijada tuproq kuchli sho\u0027rlanib qoladi (Ikkilamchi sho\u0027rlanish)",
+                                        "Daladagi barcha zararkunanda hasharotlar suvga cho\u0027kib o\u0027ladi"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! O\u0027zbekistonda dehqonchilikning eng katta dushmani — yerlarning sho\u0027rlanishi aynan shu xato (ko\u0027llatib sug\u0027orish) orqali sodir bo\u0027ladi. Suv o\u0027zi bilan tuzlarni yuzaga tortib chiqadi.",
+                        "image":  "p33.jpg"
+                    },
+                    {
+                        "id":  "bp69_advanced",
+                        "story":  "Murakkablashgan holat: Ulkan kimyo zavodi osmonga muntazam ravishda qalin qora va sariq rangli zaharli gazlar (oltingugurt dioksidi) chiqarmoqda.",
+                        "question":  "Bu zaharli tutunlar yuzlab kilometr uzoqlikdagi o\u0027rmonlarga qanday qilib zarar yetkazishi mumkin?",
+                        "options":  [
+                                        "Tutunlar o\u0027rmon daraxtlarini issiq tutadi",
+                                        "Gazlar bulutlarga qo\u0027shilib, \u0027kislotali yomg\u0027ir\u0027 bo\u0027lib yog\u0027adi va o\u0027rmonlarni yondirib yuboradi",
+                                        "Tutun faqat shahar ichiga tushadi, o\u0027rmonga yetib bormaydi",
+                                        "Hayvonlar bu hidni sezib o\u0027rmondan qochib ketadi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Sanoat tutunlari atmosferadagi namlik bilan birikib, kislota hosil qiladi. Zaharli yomg\u0027ir hatto ming kilometr nariga borib yog\u0027ishi va o\u0027rmon, daryo, ekinlarni kuydirib tashlashi mumkin.",
+                        "image":  "p34.jpg"
+                    },
+                    {
+                        "id":  "bp70_advanced",
+                        "story":  "Murakkablashgan holat: Dehqonlar hasharotlarga qarshi ishlatgan kuchli \u0027DDT\u0027 zahari qishloq xo\u0027jaligida taqiqlanganiga qaramay, yillar o\u0027tib u uzoq Antarktidadagi pingvinlarning qonida topildi.",
+                        "question":  "Zahar qanday qilib O\u0027zbekiston kabi davlatlardan muzliklarga borib qolgan?",
+                        "options":  [
+                                        "Pingvinlar yashirincha zaharni yeb qo\u0027yishgan",
+                                        "Fermerlar zaharni o\u0027zlari kemalarda Antarktidaga olib borib to\u0027kkan",
+                                        "Zaharli moddalar daryolar va shamollar orqali okeanga tushgan hamda butun dunyo oziq-ovqat zanjiri orqali baliqlardan pingvinlargacha aylanib borgan",
+                                        "Antarktidada ham dehqonchilik qilinadi"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! Ekologiyada chegara yo\u0027q. Pestisidlar tuproqdan daryolarga, undan Dunyo okeaniga tushib dengiz hayvonlarida yig\u0027iladi va hatto muzliklardagi jonzotlarni ham zaharlaydi.",
+                        "image":  "p35.jpg"
+                    },
+                    {
+                        "id":  "bp71_advanced",
+                        "story":  "Murakkablashgan holat: Sayyohlar o\u0027rmonda chodir qurib, tunda gulxan yoqishdi. Uxlashdan oldin gulxanni suv yoki tuproq bilan to\u0027liq o\u0027chirishmadi.",
+                        "question":  "Bu oddiygina e\u0027tiborsizlikning eng yomon ekologik oqibati qanday tugashi mumkin?",
+                        "options":  [
+                                        "Tungi sovuq gulxanni o\u0027zi o\u0027chirib qo\u0027yadi",
+                                        "Quruq barglarga uchgan kichik uchqun minglab gektar o\u0027rmonni, hayvonot va o\u0027simlik dunyosini yo\u0027q qilib yuboruvchi yirik yong\u0027inga sabab bo\u0027ladi",
+                                        "Atrofdagi yovvoyi hayvonlar issiqlikdan xursand bo\u0027ladi",
+                                        "Faqat o\u0027t-o\u0027lanlar biroz kuyadi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Dunyodagi yirik o\u0027rmon yong\u0027inlarining 90% i aynan inson ehtiyotsizligi (o\u0027chirilmagan gulxan, tashlab ketilgan sigaret qoldig\u0027i) tufayli kelib chiqadi. Bu yuzlab yillar davomida tiklanmaydigan yo\u0027qotishdir.",
+                        "image":  "p36.jpg"
+                    },
+                    {
+                        "id":  "bp72_advanced",
+                        "story":  "Murakkablashgan holat: Brakonyer tungi vaqtda mashinasining yoritgichlarini yoqib, hayvonlarning ko\u0027zini qamashtirgan holatda yovvoyi to\u0027ng\u0027izni otib oldi.",
+                        "question":  "Qonunchilikka ko\u0027ra, tungi vaqtda transport vositasi chiroqlaridan foydalanib ov qilish qanday qilmish sanaladi?",
+                        "options":  [
+                                        "Ovchilikning eng zamonaviy va qulay usuli",
+                                        "Hayvonlarni qiynamasdan tez ovlash usuli",
+                                        "Bu qat\u0027iyan taqiqlangan yovvoyi va vahshiy brakonyerlik usuli bo\u0027lib, hayvonning qochib qutulishiga imkon qoldirmagani uchun og\u0027ir jinoyat hisoblanadi",
+                                        "Faqat qishda shunday ov qilishga ruxsat beriladi"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! Avtotransport yorug\u0027ligidan foydalanib tungi ov qilish hayvonni tamomila ojiz qoldiradi va bu qonunan qat\u0027iyan taqiqlangan brakonyerlikning eng og\u0027ir turlaridan biridir.",
+                        "image":  "p37.jpg"
                     }
                 ],
     "terms":  [
