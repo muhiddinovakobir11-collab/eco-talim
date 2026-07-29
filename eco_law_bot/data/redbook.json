@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "name": "Tibbiy zuluk",
+    "status": "Zaif, qisqarib borayotgan",
+    "desc": "Turg'un yoki sekin oqar chuchuk suv havzalarida yashaydi. Baqalar, ba'zida sutemizuvchilarning qonini so'radi."
+  },
+  {
+    "id": "2",
+    "name": "Orol bahrsi (Bakra)",
+    "status": "Butunlay yo'q bo'lib ketish arafasida",
+    "desc": "O'tkinchi, gala bo'lib yashaydigan baliq. Dengizning chuqurligi 10-15 metrgacha bo'lgan joylarida va daryolarda uchraydi."
+  },
+  {
+    "id": "3",
+    "name": "O'rta Osiyo cho'l toshbaqasi",
+    "status": "Zaif, kamayib borayotgan",
+    "desc": "Kunduz paytlari faol hayot kechiradi. Iyun oyida yozgi uyquga ketib, keyin qishki uyquga ulanadi."
+  },
+  {
+    "id": "4",
+    "name": "Bo'z echkemar",
+    "status": "Zaif, kamayib borayotgan",
+    "desc": "Aprel-oktyabr oylarida faol. Qumsichqon va tulkilar tashlab ketgan uyalarni makon tutadi."
+  },
+  {
+    "id": "5",
+    "name": "Qoplon",
+    "status": "Butunlay yo'q bo'lib ketish arafasida",
+    "desc": "Oqshom va tunlari, erta tongda ovga chiqadi. Yovvoyi tuyoqlilar, kemiruvchilar va qushlar bilan oziqlanadi."
+  },
+  {
+    "id": "6",
+    "name": "Ilvirs (Qor qoploni)",
+    "status": "Yo'q bo'lib ketish arafasida",
+    "desc": "Oqshomda faol, kunduzi g'orlarga, qoyalar orasiga berkinib yotadi. Asosan Sibir tog' echkisi bilan oziqlanadi."
+  },
+  {
+    "id": "7",
+    "name": "Jayron",
+    "status": "Zaif, qisqarib borayotgan",
+    "desc": "Poda bo'lib ko'proq o'troq yoki yarim o'troq yashaydi. O'tsimon o'simliklar bilan oziqlanadi."
+  }
+]
