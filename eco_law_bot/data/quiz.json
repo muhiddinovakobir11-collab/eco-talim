@@ -4357,6 +4357,118 @@
                         "answer_index":  1,
                         "explanation":  "To\u0027g\u0027ri! Batareykalar va eski elektronikalar eng xavfli chiqindi hisoblanadi. Ularning bittasi minglab litr toza yer osti suvini yaroqsiz holga keltiradi.",
                         "image":  "./data/images/p23.jpg"
+                    },
+                    {
+                        "id":  "bp59_advanced",
+                        "story":  "Murakkablashgan holat: Yosh bola eski, ishlatib bo\u0027lingan batareykani oddiy tuproqqa ko\u0027mib o\u0027ynamoqda.",
+                        "question":  "Bu holatning ekologik zarari haqida qaysi hukm to\u0027g\u0027ri?",
+                        "options":  [
+                                        "Batareyka tuproqda tezda chirib, o\u0027g\u0027itga aylanib ketadi",
+                                        "Bitta oddiy batareyka 20 kvadrat metr tuproqni va yer osti suvlarini og\u0027ir metallar bilan butunlay zaharlaydi",
+                                        "Hech qanday zarari yo\u0027q, tuproq hamma narsani tozalab yuboradi",
+                                        "Batareyka faqat olovda yoqilgandagina zararli bo\u0027ladi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Bitta kichkina batareyka tarkibida rux, marganets, kadmiy, simob kabi zaharli moddalar bor. Tuproqqa tushgach chirib, atrofidagi 20 kv.m maydonni va minglab litr suvni zaharlaydi. Uni maxsus qutilarga tashlash shart!",
+                        "image":  "p24.jpg"
+                    },
+                    {
+                        "id":  "bp60_advanced",
+                        "story":  "Murakkablashgan holat: Ov mavsumi butunlay yopiq bo\u0027lishiga qaramay, ovchi qurol ko\u0027tarib yovvoyi o\u0027rdaklarni otib o\u0027ldirmoqda.",
+                        "question":  "Ushbu xatti-harakat qonunchilikka ko\u0027ra qanday baholanadi?",
+                        "options":  [
+                                        "Ruxsat etilgan, chunki qushlar juda ko\u0027p",
+                                        "Faqat ogohlantirish beriladi",
+                                        "Bu brakonyerlik bo\u0027lib, hayvonot dunyosiga zarar yetkazganlik uchun jinoiy yoki ma\u0027muriy javobgarlikka tortiladi va quroli musodara qilinadi",
+                                        "Agar o\u0027zi yeyish uchun ovlasa, ruxsat beriladi"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! Belgilangan muddatdan tashqari vaqtda, tegishli ruxsatnomasiz ov qilish brakonyerlik (noqonuniy ov) hisoblanadi. Aybdor jarimaga tortilib, ov qurollari majburiy tartibda musodara qilinadi.",
+                        "image":  "p25.jpg"
+                    },
+                    {
+                        "id":  "bp61_advanced",
+                        "story":  "Murakkablashgan holat: Dehqon hosilni ko\u0027paytirish uchun dalaga eng kuchli va arzon kimyoviy zaharlarni (pestisidlarni) me\u0027yoridan 10 barobar ortiq sepmoqda.",
+                        "question":  "Buning tabiat va insoniyat uchun eng katta yashirin xavfi nimada?",
+                        "options":  [
+                                        "Tuproq hosildorligi yuz barobar oshadi",
+                                        "Hasharotlar mutatsiyaga uchrab, qanot chiqaradi",
+                                        "Zaharli kimyoviy moddalar tuproqda yig\u0027ilib, yer osti suvlarini ifloslantiradi va oziq-ovqat zanjiri orqali inson tanasiga tushib og\u0027ir kasalliklarni chaqiradi",
+                                        "Dala faqatgina chiroyli yashil rangga kiradi"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! Ortiqcha pestisid va gerbitsidlar nafaqat zararkunandalarni, balki tuproqdagi barcha foydali mikroorganizmlarni ham o\u0027ldiradi. Ular hosil tarkibida saqlanib qolib, odamlarda saraton kabi og\u0027ir kasalliklarni keltirib chiqaradi.",
+                        "image":  "p26.jpg"
+                    },
+                    {
+                        "id":  "bp62_advanced",
+                        "story":  "Murakkablashgan holat: Fermer o\u0027z qishloq xo\u0027jaligi ekinlarini tozalash inshootidan o\u0027tmagan, ko\u0027piklanib yotgan o\u0027ta zaharli va ifloslangan oqova suv bilan sug\u0027ormoqda.",
+                        "question":  "Bunday suvdan foydalanish oqibatida qanday ekologik muammo kelib chiqadi?",
+                        "options":  [
+                                        "O\u0027simliklar ancha tez va sog\u0027lom o\u0027sadi",
+                                        "Tuproqning kimyoviy va biologik zaharlanishi, shuningdek ekinlar orqali odamlar salomatligiga jiddiy putur yetishi yuz beradi",
+                                        "Bu suvning rangi xolos, hech qanday zarari yo\u0027q",
+                                        "Ifloslangan suv tuproqni tozalaydi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Sanoat va maishiy ifloslangan suvlarda og\u0027ir metallar, xavfli bakteriyalar va toksinlar bo\u0027ladi. Ular bilan sug\u0027orilgan meva va sabzavotlarni iste\u0027mol qilish odamlar hayoti uchun o\u0027ta xavflidir.",
+                        "image":  "p27.jpg"
+                    },
+                    {
+                        "id":  "bp63_advanced",
+                        "story":  "Murakkablashgan holat: Shahar tashqarisidagi tabiiy daryo uzanlari va suv o\u0027tish ariqlari butunlay betonlab tashlandi.",
+                        "question":  "Barcha ariq va kanallarning to\u0027liq betonlanishi tabiatga qanday salbiy ta\u0027sir ko\u0027rsatadi?",
+                        "options":  [
+                                        "Suvning tuproqqa singishi butunlay to\u0027xtaydi, oqibatda yer osti chuchuk suvlari to\u0027yinmaydi va daraxtlar suvsizlikdan quriydi",
+                                        "Suv ancha tezroq oqadi va bu juda yaxshi",
+                                        "Baliqlar faqat betonda yashashni xohlaydi",
+                                        "Hech qanday salbiy ta\u0027siri yo\u0027q"
+                                    ],
+                        "answer_index":  0,
+                        "explanation":  "To\u0027g\u0027ri! Ariqlarni haddan tashqari betonlash (garchi suvni tejash uchun qilinsada) yer osti suv zaxiralarini tabiiy yo\u0027l bilan to\u0027ldirishni to\u0027xtatadi. Atrofdagi daraxt va o\u0027simliklar namliksiz qolib, quriydi.",
+                        "image":  "p28.jpg"
+                    },
+                    {
+                        "id":  "bp64_advanced",
+                        "story":  "Murakkablashgan holat: O\u0027rmonda bir kishi tungi vaqtda yovvoyi to\u0027ng\u0027izni qurol bilan otib, uni yashirincha olib ketmoqda.",
+                        "question":  "Ushbu xatti-harakat O\u0027zbekiston qonunchiligiga ko\u0027ra qanday oqibatlarga olib keladi?",
+                        "options":  [
+                                        "Faqat hayvonning pulini to\u0027lab qo\u0027ysa bo\u0027ldi",
+                                        "Hech qanday jarima to\u0027lamaydi, chunki o\u0027rmonda hech kim ko\u0027rmadi",
+                                        "Ruxsatnomasiz noqonuniy ov (brakonyerlik) qilgani va tabiatga ziyon yetkazgani uchun katta miqdorda jarima to\u0027laydi va jinoiy javobgarlikka tortilishi mumkin",
+                                        "To\u0027ng\u0027izlar zararkunanda bo\u0027lgani uchun unga mukofot beriladi"
+                                    ],
+                        "answer_index":  2,
+                        "explanation":  "To\u0027g\u0027ri! Muhofaza etiladigan tabiiy hududlarda yoki ruxsatnomasiz yovvoyi hayvonlarni ovlash og\u0027ir jinoyat hisoblanadi va davlat tomonidan qattiq jazolanadi.",
+                        "image":  "p29.jpg"
+                    },
+                    {
+                        "id":  "bp65_advanced",
+                        "story":  "Murakkablashgan holat: Usta avtomobilning tutunni tozalab beruvchi maxsus filtri — \u0027Katalizator\u0027ni ataylab kesib olib sotyapti, mijozga esa mashina ko\u0027proq ot kuchi yig\u0027adi deb aldayapti.",
+                        "question":  "Katalizatorning olib tashlanishi ekologiyaga qanday yashirin zarbalar beradi?",
+                        "options":  [
+                                        "Avtomobildan chiqayotgan uglerod oksidi (CO) va azot oksidlari atmosferaga filtrlanmasdan to\u0027g\u0027ridan-to\u0027g\u0027ri chiqadi, bu esa havo ifloslanishini bir necha barobar oshiradi",
+                                        "Mashina faqat ozgina balandroq ovoz chiqaradi xolos",
+                                        "Hech qanday zarar yo\u0027q, aksincha mashina yengillashadi",
+                                        "Tutun faqat qishda zararli bo\u0027ladi"
+                                    ],
+                        "answer_index":  0,
+                        "explanation":  "To\u0027g\u0027ri! Katalizator — zaharli chiqindi gazlarni (CO, NOx, CH) zararsiz moddalarga (H2O, CO2, N2) aylantirib beruvchi ekologik to\u0027siqdir. Unisiz bitta mashina 10 ta mashina miqdorida havo buzadi. Bu amaliyot ma\u0027muriy huquqbuzarlikdir!",
+                        "image":  "p30.jpg"
+                    },
+                    {
+                        "id":  "bp66_advanced",
+                        "story":  "Murakkablashgan holat: Cho\u0027l zonasida bir guruh shaxslar echkiemar va yovvoyi ilonlarni qoplarga to\u0027ldirib, sotish uchun yig\u0027ib yurishibdi.",
+                        "question":  "Ushbu holat cho\u0027l ekotizimiga qanday ziyon yetkazadi?",
+                        "options":  [
+                                        "Ilonlar va kaltakesaklar foydasiz, shuning uchun cho\u0027l tozalanadi",
+                                        "Bu hayvonlar cho\u0027l oziq zanjirining muhim halqasi. Ularning yo\u0027qolishi kemiruvchilar (kalamush, sichqon) va xavfli hasharotlar sonining keskin ortib ketishiga sabab bo\u0027ladi",
+                                        "Bu turistik ov hisoblanadi va ruxsat etiladi",
+                                        "Faqat qushlar ko\u0027payadi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Yovvoyi sudralib yuruvchilar (ilonlar, echkiemarlar) kemiruvchilar populyatsiyasini nazorat qiladi. Ularni ommaviy tutib ketish ekologik muvozanatni butunlay izdan chiqarib, cho\u0027lni zararkunandalar makoniga aylantiradi.",
+                        "image":  "p31.jpg"
                     }
                 ],
     "terms":  [
