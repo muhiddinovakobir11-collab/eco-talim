@@ -577,8 +577,17 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     
     let keyboard = { inline_keyboard: [ navRow, [{ text: "⬅️ Bosh menyuga", callback_data: "menu_back" }] ] };
     
+    let imagePath = null;
+    if (animal.image && fs.existsSync('./data/images/' + animal.image)) {
+        imagePath = './data/images/' + animal.image;
+    }
+    
     if (messageId) {
-        bot.editMessageText(msg, { chat_id: chatId, message_id: messageId, parse_mode: 'Markdown', reply_markup: keyboard }).catch(e => {});
+        bot.deleteMessage(chatId, messageId).catch(e => {});
+    }
+    
+    if (imagePath) {
+        bot.sendPhoto(chatId, imagePath, { caption: msg, parse_mode: 'Markdown', reply_markup: keyboard });
     } else {
         bot.sendMessage(chatId, msg, { parse_mode: 'Markdown', reply_markup: keyboard });
     }
