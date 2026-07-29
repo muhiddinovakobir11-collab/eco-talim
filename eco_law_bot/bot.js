@@ -16,7 +16,7 @@ http.createServer((req, res) => {
 
 // Render'da tekin server uxlab qolmasligi uchun bot o'ziga-o'zi har 14 daqiqada so'rov yuboradi
 setInterval(() => {
-    http.get('http://akosheco.onrender.com').on('error', (err) => {
+    http.get('https://eco-talim.onrender.com').on('error', (err) => {
         console.error("Ping xatosi:", err.message);
     });
     console.log("Ping yuborildi: Bot 24/7 ishlashi ta'minlanmoqda...");
