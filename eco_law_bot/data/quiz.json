@@ -4318,6 +4318,45 @@
                         "answer_index":  1,
                         "explanation":  "To\u0027g\u0027ri! O\u0027rmon yong\u0027inlarining 90 foizi insonlarning olov bilan ehtiyotsiz munosabati va aynan o\u0027chirilmagan gulxanlar sababli kelib chiqadi.",
                         "image":  "./data/images/p20.jpg"
+                    },
+                    {
+                        "id":  "bp56_advanced",
+                        "story":  "Murakkablashgan holat: Yirik zavod rahbariyati filtrlarni o\u0027chirib qo\u0027yib, quyuq qora zaharli tutunni to\u0027g\u0027ridan-to\u0027g\u0027ri shahar havosiga chiqardi.",
+                        "question":  "Zavod tutuni qanday ekologik falokatga olib keladi?",
+                        "options":  [
+                                        "Shunchaki havo xiralashadi",
+                                        "Tutun tarkibidagi og\u0027ir metallar kislotali yomg\u0027ir bo\u0027lib yog\u0027adi, butun shahar aholisida nafas qisishi (astma) kasalliklarini chaqiradi",
+                                        "Bu shamol bilan uchib ketadi, xavfi yo\u0027q"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Sanoat tutunlari uzoqqa ketmaydi, ular bulutlarga qo\u0027shilib aynan o\u0027sha shahar ustidan kislotali yomg\u0027ir bo\u0027lib yog\u0027ib, barcha yashil o\u0027simliklarni quritadi.",
+                        "image":  "./data/images/p21.jpg"
+                    },
+                    {
+                        "id":  "bp57_advanced",
+                        "story":  "Murakkablashgan holat: Haydovchi o\u0027zining ifloslangan mashinasini kuchli kimyoviy shampunlar bilan toza tog\u0027 daryosining ichida yuvyapti.",
+                        "question":  "Mashinani daryoda yuvish nima uchun qat\u0027iyan man etiladi?",
+                        "options":  [
+                                        "Faqat suv ko\u0027pirib ketgani uchun",
+                                        "Avto-shampunlar va dvigatel moylari suvni kuchli zaharlaydi, u yerdagi nozik tog\u0027 baliqlari va suv hasharotlarini darhol qirib yuboradi",
+                                        "Mashina zanglab qolishi mumkinligi uchun"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Avtoyuvish vositalari tarkibidagi fosfatlar va neft qoldiqlari tabiiy daryo ekotizimini zaharlab, uzoq vaqt tozalanmaydigan holatga olib keladi.",
+                        "image":  "./data/images/p22.jpg"
+                    },
+                    {
+                        "id":  "bp58_advanced",
+                        "story":  "Murakkablashgan holat: Odamlar eski buzilgan telefonlar, televizorlar va batareykalarini oddiy o\u0027rmondagi axlatxonaga tashlab ketishdi.",
+                        "question":  "Elektron axlat (E-waste) tabiatga qanday ta\u0027sir qiladi?",
+                        "options":  [
+                                        "Vaqt o\u0027tib ular o\u0027z-o\u0027zidan tuproqqa aylanadi",
+                                        "Elektronika ichidagi qurg\u0027oshin, simob va litiy kabi zaharli moddalar tuproqqa sizib kirib, yer osti suvlarini yuzlab yillarga zaharlaydi",
+                                        "O\u0027rmon hayvonlari ulardan o\u0027yinchoq sifatida foydalanadi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Batareykalar va eski elektronikalar eng xavfli chiqindi hisoblanadi. Ularning bittasi minglab litr toza yer osti suvini yaroqsiz holga keltiradi.",
+                        "image":  "./data/images/p23.jpg"
                     }
                 ],
     "terms":  [
