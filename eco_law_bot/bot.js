@@ -24,12 +24,22 @@ setInterval(() => {
 
 // Load Data
 const quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8').replace(/^\uFEFF/, ''));
+let questData = [];
+try {
+    questData = JSON.parse(fs.readFileSync('./data/quest.json', 'utf8').replace(/^\uFEFF/, ''));
+} catch(e) {}
+
+let redbookData = [];
+try {
+    redbookData = JSON.parse(fs.readFileSync('./data/redbook.json', 'utf8').replace(/^\uFEFF/, ''));
+} catch(e) {}
 
 let usersData = [];
 try {
     const rawData = JSON.parse(fs.readFileSync('./data/users.json', 'utf8').replace(/^\uFEFF/, ''));
     // Eski raqamli ID'larni yangi obyekt formatiga o'tkazish
-    usersData = rawData.map(u => typeof u === 'number' ? { id: u, first_name: 'Foydalanuvchi', username: '', is_blocked: false } : u);
+    usersData = rawData.map(u => typeof u === 'number' ? { id: u, first_name: 'Foydalanuvchi', username: '', is_blocked: false, score: 0 } : u);
+    usersData.forEach(u => { if (u.score === undefined) u.score = 0; });
 } catch (e) {
     usersData = [];
 }
@@ -76,9 +86,12 @@ const mainMenuOptions = {
         inline_keyboard: [
             [{ text: "📝 Ekologiya Quiz", callback_data: "menu_quizzes" }],
             [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
+            [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
+            [{ text: "📜 Qizil Kitob", callback_data: "menu_redbook" }],
             [{ text: "🔤 Ekologik Atamalar", callback_data: "menu_terms" }],
             [{ text: "⚖️ Jazolar va Jarimalar", callback_data: "menu_penalties" }],
             [{ text: "✅ To'g'ri / Noto'g'ri", callback_data: "menu_truefalse" }],
+            [{ text: "🏆 Liderlar Reytingi", callback_data: "menu_leaderboard" }],
             [{ text: "👨‍💻 Admin", url: "https://t.me/akoshprod" }]
         ]
     }
@@ -99,7 +112,8 @@ bot.onText(/\/start/, (msg) => {
             id: chatId,
             first_name: msg.from.first_name || 'Foydalanuvchi',
             username: msg.from.username || '',
-            is_blocked: false
+            is_blocked: false,
+            score: 0
         });
         fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
         
@@ -210,9 +224,53 @@ bot.on('callback_query', (query) => {
     }
     
     // Test va savollar bo'limlari uchun umumiy tutib oluvchi
-    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back') {
+    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back' && data !== 'menu_hero' && data !== 'menu_leaderboard' && data !== 'menu_redbook') {
         const type = data.replace('menu_', ''); // quizzes, puzzles, terms, penalties, truefalse bo'ladi
         sendRandomQuestion(chatId, type);
+    }
+    
+    // Qizil Kitob
+    if (data === 'menu_redbook') {
+        if (redbookData.length === 0) {
+            return bot.sendMessage(chatId, "Hozircha Qizil Kitob ma'lumotlari yuklanmoqda... Birozdan so'ng qayta urinib ko'ring.");
+        }
+        sendRedbookPage(chatId, 0);
+    }
+    
+    if (data.startsWith('redbook_page_')) {
+        const pageIdx = parseInt(data.replace('redbook_page_', ''));
+        sendRedbookPage(chatId, pageIdx, query.message.message_id);
+    }
+    
+    // Eko-Qahramon boshlash
+    if (data === 'menu_hero') {
+        sendQuestNode(chatId, 'intro');
+    }
+    
+    // Eko-Qahramon davomi
+    if (data.startsWith('hero_')) {
+        const nodeId = data.replace('hero_', '');
+        sendQuestNode(chatId, nodeId);
+    }
+    
+    // Liderlar reytingi
+    if (data === 'menu_leaderboard') {
+        let sortedUsers = [...usersData].sort((a, b) => (b.score || 0) - (a.score || 0));
+        let top10 = sortedUsers.slice(0, 10);
+        
+        let msg = `🏆 **Eko-Bilimdonlar Top-10 Reytingi:**\n\n`;
+        top10.forEach((u, i) => {
+            let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🔹";
+            msg += `${medal} ${i+1}. [${u.first_name}](tg://user?id=${u.id}) - **${u.score || 0} ball**\n`;
+        });
+        
+        // O'zining o'rni
+        let myIndex = sortedUsers.findIndex(u => u.id === chatId);
+        let myScore = sortedUsers[myIndex]?.score || 0;
+        msg += `\n🎯 SIZNING O'RNINGIZ: **${myIndex + 1}-o'rin** (${myScore} ball)\n`;
+        msg += `_To'g'ri javob berib, ballingizni oshiring!_`;
+        
+        bot.sendMessage(chatId, msg, { parse_mode: 'Markdown', ...mainMenuOptions });
     }
     
     // Orqaga qaytish
@@ -239,6 +297,13 @@ bot.on('callback_query', (query) => {
             // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
             if (!session[type].includes(qIndex)) {
                 session[type].push(qIndex);
+            }
+            
+            // Ball qoshish
+            let userObj = usersData.find(u => u.id === chatId);
+            if(userObj) {
+                userObj.score = (userObj.score || 0) + 2;
+                fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
             }
             
             // Boshqa tasodifiy savolni yuboramiz
@@ -467,3 +532,54 @@ bot.on('message', (msg) => {
         bot.sendMessage(chatId, "⚠️ Botdan foydalanish uchun /start buyrug'ini bosing yoki bot menyusidan foydalaning.");
     }
 });
+
+// Eko-Qahramon tugunini yuborish
+function sendQuestNode(chatId, nodeId) {
+    const node = questData.find(n => n.id === nodeId);
+    if (!node) return;
+    
+    let keyboard = [];
+    node.options.forEach(opt => {
+        keyboard.push([{ text: opt.text, callback_data: `hero_${opt.next}` }]);
+    });
+    
+    if (keyboard.length === 0) {
+        // O'yin tugadi, menyuga qaytish tugmasi
+        keyboard.push([{ text: "⬅️ Bosh menyuga", callback_data: "menu_back" }]);
+    }
+    
+    // Ball qoshish (agar score_delta bo'lsa)
+    if (node.score_delta) {
+        let userObj = usersData.find(u => u.id === chatId);
+        if(userObj) {
+            userObj.score = (userObj.score || 0) + node.score_delta;
+            fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+        }
+    }
+    
+    bot.sendMessage(chatId, node.story, { parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } });
+}
+
+// Qizil Kitob sahifasini yuborish
+function sendRedbookPage(chatId, pageIdx, messageId = null) {
+    if (pageIdx < 0 || pageIdx >= redbookData.length) return;
+    
+    const animal = redbookData[pageIdx];
+    let msg = `📜 **QIZIL KITOB (O'zbekiston)**\n\n`;
+    msg += `🐾 **Nomi:** ${animal.name}\n`;
+    msg += `⚠️ **Holati:** ${animal.status}\n\n`;
+    msg += `📝 **Ma'lumot:** ${animal.desc}`;
+    
+    let navRow = [];
+    if (pageIdx > 0) navRow.push({ text: "⬅️ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
+    navRow.push({ text: `${pageIdx + 1} / ${redbookData.length}`, callback_data: "ignore" });
+    if (pageIdx < redbookData.length - 1) navRow.push({ text: "Keyingi ➡️", callback_data: `redbook_page_${pageIdx + 1}` });
+    
+    let keyboard = { inline_keyboard: [ navRow, [{ text: "⬅️ Bosh menyuga", callback_data: "menu_back" }] ] };
+    
+    if (messageId) {
+        bot.editMessageText(msg, { chat_id: chatId, message_id: messageId, parse_mode: 'Markdown', reply_markup: keyboard }).catch(e => {});
+    } else {
+        bot.sendMessage(chatId, msg, { parse_mode: 'Markdown', reply_markup: keyboard });
+    }
+}
