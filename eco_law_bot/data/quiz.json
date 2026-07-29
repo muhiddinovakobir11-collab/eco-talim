@@ -4253,6 +4253,71 @@
                         "answer_index":  1,
                         "explanation":  "To\u0027g\u0027ri! Yovvoyi tabiatning eng qat\u0027iy qoidasi - yovvoyi hayvonlarni HECH QACHON ovqatlantirmang! Bu ularning ham, insonlarning ham hayotiga to\u0027g\u0027ridan-to\u0027g\u0027ri xavf tug\u0027diradi.",
                         "image":  "./data/images/p15.jpg"
+                    },
+                    {
+                        "id":  "bp51_advanced",
+                        "story":  "Murakkablashgan holat: Haydovchi og\u0027ir dizel traktorni daryo qirg\u0027og\u0027idagi nozik tuproq ustidan haydab o\u0027tdi va qirg\u0027oq buzilib daryoga quladi.",
+                        "question":  "Buning daryo ekosistemasiga zarari bormi?",
+                        "options":  [
+                                        "Yo\u0027q, daryo o\u0027zini o\u0027zi tozalaydi",
+                                        "Ha, daryo qirg\u0027og\u0027ining yemiirilishi suvdagi tabiiy muvozanatni buzadi, suvni loyqalatib, u yerdagi baliqlarning uvildiriq qo\u0027yish joylarini vayron qiladi",
+                                        "Faqat suv vaqtincha loyqalanadi xolos"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Daryo qirg\u0027oqlari juda nozik ekologik zona hisoblanadi. Ularning buzilishi daryoning butun oziq-ovqat zanjirini izdan chiqaradi.",
+                        "image":  "./data/images/p16.jpg"
+                    },
+                    {
+                        "id":  "bp52_advanced",
+                        "story":  "Murakkablashgan holat: Odam uydagi muddati o\u0027tgan eski dori-darmonlar va antibiotiklarni unitazga (kanalizatsiyaga) tashlab yubordi.",
+                        "question":  "Eski dorilarni kanalizatsiyaga tashlash xavflimi?",
+                        "options":  [
+                                        "Yo\u0027q, suv ularni eritib yuboradi",
+                                        "Juda xavfli! Dorilar suvdagi foydali mikroorganizmlarni o\u0027ldiradi, daryolarga tushgach esa baliqlar va suv jonivorlarida genetik mutatsiyalar keltirib chiqaradi",
+                                        "Faqat quvurlarni tiqib qo\u0027yishi mumkin"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Kanalizatsiya tozalash inshootlari kimyoviy dori-darmonlarni tozalashga mo\u0027ljallanmagan. Ular to\u0027g\u0027ridan-to\u0027g\u0027ri tabiatga tushib butun ekotizimni zaharlaydi.",
+                        "image":  "./data/images/p17.jpg"
+                    },
+                    {
+                        "id":  "bp53_advanced",
+                        "story":  "Murakkablashgan holat: O\u0027rmon xo\u0027jaligida daraxtlarni zararkunandalardan tozalash uchun ulkan dronlar orqali juda kuchli kimyoviy moddalar sochildi.",
+                        "question":  "Buning qanday salbiy oqibati bo\u0027lishi mumkin?",
+                        "options":  [
+                                        "Faqat foydasi bor, o\u0027rmon tozalanadi",
+                                        "Kimyoviy moddalar faqat zararkunandalarni emas, balki asalarilar, kapalaklar va boshqa foydali changlatuvchilarni ham qirib yuboradi, oqibatda o\u0027rmon hosil bermay qo\u0027yadi",
+                                        "Daraxtlar tezroq o\u0027sadi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Nazoratsiz kimyoviy ishlov berish o\u0027rmonning eng muhim qismi bo\u0027lgan changlatuvchi hasharotlarni batamom yo\u0027q qiladi.",
+                        "image":  "./data/images/p18.jpg"
+                    },
+                    {
+                        "id":  "bp54_advanced",
+                        "story":  "Murakkablashgan holat: Tog\u0027da yashovchi odam o\u0027ziga xususiy hovuz qilish uchun kichik tog\u0027 daryosining yo\u0027lini beton to\u0027g\u0027on bilan butunlay to\u0027sib qo\u0027ydi.",
+                        "question":  "Pastki oqimda nima yuz beradi?",
+                        "options":  [
+                                        "Hech narsa, suv baribir oqib keladi",
+                                        "Pastki oqim batamom qurib qoladi, u yerdagi o\u0027simliklar va hayvonlar suvsizlikdan nobud bo\u0027ladi, butun vodiy cho\u0027lga aylanadi",
+                                        "Pastda yashovchilar quduq qaziydi"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! Daryoning tabiiy oqimini to\u0027sib qo\u0027yish (ayniqsa tog\u0027larda) pastki hududlardagi butun tabiatni o\u0027limga mahkum qiluvchi o\u0027ta og\u0027ir ekologik jinoyatdir.",
+                        "image":  "./data/images/p19.jpg"
+                    },
+                    {
+                        "id":  "bp55_advanced",
+                        "story":  "Murakkablashgan holat: Sayyohlar quruq qarag\u0027ayzor o\u0027rmonida olov yoqib, kechasi uni to\u0027liq o\u0027chirmasdan uxlab qolishdi.",
+                        "question":  "Miltillab turgan cho\u0027g\u0027 (olov) qanchalik xavfli?",
+                        "options":  [
+                                        "O\u0027zi sekin o\u0027chib qoladi",
+                                        "Kichik shabada ham cho\u0027g\u0027dan uchqun chiqarib, quruq qarag\u0027ay ignalarini yondirib yuboradi va bir necha daqiqada butun o\u0027rmon yong\u0027inini keltirib chiqaradi",
+                                        "Faqat 1-2 ta daraxt yonishi mumkin"
+                                    ],
+                        "answer_index":  1,
+                        "explanation":  "To\u0027g\u0027ri! O\u0027rmon yong\u0027inlarining 90 foizi insonlarning olov bilan ehtiyotsiz munosabati va aynan o\u0027chirilmagan gulxanlar sababli kelib chiqadi.",
+                        "image":  "./data/images/p20.jpg"
                     }
                 ],
     "terms":  [
