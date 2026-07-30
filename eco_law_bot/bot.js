@@ -408,7 +408,7 @@ bot.on('callback_query', (query) => {
             // Show alert for correct answer
             bot.answerCallbackQuery(query.id, { 
                 text: `✅ To'g'ri javob!\n${questionData.explanation || ''}`.substring(0, 190), 
-                show_alert: true 
+                show_alert: false 
             }).catch(e => console.log(e));
             
             // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
