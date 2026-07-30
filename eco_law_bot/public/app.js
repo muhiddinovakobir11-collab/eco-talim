@@ -122,3 +122,21 @@ function openSection(sectionId) {
         console.log("Triggered section:", sectionId);
     }
 }
+
+
+// --- Online Count Logic ---
+let currentOnline = Math.floor(Math.random() * 30) + 120; // Starts around 120-150
+function updateOnlineCount() {
+    const el = document.getElementById('onlineCount');
+    if(el) {
+        el.innerText = currentOnline;
+    }
+    
+    // fluctuates by -3 to +5
+    currentOnline += Math.floor(Math.random() * 9) - 3;
+    if (currentOnline < 85) currentOnline = 85 + Math.floor(Math.random() * 10);
+    if (currentOnline > 300) currentOnline = 280;
+    
+    setTimeout(updateOnlineCount, Math.random() * 15000 + 10000); // 10-25 seconds
+}
+updateOnlineCount();
