@@ -587,23 +587,18 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     if (pageIdx < 0 || pageIdx >= redbookData.length) return;
     
     const animal = redbookData[pageIdx];
-    let msg = `📕 <b>QIZIL KITOB (O'zbekiston)</b>\n\n`;
-    msg += `🦚 <b>Nomi:</b> ${animal.name}\n`;
-    msg += `🛑 <b>Holati:</b> ${animal.status}\n\n`;
+    let msg = `<tg-emoji emoji-id="5242628160297641831">📕</tg-emoji> <b>QIZIL KITOB (O'zbekiston)</b>\n\n`;
+    msg += `<tg-emoji emoji-id="5465540480538254161">🦚</tg-emoji> <b>Nomi:</b> ${animal.name}\n`;
+    msg += `<tg-emoji emoji-id="5370930189322688800">🛑</tg-emoji> <b>Holati:</b> ${animal.status}\n\n`;
     
-    if (animal.tarqalishi) msg += `🗺 <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>`;
-    if (animal.yashash_joyi) msg += `🏕 <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>`;
-    if (animal.soni) msg += `📊 <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>`;
-    if (animal.yashash_tarzi) msg += `⏳ <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>`;
-    if (animal.cheklovchi_omillar) msg += `❌ <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>`;
-    if (animal.kopaytirish) msg += `🧬 <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>`;
-    if (animal.muhofaza) msg += `🔰 <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>`;
-    if (animal.desc) msg += `📝 <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>`;
-    
-    // Telegram caption limit is 1024 characters
-    if (msg.length > 1020) {
-        msg = msg.substring(0, 1020) + "...";
-    }
+    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">🗺</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>`;
+    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">🏕</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>`;
+    if (animal.soni) msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>`;
+    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">⏳</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>`;
+    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>`;
+    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">🧬</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>`;
+    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">🔰</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>`;
+    if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>`;
     
     let navRow = [];
     if (pageIdx > 0) navRow.push({ text: "⬅️ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
