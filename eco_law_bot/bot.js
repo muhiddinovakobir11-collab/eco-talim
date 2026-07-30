@@ -162,7 +162,7 @@ bot.on('callback_query', (query) => {
             }
             keyboard.push(row);
         }
-        keyboard.push([{ text: "⬅️ Orqaga", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
         
         bot.sendMessage(chatId, "<tg-emoji emoji-id=\"5330558871129836783\">📚</tg-emoji> <b>O'rganish uchun kerakli yo'nalishni tanlang:</b>", {
             parse_mode: 'HTML',
@@ -195,21 +195,22 @@ bot.on('callback_query', (query) => {
             msgText += `<i>Javobgarlik:</i>\n<blockquote>${rule.punishment}</blockquote>\n`;
             
             let navRow = [];
+            let keyboard = [];
             
             if (pageIdx > 0) {
-                navRow.push({ text: "⬅️ Oldingi", callback_data: `law_page_${catId}_${pageIdx - 1}` });
+                navRow.push({ text: "⏪ Oldingi", callback_data: `law_page_${catId}_${pageIdx - 1}` });
             }
             
-            navRow.push({ text: `${pageIdx + 1}/${total}`, callback_data: "ignore" });
+            navRow.push({ text: `📄 ${pageIdx + 1} / ${total}`, callback_data: "ignore" });
             
             if (pageIdx < total - 1) {
-                navRow.push({ text: "Keyingi ➡️", callback_data: `law_page_${catId}_${pageIdx + 1}` });
+                navRow.push({ text: "Keyingi ⏩", callback_data: `law_page_${catId}_${pageIdx + 1}` });
             }
             
-            const keyboard = [
-                navRow,
-                [{ text: "⬅️ Yo'nalishlarga qaytish", callback_data: "menu_learn" }]
-            ];
+            keyboard.push(navRow);
+            keyboard.push(
+                [{ text: "📂 Yo'nalishlar", callback_data: "menu_learn" }]
+            );
             
             if (data.startsWith('law_page_')) {
                 // Edit existing message for smooth pagination
@@ -463,7 +464,7 @@ function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     });
     
     keyboard.push([
-        { text: "⬅️ Menyuga", callback_data: "menu_back" },
+        { text: "🏠 Bosh menyu", callback_data: "menu_back" },
         { text: "🛑 Tugatish", callback_data: `finish_${type}` }
     ]);
     
@@ -555,7 +556,7 @@ function sendQuestNode(chatId, nodeId) {
     
     if (keyboard.length === 0) {
         // O'yin tugadi, menyuga qaytish tugmasi
-        keyboard.push([{ text: "⬅️ Bosh menyuga", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
     }
     
     // Ball qoshish (agar score_delta bo'lsa)
@@ -604,11 +605,11 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>\n`;
     
     let navRow = [];
-    if (pageIdx > 0) navRow.push({ text: "⬅️ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
-    navRow.push({ text: `${pageIdx + 1} / ${redbookData.length}`, callback_data: "ignore" });
-    if (pageIdx < redbookData.length - 1) navRow.push({ text: "Keyingi ➡️", callback_data: `redbook_page_${pageIdx + 1}` });
+    if (pageIdx > 0) navRow.push({ text: "⏪ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
+    navRow.push({ text: `📄 ${pageIdx + 1} / ${redbookData.length}`, callback_data: "ignore" });
+    if (pageIdx < redbookData.length - 1) navRow.push({ text: "Keyingi ⏩", callback_data: `redbook_page_${pageIdx + 1}` });
     
-    let keyboard = { inline_keyboard: [ navRow, [{ text: "⬅️ Bosh menyuga", callback_data: "menu_back" }] ] };
+    let keyboard = { inline_keyboard: [ navRow, [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }] ] };
     
     let imagePath = null;
     if (animal.image && fs.existsSync('./data/images/' + animal.image)) {
