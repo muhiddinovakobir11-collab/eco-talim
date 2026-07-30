@@ -1022,7 +1022,14 @@ bot.on('message', (msg) => {
                     // Don't send multiple confirmations for media group
                     if (!msg.media_group_id || !userStates[chatId].lastMediaGroup) {
                         userStates[chatId].lastMediaGroup = msg.media_group_id;
-                        bot.sendMessage(chatId, "✅ <b>Rasm qabul qilindi.</b> Yana rasm yuborishingiz yoki yuqoridagi <b>'Davom etish ➡️'</b> tugmasini bosishingiz mumkin.", { parse_mode: 'HTML' });
+                        bot.sendMessage(chatId, "✅ <b>Rasm qabul qilindi.</b> Yana rasm yuborishingiz yoki quyidagi <b>'Davom etish ➡️'</b> tugmasini bosishingiz mumkin.", {
+                            parse_mode: 'HTML',
+                            reply_markup: {
+                                inline_keyboard: [
+                                    [{ text: "Davom etish ➡️", callback_data: "report_continue" }]
+                                ]
+                            }
+                        });
                     }
                 }
                 return;
