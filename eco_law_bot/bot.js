@@ -467,8 +467,12 @@ function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     ]);
     
     let imagePath = null;
+    let dynamicImagePath = questionObj.id ? `./data/images/${questionObj.id}.jpg` : null;
+    
     if (questionObj.image && fs.existsSync(questionObj.image)) {
         imagePath = questionObj.image;
+    } else if (dynamicImagePath && fs.existsSync(dynamicImagePath)) {
+        imagePath = dynamicImagePath;
     } else if (type === 'puzzles' && fs.existsSync('./data/puzzle_bg.jpg')) {
         imagePath = './data/puzzle_bg.jpg';
     }
