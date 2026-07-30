@@ -5,6 +5,12 @@ const http = require('http');
 const activeAppUsers = new Map();
 const pendingReports = {};
 const userStates = {};
+const PORTFOLIO_CHANNEL = process.env.PORTFOLIO_CHANNEL || '@eco_talim_admin_ruxsati';
+
+let approvalsData = {};
+if (fs.existsSync('./data/approvals.json')) {
+    approvalsData = JSON.parse(fs.readFileSync('./data/approvals.json', 'utf-8'));
+}
 
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
@@ -303,6 +309,47 @@ bot.onText(/\/start/, (msg) => {
 bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     const data = query.data;
+    
+    if (data.startsWith('approve_appr_')) {
+        const approvalId = data.replace('approve_', '');
+        if (approvalsData[approvalId]) {
+            const report = approvalsData[approvalId];
+            bot.sendMediaGroup(PORTFOLIO_CHANNEL, report.mediaGroup).then(() => {
+                bot.editMessageText(`✅ <b>Tasdiqlandi va kanalga yuborildi!</b>\nMurojaat-ID: ${approvalId}`, {
+                    chat_id: chatId,
+                    message_id: query.message.message_id,
+                    parse_mode: 'HTML'
+                });
+                bot.sendMessage(report.userId, "✅ <b>Tabriklaymiz!</b> Sizning murojaatingiz tasdiqlandi va rasmiy kanalimizga joylandi. Rahmat!", { parse_mode: 'HTML' }).catch(()=>{});
+                delete approvalsData[approvalId];
+                fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
+            }).catch(err => {
+                bot.sendMessage(chatId, "❌ Kanalga yuborishda xatolik yuz berdi. Bot kanalda admin emasmi?");
+            });
+        } else {
+            bot.answerCallbackQuery(query.id, { text: "Bu murojaat allaqachon ko'rib chiqilgan yoki topilmadi.", show_alert: true });
+        }
+        return;
+    }
+
+    if (data.startsWith('reject_appr_')) {
+        const approvalId = data.replace('reject_', '');
+        if (approvalsData[approvalId]) {
+            const report = approvalsData[approvalId];
+            bot.editMessageText(`❌ <b>Rad etildi!</b>\nMurojaat-ID: ${approvalId}`, {
+                chat_id: chatId,
+                message_id: query.message.message_id,
+                parse_mode: 'HTML'
+            });
+            bot.sendMessage(report.userId, "❌ Sizning murojaatingiz admin tomonidan rad etildi (talablarga mos kelmagan bo'lishi mumkin).", { parse_mode: 'HTML' }).catch(()=>{});
+            delete approvalsData[approvalId];
+            fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
+        } else {
+            bot.answerCallbackQuery(query.id, { text: "Bu murojaat allaqachon ko'rib chiqilgan yoki topilmadi.", show_alert: true });
+        }
+        return;
+    }
+
     
     if (data === 'menu_report') {
         userStates[chatId] = { step: 'awaiting_photos', photos: [] };
@@ -866,7 +913,23 @@ bot.on('message', (msg) => {
                 }));
                 
                 bot.sendMediaGroup(ADMIN_ID, mediaGroup).then(() => {
-                    bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' });
+                    const approvalId = 'appr_' + Date.now();
+                    approvalsData[approvalId] = {
+                        userId: chatId,
+                        mediaGroup: mediaGroup
+                    };
+                    fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
+                    
+                    bot.sendMessage(ADMIN_ID, `Murojaat-ID: ${approvalId}\nUshbu murojaatni ${PORTFOLIO_CHANNEL} kanaliga chiqarasizmi?`, {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [{ text: "✅ Kanalga chiqarish", callback_data: `approve_${approvalId}` }],
+                                [{ text: "❌ Rad etish", callback_data: `reject_${approvalId}` }]
+                            ]
+                        }
+                    });
+                    
+                    bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga tasdiqlash uchun yuborildi. Tasdiqlangach, ekologik nazorat kanaliga chiqariladi!", { parse_mode: 'HTML' });
                 }).catch(err => {
                     console.log("Error sending report:", err);
                     bot.sendMessage(chatId, "❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
