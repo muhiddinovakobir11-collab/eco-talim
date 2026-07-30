@@ -1135,6 +1135,21 @@ bot.onText(/\/admin/, (msg) => {
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
 
+    // Foydalanuvchini bazaga qo'shish (agar yo'q bo'lsa) - server o'chib yonganda data yo'qolishiga qarshi
+    let userObj = usersData.find(u => (u.id || u) === chatId);
+    if (!userObj && msg.chat && msg.chat.type === 'private') {
+        userObj = {
+            id: chatId,
+            first_name: msg.chat.first_name || '',
+            username: msg.chat.username || '',
+            is_blocked: false,
+            score: 0,
+            progress: { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [] }
+        };
+        usersData.push(userObj);
+        fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+    }
+
     // Eko-Nazorat State Machine Logic
     if (userStates[chatId]) {
         const state = userStates[chatId].step;
