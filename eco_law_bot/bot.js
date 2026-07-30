@@ -760,6 +760,56 @@ bot.on('callback_query', (query) => {
         }
         return;
     }
+    
+    if (data.startsWith('admin_rep_comments_')) {
+        if (chatId !== ADMIN_ID) return;
+        const id = data.replace('admin_rep_comments_', '');
+        const report = feedData.find(r => r.id === id);
+        if (!report) return bot.answerCallbackQuery(query.id, { text: "Murojaat topilmadi", show_alert: true });
+        
+        let msgText = `💬 <b>Murojaat izohlari (Boshqaruv):</b>\n\n`;
+        let kb = [];
+        if (!report.comments || report.comments.length === 0) {
+            msgText += "<i>Hozircha hech qanday izoh yo'q.</i>";
+        } else {
+            report.comments.forEach((c, i) => {
+                msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
+                kb.push([{ text: `🗑 ${i+1}-izohni o'chirish`, callback_data: `admin_rep_cdel_${id}_${c.id}` }]);
+            });
+        }
+        kb.push([{ text: "🔙 Orqaga", callback_data: `admin_rep_view_${feedData.findIndex(r=>r.id===id)}` }]);
+        
+        bot.deleteMessage(chatId, query.message.message_id).catch(()=>{});
+        bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
+        return bot.answerCallbackQuery(query.id);
+    }
+    
+    if (data.startsWith('admin_rep_cdel_')) {
+        if (chatId !== ADMIN_ID) return;
+        const parts = data.split('_');
+        const commentId = parts.pop();
+        const reportId = parts.slice(3).join('_');
+        const report = feedData.find(r => r.id === reportId);
+        if (report && report.comments) {
+            report.comments = report.comments.filter(c => c.id !== commentId);
+            fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
+            bot.answerCallbackQuery(query.id, { text: "Izoh o'chirildi!", show_alert: false });
+            
+            let msgText = `💬 <b>Murojaat izohlari (Boshqaruv):</b>\n\n`;
+            let kb = [];
+            if (report.comments.length === 0) {
+                msgText += "<i>Hozircha hech qanday izoh yo'q.</i>";
+            } else {
+                report.comments.forEach((c, i) => {
+                    msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
+                    kb.push([{ text: `🗑 ${i+1}-izohni o'chirish`, callback_data: `admin_rep_cdel_${reportId}_${c.id}` }]);
+                });
+            }
+            kb.push([{ text: "🔙 Orqaga", callback_data: `admin_rep_view_${feedData.findIndex(r=>r.id===reportId)}` }]);
+            bot.editMessageText(msgText, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
+        }
+        return;
+    }
 
     if (data.startsWith('restart_all_')) {
         const type = data.replace('restart_all_', '');
@@ -1027,6 +1077,7 @@ function sendAdminReportMsg(chatId, index, messageId) {
         keyboard.push([{ text: "✅ HAL QILINDI", callback_data: "dummy" }]);
     }
     
+    keyboard.push([{ text: `💬 Izohlarni boshqarish (${report.comments ? report.comments.length : 0})`, callback_data: `admin_rep_comments_${report.id}` }]);
     keyboard.push([{ text: "🗑 Bazadan o'chirish", callback_data: `admin_rep_del_${report.id}` }]);
     
     let nav = [];
@@ -1114,6 +1165,42 @@ bot.on('message', (msg) => {
                 return;
             } else if (msg.text && !msg.text.startsWith('/')) {
                 bot.sendMessage(chatId, "Iltimos, avval rasmlarni yuboring yoki amalni bekor qiling.");
+                return;
+            }
+        }
+
+        if (state === 'awaiting_public_comment') {
+            if (msg.text === '/cancel' || msg.text === 'Bekor qilish') {
+                const reportId = userStates[chatId].reportId;
+                delete userStates[chatId];
+                bot.sendMessage(chatId, "Izoh yozish bekor qilindi.", { reply_markup: { inline_keyboard: [[{ text: "🔙 Orqaga", callback_data: `report_view_${reportId}` }]] } });
+                return;
+            }
+            if (msg.text && !msg.text.startsWith('/')) {
+                const reportId = userStates[chatId].reportId;
+                const report = feedData.find(r => r.id === reportId);
+                if (report) {
+                    if (!report.comments) report.comments = [];
+                    report.comments.push({
+                        id: Date.now().toString(),
+                        userId: chatId,
+                        name: msg.from.first_name || 'Foydalanuvchi',
+                        text: msg.text,
+                        date: new Date().toLocaleDateString('uz-UZ')
+                    });
+                    fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
+                    
+                    let msgText = `✅ Izohingiz qo'shildi!\n\n💬 <b>Murojaat izohlari:</b>\n\n`;
+                    report.comments.forEach((c, i) => {
+                        msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
+                    });
+                    let kb = [
+                        [{ text: "📝 Izoh yozish", callback_data: `report_add_comment_${reportId}` }],
+                        [{ text: "🔙 Orqaga (Rasmga qaytish)", callback_data: `report_view_${reportId}` }]
+                    ];
+                    bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
+                }
+                delete userStates[chatId];
                 return;
             }
         }
