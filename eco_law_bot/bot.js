@@ -742,12 +742,36 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     }
     
     if (messageId) {
-        bot.deleteMessage(chatId, messageId).catch(e => {});
-    }
-    
-    if (imagePath) {
-        bot.sendPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard });
+        if (imagePath) {
+            bot.editMessageMedia({
+                type: 'photo',
+                media: fs.createReadStream(imagePath),
+                caption: msg,
+                parse_mode: 'HTML'
+            }, {
+                chat_id: chatId,
+                message_id: messageId,
+                reply_markup: keyboard
+            }).catch(e => {
+                bot.deleteMessage(chatId, messageId).catch(() => {});
+                bot.sendPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard });
+            });
+        } else {
+            bot.editMessageText(msg, {
+                chat_id: chatId,
+                message_id: messageId,
+                parse_mode: 'HTML',
+                reply_markup: keyboard
+            }).catch(e => {
+                bot.deleteMessage(chatId, messageId).catch(() => {});
+                bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
+            });
+        }
     } else {
-        bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
+        if (imagePath) {
+            bot.sendPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard });
+        } else {
+            bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
+        }
     }
 }
