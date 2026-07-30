@@ -595,7 +595,7 @@ function sendQuestNode(chatId, nodeId) {
         imagePath = './data/puzzle_bg.jpg';
     }
     
-    let text = `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Eko-Qahramon Sarguzashti:</b>\n<blockquote>${node.story}</blockquote>\n`;
+    let text = `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Eko-Qahramon Sarguzashti</b> <i>(Jami bazada: ${questData.length} ta vaziyat)</i>:\n<blockquote>${node.story}</blockquote>\n`;
     
     if (imagePath) {
         bot.sendPhoto(chatId, imagePath, { caption: text, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
