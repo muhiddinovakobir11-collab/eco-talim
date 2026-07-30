@@ -244,7 +244,7 @@ function loadFeed() {
         .then(res => res.json())
         .then(data => {
             if (!data || data.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Hozircha hech qanday hisobot yo\\'q.</p>';
+                container.innerHTML = "<p style='text-align: center; color: var(--text-secondary);'>Hozircha hech qanday hisobot yo'q.</p>";
                 return;
             }
             
