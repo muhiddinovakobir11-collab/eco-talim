@@ -66,7 +66,8 @@ function loadUserData(userId) {
 function switchPage(page) {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('leaderboardPage').style.display = 'none';
-    document.getElementById('reportPage').style.display = 'none';
+    if(document.getElementById('reportPage')) document.getElementById('reportPage').style.display = 'none';
+    if(document.getElementById('feedPage')) document.getElementById('feedPage').style.display = 'none';
     
     document.getElementById('nav-home').classList.remove('active');
     document.getElementById('nav-leaderboard').classList.remove('active');
@@ -135,6 +136,20 @@ function loadLeaderboard() {
 
 // Handle section clicks
 function openSection(sectionId) {
+    if (sectionId === 'report' || sectionId === 'feed') {
+        // Local navigation
+        document.getElementById('homePage').style.display = 'none';
+        if(document.getElementById('reportPage')) document.getElementById('reportPage').style.display = 'none';
+        if(document.getElementById('feedPage')) document.getElementById('feedPage').style.display = 'none';
+        
+        document.getElementById(sectionId + 'Page').style.display = 'block';
+        
+        if (sectionId === 'feed') {
+            loadFeed();
+        }
+        return;
+    }
+
     // Send data back to the bot
     let command = `menu_${sectionId}`; // e.g. menu_quizzes, menu_redbook
     
