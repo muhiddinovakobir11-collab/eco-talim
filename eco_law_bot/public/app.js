@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Populate user info if available from Telegram
     if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         const user = tg.initDataUnsafe.user;
-        let displayName = user.username ? '@' + user.username : user.first_name;
+        let displayName = user.first_name;
         document.getElementById('userName').innerText = displayName;
         
         let avatarEl = document.getElementById('userAvatar');
