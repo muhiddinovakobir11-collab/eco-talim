@@ -340,16 +340,49 @@ bot.on('callback_query', (query) => {
     
     // Qizil Kitob
     if (data === 'menu_redbook') {
-        if (redbookData.length === 0) {
-            return bot.sendMessage(chatId, "Hozircha Qizil Kitob ma'lumotlari yuklanmoqda... Birozdan so'ng qayta urinib ko'ring.");
+        let msg = `<tg-emoji emoji-id="5242628160297641831">📕</tg-emoji> <b>Qizil Kitob</b> bo'limiga xush kelibsiz.\n\nQaysi yo'nalish bo'yicha ma'lumot olmoqchisiz?`;
+        let keyboard = {
+            inline_keyboard: [
+                [{ text: "🐅 Hayvonot olami", callback_data: "redbook_start_animals" }],
+                [{ text: "🌿 O'simliklar dunyosi", callback_data: "redbook_start_plants" }],
+                [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
+            ]
+        };
+        
+        bot.editMessageText(msg, {
+            chat_id: chatId,
+            message_id: query.message.message_id,
+            parse_mode: 'HTML',
+            reply_markup: keyboard
+        }).catch(e => {
+            bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
+        });
+        return;
+    }
+    
+    if (data.startsWith('redbook_start_')) {
+        const category = data.replace('redbook_start_', '');
+        
+        let targetData = category === 'plants' 
+            ? redbookData.filter(i => i.name.includes("(O'simlik)"))
+            : redbookData.filter(i => !i.name.includes("(O'simlik)"));
+            
+        if (targetData.length === 0) {
+            return bot.answerCallbackQuery(query.id, { text: "Hozircha ma'lumot kiritilmagan", show_alert: true });
         }
-        const randomPage = Math.floor(Math.random() * redbookData.length);
-        sendRedbookPage(chatId, randomPage);
+        const randomPage = Math.floor(Math.random() * targetData.length);
+        sendRedbookPage(chatId, randomPage, query.message.message_id, category);
+        return;
     }
     
     if (data.startsWith('redbook_page_')) {
-        const pageIdx = parseInt(data.replace('redbook_page_', ''));
-        sendRedbookPage(chatId, pageIdx, query.message.message_id);
+        // format: redbook_page_2_animals or redbook_page_2 (old)
+        let parts = data.replace('redbook_page_', '').split('_');
+        let pageIdx = parseInt(parts[0]);
+        let category = parts[1] || 'animals';
+        
+        sendRedbookPage(chatId, pageIdx, query.message.message_id, category);
+        return;
     }
     
     // Eko-Qahramon boshlash
@@ -499,24 +532,66 @@ bot.on('callback_query', (query) => {
             let statsText = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>To'liq Statistika:</b>\n\n`;
             statsText += `👥 Jami obunachilar: <b>${usersData.length}</b> ta\n`;
             statsText += `✅ Faol foydalanuvchilar: <b>${activeCount}</b> ta\n`;
-            statsText += `❌ Botni bloklaganlar: <b>${blockedCount}</b> ta\n\n`;
+            statsText += `❌ Botni bloklaganlar: <b>${blockedCount}</b> ta\n`;
             
-            statsText += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Faol foydalanuvchilar:</b>\n<blockquote>${usersList || "Yo'q"}</blockquote>\n\n`;
-            statsText += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Bloklaganlar:</b>\n<blockquote>${blockedList || "Yo'q"}</blockquote>\n`;
+            let keyboard = {
+                inline_keyboard: [
+                    [{ text: "✅ Faollarni ko'rish", callback_data: "admin_list_active" }],
+                    [{ text: "❌ Bloklaganlarni ko'rish", callback_data: "admin_list_blocked" }],
+                    [{ text: "🔙 Orqaga", callback_data: "admin_panel" }]
+                ]
+            };
             
-            // Agar text juda uzun bo'lib ketsa (Telegram 4096 belgi limiti) kesib tashlaymiz
-            if (statsText.length > 4000) {
-                statsText = statsText.substring(0, 4000) + "\n... (Ro'yxat juda uzun)";
-            }
-            
-            bot.sendMessage(chatId, statsText, { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, statsText, { parse_mode: 'HTML', reply_markup: keyboard });
         })();
+    }
+    
+    if (data === 'admin_list_active') {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        let activeUsers = usersData.filter(u => !u.is_blocked);
+        let listText = "✅ <b>Faol foydalanuvchilar ro'yxati:</b>\n\n";
+        activeUsers.forEach((user, i) => {
+            listText += `${i + 1}. <a href="tg://user?id=${user.id}">${user.first_name || 'Foydalanuvchi'}</a> ${user.username ? '(@' + user.username + ')' : ''}\n`;
+        });
+        
+        // Agar ro'yxat juda uzun bo'lsa, uni bo'lib yuborish kerak (Telegram limiti 4096 belgi)
+        if (listText.length > 4000) {
+            listText = listText.substring(0, 4000) + "...\n(Ro'yxat juda uzun)";
+        }
+        
+        bot.sendMessage(chatId, listText, { parse_mode: 'HTML' });
+    }
+    
+    if (data === 'admin_list_blocked') {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        let blockedUsers = usersData.filter(u => u.is_blocked);
+        if (blockedUsers.length === 0) {
+            return bot.sendMessage(chatId, "❌ Botni bloklagan foydalanuvchilar yo'q.");
+        }
+        let listText = "❌ <b>Botni bloklagan foydalanuvchilar:</b>\n\n";
+        blockedUsers.forEach((user, i) => {
+            listText += `${i + 1}. <a href="tg://user?id=${user.id}">${user.first_name || 'Foydalanuvchi'}</a> ${user.username ? '(@' + user.username + ')' : ''}\n`;
+        });
+        bot.sendMessage(chatId, listText, { parse_mode: 'HTML' });
     }
     
     if (data === 'admin_broadcast') {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
         isBroadcasting = true;
-        bot.sendMessage(chatId, "<tg-emoji emoji-id=\"5303286168102650067\">📣</tg-emoji> <b>Xabar tarqatish:</b>\n\nEndi botga tarqatmoqchi bo'lgan xabaringizni yuboring. (Rasm, video, audio yoki oddiy matn bo'lishi mumkin).\n\n<i>Bekor qilish uchun /start ni bosing.</i>", { parse_mode: 'HTML' });
+        bot.sendMessage(chatId, "📝 <b>Xabar tarqatish rejimi:</b>\n\nTarqatmoqchi bo'lgan xabaringizni yuboring (Rasm, video yoki matn bo'lishi mumkin). Bekor qilish uchun /cancel deb yozing.", { parse_mode: 'HTML' });
+    }
+    
+    if (data === 'admin_panel') {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        
+        let adminKeyboard = {
+            inline_keyboard: [
+                [{ text: "📊 Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
+                [{ text: "📢 Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
+                [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
+            ]
+        };
+        bot.sendMessage(chatId, "👨‍💻 <b>Admin paneliga xush kelibsiz!</b>\n\nQuyidagi amallardan birini tanlang:", { parse_mode: 'HTML', reply_markup: adminKeyboard });
     }
     
     bot.answerCallbackQuery(query.id);
@@ -712,27 +787,31 @@ function sendQuestNode(chatId, nodeId) {
 }
 
 // Qizil Kitob sahifasini yuborish
-function sendRedbookPage(chatId, pageIdx, messageId = null) {
-    if (pageIdx < 0 || pageIdx >= redbookData.length) return;
+function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals') {
+    let targetData = category === 'plants' 
+        ? redbookData.filter(i => i.name.includes("(O'simlik)"))
+        : redbookData.filter(i => !i.name.includes("(O'simlik)"));
+        
+    if (pageIdx < 0 || pageIdx >= targetData.length) return;
     
-    const animal = redbookData[pageIdx];
-    let msg = `<tg-emoji emoji-id="5242628160297641831">📕</tg-emoji> <b>QIZIL KITOB (O'zbekiston)</b>\n\n`;
-    msg += `<tg-emoji emoji-id="5465540480538254161">🦚</tg-emoji> <b>Nomi:</b> ${animal.name}\n`;
-    msg += `<tg-emoji emoji-id="5370930189322688800">🛑</tg-emoji> <b>Holati:</b> ${animal.status}\n\n`;
+    const animal = targetData[pageIdx];
+    let msg = `<tg-emoji emoji-id="5242628160297641831">📕</tg-emoji> <b>QIZIL KITOB (O'zbekiston)</b> - ${category === 'plants' ? "O'simliklar" : "Hayvonot"} olami\n\n`;
+    msg += `<tg-emoji emoji-id="5465540480538254161">🏷️</tg-emoji> <b>Nomi:</b> ${animal.name}\n`;
+    msg += `<tg-emoji emoji-id="5370930189322688800">📌</tg-emoji> <b>Holati:</b> ${animal.status}\n\n`;
     
-    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">🗺</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>\n`;
-    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">🏕</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>\n`;
+    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">🗺️</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>\n`;
+    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">🏔️</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>\n`;
     if (animal.soni) msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>\n`;
-    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">⏳</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>\n`;
-    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>\n`;
-    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">🧬</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>\n`;
-    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">🔰</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>\n`;
+    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">🐾</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>\n`;
+    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">⚠️</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>\n`;
+    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>\n`;
+    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">🛡️</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>\n`;
     if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>\n`;
     
     let navRow = [];
-    if (pageIdx > 0) navRow.push({ text: "⏪ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
-    navRow.push({ text: `📄 ${pageIdx + 1} / ${redbookData.length}`, callback_data: "ignore" });
-    if (pageIdx < redbookData.length - 1) navRow.push({ text: "Keyingi ⏩", callback_data: `redbook_page_${pageIdx + 1}` });
+    if (pageIdx > 0) navRow.push({ text: "⏪ Oldingi", callback_data: `redbook_page_${pageIdx - 1}_${category}` });
+    navRow.push({ text: `📄 ${pageIdx + 1} / ${targetData.length}`, callback_data: "ignore" });
+    if (pageIdx < targetData.length - 1) navRow.push({ text: "Keyingi ⏩", callback_data: `redbook_page_${pageIdx + 1}_${category}` });
     
     let keyboard = { inline_keyboard: [ navRow, [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }] ] };
     
