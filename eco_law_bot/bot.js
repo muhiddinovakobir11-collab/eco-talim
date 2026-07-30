@@ -239,7 +239,6 @@ function getUserSession(chatId) {
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
-            [{ text: "🌟 EKO-APP (Ilovani ochish)", web_app: { url: "https://eco-talim.onrender.com/?v=3" } }],
             [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
             [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
             [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
@@ -256,13 +255,11 @@ const mainMenuOptions = {
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     
-    // Set WebApp Menu Button
+    // Revert WebApp Menu Button to Default
     bot.setChatMenuButton({
         chat_id: chatId,
         menu_button: JSON.stringify({
-            type: "web_app",
-            text: "Eko-App 🌟",
-            web_app: { url: "https://eco-talim.onrender.com/?v=3" }
+            type: "default"
         })
     }).catch(e => console.log(e));
     // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
