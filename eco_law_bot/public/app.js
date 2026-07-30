@@ -42,6 +42,10 @@ function loadUserData(userId) {
         .then(data => {
             if(data) {
                 document.getElementById('userScore').innerText = data.score || 0;
+                if (data.isAdmin) {
+                    document.getElementById('adminBadge').style.display = 'inline-block';
+                    document.getElementById('adminSubscribers').innerText = data.totalUsers || 0;
+                }
                 // Calculate solved count based on data arrays
                 let solved = 0;
                 ['quizzes', 'puzzles', 'terms', 'penalties', 'truefalse'].forEach(type => {

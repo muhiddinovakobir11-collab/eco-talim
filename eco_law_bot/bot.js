@@ -41,7 +41,10 @@ http.createServer((req, res) => {
         
         let resData = {
             id: userId,
+            needsRegistration: !userObj || !userObj.phone,
             score: userObj ? userObj.score : 0,
+            isAdmin: userId === ADMIN_ID,
+            totalUsers: usersData.filter(u => !u.is_blocked).length,
             quizzes: session.quizzes || [],
             puzzles: session.puzzles || [],
             terms: session.terms || [],
