@@ -62,6 +62,7 @@ function loadUserData(userId) {
 function switchPage(page) {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('leaderboardPage').style.display = 'none';
+    document.getElementById('reportPage').style.display = 'none';
     
     document.getElementById('nav-home').classList.remove('active');
     document.getElementById('nav-leaderboard').classList.remove('active');
@@ -73,8 +74,29 @@ function switchPage(page) {
         document.getElementById('leaderboardPage').style.display = 'block';
         document.getElementById('nav-leaderboard').classList.add('active');
         loadLeaderboard();
+    } else if (page === 'report') {
+        document.getElementById('reportPage').style.display = 'block';
+        // Auto-fill name if available
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('repName').value = tg.initDataUnsafe.user.first_name + (tg.initDataUnsafe.user.last_name ? ' ' + tg.initDataUnsafe.user.last_name : '');
+        }
     }
 }
+
+function submitReport(e) {
+    e.preventDefault();
+    const name = document.getElementById('repName').value;
+    const loc = document.getElementById('repLoc').value;
+    const desc = document.getElementById('repDesc').value;
+    
+    tg.sendData(JSON.stringify({
+        action: 'submit_report',
+        name: name,
+        location: loc,
+        description: desc
+    }));
+}
+
 
 function loadLeaderboard() {
     fetch('/api/leaderboard')

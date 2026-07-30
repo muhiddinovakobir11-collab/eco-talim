@@ -3,6 +3,7 @@ const fs = require('fs');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const http = require('http');
 const activeAppUsers = new Map();
+const pendingReports = {};
 
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
@@ -739,6 +740,47 @@ bot.onText(/\/admin/, (msg) => {
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
+
+    // Eko-Nazorat: Web App dan kelgan ma'lumotlarni qabul qilish
+    if (msg.web_app_data) {
+        try {
+            const data = JSON.parse(msg.web_app_data.data);
+            if (data.action === 'submit_report') {
+                pendingReports[chatId] = {
+                    name: data.name,
+                    location: data.location,
+                    description: data.description
+                };
+                return bot.sendMessage(chatId, "✅ <b>Ma'lumotlar qabul qilindi!</b>\n\nEndi ushbu muammo joyining aniq rasm yoki videosini shu yerga yuboring.", { parse_mode: 'HTML' });
+            }
+        } catch(e) {}
+    }
+
+    // Eko-Nazorat: Rasm yoki video qabul qilish
+    if ((msg.photo || msg.video) && pendingReports[chatId]) {
+        const report = pendingReports[chatId];
+        delete pendingReports[chatId]; // O'chirib tashlaymiz
+        
+        const caption = `🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\n👤 <b>Yuboruvchi:</b> ${report.name}\n📍 <b>Manzil:</b> ${report.location}\n📝 <b>Tavsif:</b> ${report.description}\n\n🔗 <b>Telegram Profili:</b> <a href="tg://user?id=${chatId}">Profilga o'tish</a>`;
+        
+        let sendPromise;
+        if (msg.photo) {
+            const fileId = msg.photo[msg.photo.length - 1].file_id;
+            sendPromise = bot.sendPhoto(ADMIN_ID, fileId, { caption: caption, parse_mode: 'HTML' });
+        } else if (msg.video) {
+            const fileId = msg.video.file_id;
+            sendPromise = bot.sendVideo(ADMIN_ID, fileId, { caption: caption, parse_mode: 'HTML' });
+        }
+        
+        sendPromise.then(() => {
+            bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' });
+        }).catch(err => {
+            bot.sendMessage(chatId, "❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
+        });
+        
+        return; // Boshqa handlerlarga o'tmaslik uchun
+    }
+
     
     // Agar xabar tarqatish yoqilgan bo'lsa va bu admin bo'lsa
     if (chatId === ADMIN_ID && isBroadcasting && !msg.text?.startsWith('/')) {

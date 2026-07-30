@@ -136,6 +136,37 @@
             </div>
         </main>
 
+        
+        <!-- Report Page (Hidden by default) -->
+        <main id="reportPage" style="display: none;">
+            <div class="header">
+                <h2>Eko-Nazorat</h2>
+                <p>Ekologik muammo bo'yicha xabar bering</p>
+            </div>
+            <div class="glass-card" style="margin-top: 16px;">
+                <form id="reportForm" onsubmit="submitReport(event)">
+                    <div style="margin-bottom: 12px;">
+                        <label style="display: block; font-size: 0.9rem; margin-bottom: 4px; color: var(--text-secondary);">To'liq ismingiz</label>
+                        <input type="text" id="repName" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="display: block; font-size: 0.9rem; margin-bottom: 4px; color: var(--text-secondary);">Aniq Manzil (Lokatsiya)</label>
+                        <input type="text" id="repLoc" required placeholder="Masalan: Chilonzor 9-mavze, 12-uy orqasi" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; font-size: 0.9rem; margin-bottom: 4px; color: var(--text-secondary);">Muammo haqida batafsil tavsif</label>
+                        <textarea id="repDesc" required rows="4" placeholder="Muammo nima ekanligini yozing..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit; resize: none;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; font-size: 1.1rem; background: #2ed573; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.4);">
+                        <i class="fa-solid fa-paper-plane"></i> Yuborish
+                    </button>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-top: 12px;">
+                        Yuborilgandan so'ng bot orqali rasm yoki video yuborishingiz so'raladi.
+                    </p>
+                </form>
+            </div>
+        </main>
+
         <!-- Leaderboard Page (Hidden by default) -->
         <main id="leaderboardPage" style="display: none;">
             <div class="glass-card text-center" style="margin-bottom: 24px; text-align: center;">
