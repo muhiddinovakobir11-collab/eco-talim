@@ -6,10 +6,88 @@ const http = require('http');
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
 const port = process.env.PORT || 3000;
+const path = require('path');
+
 http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write('Eco Law Bot is running!\n');
-    res.end();
+    // API endpoint to get user data
+    if (req.url.startsWith('/api/user/')) {
+        const userId = parseInt(req.url.split('/').pop());
+        const userObj = usersData.find(u => u.id === userId);
+        const session = userSessions[userId] || {};
+        
+        let resData = {
+            id: userId,
+            score: userObj ? userObj.score : 0,
+            quizzes: session.quizzes || [],
+            puzzles: session.puzzles || [],
+            terms: session.terms || [],
+            penalties: session.penalties || [],
+            truefalse: session.truefalse || []
+        };
+        
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify(resData));
+        return res.end();
+    }
+    
+    // API endpoint to trigger bot action
+    if (req.url === '/api/trigger' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk.toString());
+        req.on('end', () => {
+            try {
+                let data = JSON.parse(body);
+                let userId = data.userId;
+                let action = data.action;
+                // Create a mock callback query object
+                let query = {
+                    id: Math.random().toString(),
+                    data: action,
+                    message: { chat: { id: userId }, message_id: 0 }
+                };
+                // Emit it to the bot
+                bot.emit('callback_query', query);
+                res.writeHead(200);
+                res.end('OK');
+            } catch(e) {
+                res.writeHead(400);
+                res.end('Error');
+            }
+        });
+        return;
+    }
+
+    // Serve Static WebApp files from public directory
+    let filePath = './public' + (req.url === '/' ? '/index.html' : req.url);
+    const extname = String(path.extname(filePath)).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml'
+    };
+    
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
+    
+    fs.readFile(filePath, (error, content) => {
+        if (error) {
+            if(error.code == 'ENOENT') {
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end('404 Not Found', 'utf-8');
+            } else {
+                res.writeHead(500);
+                res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+            }
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf-8');
+        }
+    });
+
 }).listen(port, () => {
     console.log(`Web server portda ishga tushdi: ${port}`);
 });
@@ -19,7 +97,6 @@ setInterval(() => {
     http.get('https://eco-talim.onrender.com').on('error', (err) => {
         console.error("Ping xatosi:", err.message);
     });
-    console.log("Ping yuborildi: Bot 24/7 ishlashi ta'minlanmoqda...");
 }, 14 * 60 * 1000);
 
 // Load Data
@@ -89,6 +166,7 @@ function getUserSession(chatId) {
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
+            [{ text: "🌟 EKO-APP (Ilovani ochish)", web_app: { url: "https://eco-talim.onrender.com/" } }],
             [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
             [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
             [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
@@ -104,8 +182,19 @@ const mainMenuOptions = {
 
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
+    
+    // Set WebApp Menu Button
+    bot.setChatMenuButton({
+        chat_id: chatId,
+        menu_button: JSON.stringify({
+            type: "web_app",
+            text: "Eko-App 🌟",
+            web_app: { url: "https://eco-talim.onrender.com/" }
+        })
+    }).catch(e => console.log(e));
+    
     // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
-    userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [] };
+    if (!userSessions[chatId]) userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [], attempts: { quizzes: 0, puzzles: 0, terms: 0, penalties: 0, truefalse: 0 } };
     
     // Tarqatish holatini bekor qilish (agar yoqilgan bo'lsa)
     if (chatId === ADMIN_ID) isBroadcasting = false;
@@ -134,7 +223,7 @@ bot.onText(/\/start/, (msg) => {
         fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
-    const introText = `<tg-emoji emoji-id="5330558871129836783">🌟</tg-emoji> <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.</blockquote>\n\n<tg-emoji emoji-id="5303286168102650067">📲</tg-emoji> <b>Murojaat uchun:</b> @akoshprod`;
+    const introText = `<tg-emoji emoji-id="5330558871129836783">🌟</tg-emoji> <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin. Yozish knopkasi yonidagi "Eko-App" tugmasi orqali yangi zamonaviy Ilovamizga kiring!</blockquote>\n\n<tg-emoji emoji-id="5303286168102650067">📲</tg-emoji> <b>Murojaat uchun:</b> @akoshprod`;
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {

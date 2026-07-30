@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eco Law Web App</title>
+    <!-- Telegram Web App Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" id="userAvatar" alt="User">
+                <div class="user-details">
+                    <h2 id="userName">Foydalanuvchi</h2>
+                    <p>Tabiat himoyachisi</p>
+                </div>
+            </div>
+            <div class="score-badge">
+                <i class="fa-solid fa-leaf"></i> <span id="userScore">0</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Progress Section -->
+            <section class="glass-card progress-card">
+                <div class="progress-header">
+                    <span><i class="fa-solid fa-brain" style="color: #00d2ff;"></i> Sizning Eko-Reytingingiz</span>
+                    <span class="level-badge">Asosiy</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 25%;"></div>
+                </div>
+                <div class="progress-stats">
+                    <span>O'zlashtirilgan: <b id="solvedCount">0</b></span>
+                    <span>Jami savollar: <b id="totalCount">1220</b></span>
+                </div>
+                <div class="progress-alert">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: #ff9f43;"></i>
+                    <span>Tavsiya - bilimingizni oshirish uchun Qizil Kitobni ko'proq o'qing!</span>
+                </div>
+            </section>
+
+            <!-- Daily Task -->
+            <section class="glass-card action-card highlight-card" onclick="openSection('quiz')">
+                <div class="action-icon" style="background: rgba(255, 159, 67, 0.2); color: #ff9f43;">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div class="action-text">
+                    <h3>Kunlik Eko-Vazifa</h3>
+                    <p>Bugun 10 ta savol yechishingiz kerak</p>
+                </div>
+                <button class="btn-primary">Boshlash</button>
+            </section>
+
+            <!-- Menu Grid -->
+            <div class="menu-list">
+                <div class="glass-card list-item" onclick="openSection('quiz')">
+                    <div class="list-icon" style="background: rgba(0, 210, 255, 0.2); color: #00d2ff;">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div class="list-text">
+                        <h3>Ekologiya Quiz</h3>
+                        <p>10 ta savol, kunlik bilim sinovi</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right list-arrow"></i>
+                </div>
+
+                <div class="glass-card list-item" onclick="openSection('hero')">
+                    <div class="list-icon" style="background: rgba(255, 71, 87, 0.2); color: #ff4757;">
+                        <i class="fa-solid fa-mask"></i>
+                    </div>
+                    <div class="list-text">
+                        <h3>Eko-Qahramon</h3>
+                        <p>Jumboqli vaziyatlar va sarguzasht</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right list-arrow"></i>
+                </div>
+
+                <div class="glass-card list-item" onclick="openSection('laws')">
+                    <div class="list-icon" style="background: rgba(46, 213, 115, 0.2); color: #2ed573;">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div class="list-text">
+                        <h3>Qonunlar va Jazolar</h3>
+                        <p>Haqiqiy ekologik yurisprudensiya</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right list-arrow"></i>
+                </div>
+
+                <div class="glass-card list-item" onclick="openSection('redbook')">
+                    <div class="list-icon" style="background: rgba(255, 107, 129, 0.2); color: #ff6b81;">
+                        <i class="fa-solid fa-book-journal-whills"></i>
+                    </div>
+                    <div class="list-text">
+                        <h3>Qizil Kitob</h3>
+                        <p>Noyob o'simlik va hayvonot olami</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right list-arrow"></i>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-bolt"></i>
+                <span>O'rganish</span>
+            </a>
+            <a href="#" class="nav-item" onclick="openSection('leaderboard')">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>Reyting</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Sozlamalar</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
