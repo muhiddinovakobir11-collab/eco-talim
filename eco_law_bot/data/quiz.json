@@ -1,4 +1,4 @@
-﻿{
+{
     "quizzes":  [
                     {
                         "id":  "adv_q1",
@@ -134,7 +134,7 @@
                     },
                     {
                         "id":  "bq1",
-                        "question":  "«Ekologiya» atamasini fanga birinchi bo\u0027lib kim kiritgan?",
+                        "question":  "�Ekologiya� atamasini fanga birinchi bo\u0027lib kim kiritgan?",
                         "options":  [
                                         "V.I. Vernadskiy",
                                         "Ernst Gekkel",
@@ -142,11 +142,11 @@
                                         "Charlz Darvin"
                                     ],
                         "answer_index":  1,
-                        "explanation":  "To\u0027g\u0027ri! Nemis olimi E. Gekkel 1866 yilda «Organizmlarning umumiy morfologiyasi» asarida bu atamani fanga kiritgan."
+                        "explanation":  "To\u0027g\u0027ri! Nemis olimi E. Gekkel 1866 yilda �Organizmlarning umumiy morfologiyasi� asarida bu atamani fanga kiritgan."
                     },
                     {
                         "id":  "bq2",
-                        "question":  "«Biosfera» (hayot qobig\u0027i) atamasini ilk bor qaysi olim ishlatgan?",
+                        "question":  "�Biosfera� (hayot qobig\u0027i) atamasini ilk bor qaysi olim ishlatgan?",
                         "options":  [
                                         "A. Tensli",
                                         "V.N. Sukachev",
@@ -242,7 +242,7 @@
                     },
                     {
                         "id":  "bq10",
-                        "question":  "Insoniyat tarixidagi ekologik tangliklardan biri «konsumentlar tangligi» nimadan kelib chiqqan?",
+                        "question":  "Insoniyat tarixidagi ekologik tangliklardan biri �konsumentlar tangligi� nimadan kelib chiqqan?",
                         "options":  [
                                         "Zavodlar qurilishidan",
                                         "Hayvonlarning haddan ziyod ovlanishidan",
@@ -338,7 +338,7 @@
                     },
                     {
                         "id":  "bq18",
-                        "question":  "Qaysi gaz atmosferada В«issiqxona effektiВ» (global isish) ni keltirib chiqaradi?",
+                        "question":  "Qaysi gaz atmosferada «issiqxona effekti» (global isish) ni keltirib chiqaradi?",
                         "options":  [
                                         "Kislorod (O2)",
                                         "Azot (N2)",
@@ -742,7 +742,7 @@
                                         "Kembriy"
                                     ],
                         "answer_index":  1,
-                        "explanation":  "To\u0027g\u0027ri! Antroposen вЂ“ inson faoliyati Yer sayyorasi geologiyasi va ekotizimiga hal qiluvchi ta\u0027sir ko\u0027rsatayotgan hozirgi davr."
+                        "explanation":  "To\u0027g\u0027ri! Antroposen – inson faoliyati Yer sayyorasi geologiyasi va ekotizimiga hal qiluvchi ta\u0027sir ko\u0027rsatayotgan hozirgi davr."
                     },
                     {
                         "id":  "bq52",
@@ -1357,7 +1357,7 @@
                                     ]
                     },
                     {
-                        "id":  "adv_q1_advanced",
+                        "id":  "adv<i>q1</i>advanced",
                         "question":  "[Chuqurlashtirilgan savol] Kyoto protokoli va Parij kelishuvining asosiy farqi nimada?",
                         "options":  [
                                         "Kyoto protokoli faqat Yevropa uchun, Parij kelishuvi Osiyo uchun",
@@ -1490,7 +1490,7 @@
                     },
                     {
                         "id":  "bq1_advanced",
-                        "question":  "[Chuqurlashtirilgan savol] «Ekologiya» atamasini fanga birinchi bo\u0027lib kim kiritgan?",
+                        "question":  "[Chuqurlashtirilgan savol] �Ekologiya� atamasini fanga birinchi bo\u0027lib kim kiritgan?",
                         "options":  [
                                         "V.I. Vernadskiy",
                                         "Ernst Gekkel",
@@ -1498,11 +1498,11 @@
                                         "Charlz Darvin"
                                     ],
                         "answer_index":  1,
-                        "explanation":  "To\u0027g\u0027ri! Nemis olimi E. Gekkel 1866 yilda «Organizmlarning umumiy morfologiyasi» asarida bu atamani fanga kiritgan."
+                        "explanation":  "To\u0027g\u0027ri! Nemis olimi E. Gekkel 1866 yilda �Organizmlarning umumiy morfologiyasi� asarida bu atamani fanga kiritgan."
                     },
                     {
                         "id":  "bq2_advanced",
-                        "question":  "[Chuqurlashtirilgan savol] «Biosfera» (hayot qobig\u0027i) atamasini ilk bor qaysi olim ishlatgan?",
+                        "question":  "[Chuqurlashtirilgan savol] �Biosfera� (hayot qobig\u0027i) atamasini ilk bor qaysi olim ishlatgan?",
                         "options":  [
                                         "A. Tensli",
                                         "V.N. Sukachev",
@@ -1598,7 +1598,7 @@
                     },
                     {
                         "id":  "bq10_advanced",
-                        "question":  "[Chuqurlashtirilgan savol] Insoniyat tarixidagi ekologik tangliklardan biri «konsumentlar tangligi» nimadan kelib chiqqan?",
+                        "question":  "[Chuqurlashtirilgan savol] Insoniyat tarixidagi ekologik tangliklardan biri �konsumentlar tangligi� nimadan kelib chiqqan?",
                         "options":  [
                                         "Zavodlar qurilishidan",
                                         "Hayvonlarning haddan ziyod ovlanishidan",
@@ -1694,7 +1694,7 @@
                     },
                     {
                         "id":  "bq18_advanced",
-                        "question":  "[Chuqurlashtirilgan savol] Qaysi gaz atmosferada В«issiqxona effektiВ» (global isish) ni keltirib chiqaradi?",
+                        "question":  "[Chuqurlashtirilgan savol] Qaysi gaz atmosferada «issiqxona effekti» (global isish) ni keltirib chiqaradi?",
                         "options":  [
                                         "Kislorod (O2)",
                                         "Azot (N2)",
@@ -2595,7 +2595,7 @@
                         "question":  "Bunga nima sabab bo\u0027lishi mumkin?",
                         "options":  [
                                         "Quduqning eski ekani",
-                                        "Yaqin atrofdagi maishiy chiqindi poligonlaridan yomg\u0027ir suvi orqali zaharli moddalarning yer osti suviga sД±zib tushishi",
+                                        "Yaqin atrofdagi maishiy chiqindi poligonlaridan yomg\u0027ir suvi orqali zaharli moddalarning yer osti suviga sızib tushishi",
                                         "Quyosh nuri"
                                     ],
                         "answer_index":  1,
@@ -4039,7 +4039,7 @@
                         "question":  "Bunga nima sabab bo\u0027lishi mumkin?",
                         "options":  [
                                         "Quduqning eski ekani",
-                                        "Yaqin atrofdagi maishiy chiqindi poligonlaridan yomg\u0027ir suvi orqali zaharli moddalarning yer osti suviga sД±zib tushishi",
+                                        "Yaqin atrofdagi maishiy chiqindi poligonlaridan yomg\u0027ir suvi orqali zaharli moddalarning yer osti suviga sızib tushishi",
                                         "Quyosh nuri"
                                     ],
                         "answer_index":  1,
@@ -4444,7 +4444,7 @@
                     },
                     {
                         "id":  "bp65_advanced",
-                        "story":  "Murakkablashgan holat: Usta avtomobilning tutunni tozalab beruvchi maxsus filtri — \u0027Katalizator\u0027ni ataylab kesib olib sotyapti, mijozga esa mashina ko\u0027proq ot kuchi yig\u0027adi deb aldayapti.",
+                        "story":  "Murakkablashgan holat: Usta avtomobilning tutunni tozalab beruvchi maxsus filtri � \u0027Katalizator\u0027ni ataylab kesib olib sotyapti, mijozga esa mashina ko\u0027proq ot kuchi yig\u0027adi deb aldayapti.",
                         "question":  "Katalizatorning olib tashlanishi ekologiyaga qanday yashirin zarbalar beradi?",
                         "options":  [
                                         "Avtomobildan chiqayotgan uglerod oksidi (CO) va azot oksidlari atmosferaga filtrlanmasdan to\u0027g\u0027ridan-to\u0027g\u0027ri chiqadi, bu esa havo ifloslanishini bir necha barobar oshiradi",
@@ -4453,7 +4453,7 @@
                                         "Tutun faqat qishda zararli bo\u0027ladi"
                                     ],
                         "answer_index":  0,
-                        "explanation":  "To\u0027g\u0027ri! Katalizator — zaharli chiqindi gazlarni (CO, NOx, CH) zararsiz moddalarga (H2O, CO2, N2) aylantirib beruvchi ekologik to\u0027siqdir. Unisiz bitta mashina 10 ta mashina miqdorida havo buzadi. Bu amaliyot ma\u0027muriy huquqbuzarlikdir!",
+                        "explanation":  "To\u0027g\u0027ri! Katalizator � zaharli chiqindi gazlarni (CO, NOx, CH) zararsiz moddalarga (H2O, CO2, N2) aylantirib beruvchi ekologik to\u0027siqdir. Unisiz bitta mashina 10 ta mashina miqdorida havo buzadi. Bu amaliyot ma\u0027muriy huquqbuzarlikdir!",
                         "image":  "p30.jpg"
                     },
                     {
@@ -4495,7 +4495,7 @@
                                         "Daladagi barcha zararkunanda hasharotlar suvga cho\u0027kib o\u0027ladi"
                                     ],
                         "answer_index":  2,
-                        "explanation":  "To\u0027g\u0027ri! O\u0027zbekistonda dehqonchilikning eng katta dushmani — yerlarning sho\u0027rlanishi aynan shu xato (ko\u0027llatib sug\u0027orish) orqali sodir bo\u0027ladi. Suv o\u0027zi bilan tuzlarni yuzaga tortib chiqadi.",
+                        "explanation":  "To\u0027g\u0027ri! O\u0027zbekistonda dehqonchilikning eng katta dushmani � yerlarning sho\u0027rlanishi aynan shu xato (ko\u0027llatib sug\u0027orish) orqali sodir bo\u0027ladi. Suv o\u0027zi bilan tuzlarni yuzaga tortib chiqadi.",
                         "image":  "p33.jpg"
                     },
                     {
@@ -4576,7 +4576,7 @@
                                       "Tarixiy obidalar ro\u0027yxati"
                                   ],
                       "answer_index":  0,
-                      "explanation":  "Qizil kitob – bu yo\u0027qolib ketish xavfi ostida turgan noyob o\u0027simlik va hayvon turlarining rasmiy ro\u0027yxatidir."
+                      "explanation":  "Qizil kitob � bu yo\u0027qolib ketish xavfi ostida turgan noyob o\u0027simlik va hayvon turlarining rasmiy ro\u0027yxatidir."
                   },
                   {
                       "id":  "t3",
@@ -4587,7 +4587,7 @@
                                       "Suv havzalarini tozalash"
                                   ],
                       "answer_index":  0,
-                      "explanation":  "Ekologik audit – korxona faoliyatining ekologiya qoidalariga qanchalik mos kelishini mustaqil ekspertlar tomonidan tekshirilishi."
+                      "explanation":  "Ekologik audit � korxona faoliyatining ekologiya qoidalariga qanchalik mos kelishini mustaqil ekspertlar tomonidan tekshirilishi."
                   },
                   {
                       "id":  "t4",
@@ -4598,7 +4598,7 @@
                                       "Qoldiqlarni yoqish"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Utilizatsiya – bu chiqindilardan qayta xom ashyo yoki energiya sifatida foydalanish jarayonidir."
+                      "explanation":  "Utilizatsiya � bu chiqindilardan qayta xom ashyo yoki energiya sifatida foydalanish jarayonidir."
                   },
                   {
                       "id":  "t5",
@@ -4609,7 +4609,7 @@
                                       "Daraxtlarni kesishga ruxsatnoma"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Moratoriy – bu davlat tomonidan biron bir harakatning (masalan, qimmatbaho daraxtlarni kesishning) qat\u0027iy taqiqlanishidir."
+                      "explanation":  "Moratoriy � bu davlat tomonidan biron bir harakatning (masalan, qimmatbaho daraxtlarni kesishning) qat\u0027iy taqiqlanishidir."
                   },
                   {
                       "id":  "t6",
@@ -4620,7 +4620,7 @@
                                       "Daryolar tarmog\u0027i"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Flora – bu ma\u0027lum bir hududda o\u0027sadigan o\u0027simlik turlarining yig\u0027indisi."
+                      "explanation":  "Flora � bu ma\u0027lum bir hududda o\u0027sadigan o\u0027simlik turlarining yig\u0027indisi."
                   },
                   {
                       "id":  "t7",
@@ -4631,7 +4631,7 @@
                                       "Tog\u0027 tizmalari"
                                   ],
                       "answer_index":  0,
-                      "explanation":  "Fauna – bu ma\u0027lum bir hududda yashaydigan yovvoyi hayvon turlarining yig\u0027indisi."
+                      "explanation":  "Fauna � bu ma\u0027lum bir hududda yashaydigan yovvoyi hayvon turlarining yig\u0027indisi."
                   },
                   {
                       "id":  "t8",
@@ -4642,7 +4642,7 @@
                                       "Har qanday inson faoliyati qat\u0027iyan taqiqlangan daxlsiz hudud"
                                   ],
                       "answer_index":  2,
-                      "explanation":  "Qo\u0027riqxona – bu tabiat qanday bo\u0027lsa shundayligicha asraladigan va inson aralashuvi mutlaqo taqiqlangan hudud."
+                      "explanation":  "Qo\u0027riqxona � bu tabiat qanday bo\u0027lsa shundayligicha asraladigan va inson aralashuvi mutlaqo taqiqlangan hudud."
                   },
                   {
                       "id":  "t9",
@@ -4664,7 +4664,7 @@
                                       "Qurilish qilish mumkin bo\u0027lgan yer"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Milliy bog\u0027 – bu tabiatni asrash bilan birga, sayyohlarga dam olishga va tabiatdan zavqlanishga ruxsat etilgan maxsus hudud."
+                      "explanation":  "Milliy bog\u0027 � bu tabiatni asrash bilan birga, sayyohlarga dam olishga va tabiatdan zavqlanishga ruxsat etilgan maxsus hudud."
                   },
                   {
                       "id":  "bt1",
@@ -4928,7 +4928,7 @@
                                       "Odam qo\u0027lida yaratilgan turlar"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Masalan, Avstraliyadagi kenguru yoki O\u0027zbekistondagi Mengkuq lolasi вЂ“ endemik turlardir."
+                      "explanation":  "To\u0027g\u0027ri! Masalan, Avstraliyadagi kenguru yoki O\u0027zbekistondagi Mengkuq lolasi – endemik turlardir."
                   },
                   {
                       "id":  "bt25",
@@ -4961,7 +4961,7 @@
                                       "Ch. Darvin"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Noosfera вЂ“ inson aqliy faoliyati hal qiluvchi omilga aylangan biosferaning yangi bosqichi."
+                      "explanation":  "To\u0027g\u0027ri! Noosfera – inson aqliy faoliyati hal qiluvchi omilga aylangan biosferaning yangi bosqichi."
                   },
                   {
                       "id":  "bt28",
@@ -5071,7 +5071,7 @@
                                       "Muzliklarni"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Gidro (suv) va fil (sevaman) вЂ“ namlikni sevuvchi organizmlar."
+                      "explanation":  "To\u0027g\u0027ri! Gidro (suv) va fil (sevaman) – namlikni sevuvchi organizmlar."
                   },
                   {
                       "id":  "bt38",
@@ -5347,7 +5347,7 @@
                                       "Faqat qog\u0027oz ishlatishni"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Nol chiqindi вЂ“ tabiatni asrashning radikal va eng ongli usuli bo\u0027lib, axlatni minimal darajaga tushirishni ko\u0027zlaydi."
+                      "explanation":  "To\u0027g\u0027ri! Nol chiqindi – tabiatni asrashning radikal va eng ongli usuli bo\u0027lib, axlatni minimal darajaga tushirishni ko\u0027zlaydi."
                   },
                   {
                       "id":  "bt63",
@@ -5787,7 +5787,7 @@
                                       "Tarixiy obidalar ro\u0027yxati"
                                   ],
                       "answer_index":  0,
-                      "explanation":  "Qizil kitob – bu yo\u0027qolib ketish xavfi ostida turgan noyob o\u0027simlik va hayvon turlarining rasmiy ro\u0027yxatidir."
+                      "explanation":  "Qizil kitob � bu yo\u0027qolib ketish xavfi ostida turgan noyob o\u0027simlik va hayvon turlarining rasmiy ro\u0027yxatidir."
                   },
                   {
                       "id":  "t3_advanced",
@@ -5798,7 +5798,7 @@
                                       "Suv havzalarini tozalash"
                                   ],
                       "answer_index":  0,
-                      "explanation":  "Ekologik audit – korxona faoliyatining ekologiya qoidalariga qanchalik mos kelishini mustaqil ekspertlar tomonidan tekshirilishi."
+                      "explanation":  "Ekologik audit � korxona faoliyatining ekologiya qoidalariga qanchalik mos kelishini mustaqil ekspertlar tomonidan tekshirilishi."
                   },
                   {
                       "id":  "t4_advanced",
@@ -5809,7 +5809,7 @@
                                       "Qoldiqlarni yoqish"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Utilizatsiya – bu chiqindilardan qayta xom ashyo yoki energiya sifatida foydalanish jarayonidir."
+                      "explanation":  "Utilizatsiya � bu chiqindilardan qayta xom ashyo yoki energiya sifatida foydalanish jarayonidir."
                   },
                   {
                       "id":  "t5_advanced",
@@ -5820,7 +5820,7 @@
                                       "Daraxtlarni kesishga ruxsatnoma"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Moratoriy – bu davlat tomonidan biron bir harakatning (masalan, qimmatbaho daraxtlarni kesishning) qat\u0027iy taqiqlanishidir."
+                      "explanation":  "Moratoriy � bu davlat tomonidan biron bir harakatning (masalan, qimmatbaho daraxtlarni kesishning) qat\u0027iy taqiqlanishidir."
                   },
                   {
                       "id":  "t6_advanced",
@@ -5831,7 +5831,7 @@
                                       "Daryolar tarmog\u0027i"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Flora – bu ma\u0027lum bir hududda o\u0027sadigan o\u0027simlik turlarining yig\u0027indisi."
+                      "explanation":  "Flora � bu ma\u0027lum bir hududda o\u0027sadigan o\u0027simlik turlarining yig\u0027indisi."
                   },
                   {
                       "id":  "t7_advanced",
@@ -5842,7 +5842,7 @@
                                       "Tog\u0027 tizmalari"
                                   ],
                       "answer_index":  0,
-                      "explanation":  "Fauna – bu ma\u0027lum bir hududda yashaydigan yovvoyi hayvon turlarining yig\u0027indisi."
+                      "explanation":  "Fauna � bu ma\u0027lum bir hududda yashaydigan yovvoyi hayvon turlarining yig\u0027indisi."
                   },
                   {
                       "id":  "t8_advanced",
@@ -5853,7 +5853,7 @@
                                       "Har qanday inson faoliyati qat\u0027iyan taqiqlangan daxlsiz hudud"
                                   ],
                       "answer_index":  2,
-                      "explanation":  "Qo\u0027riqxona – bu tabiat qanday bo\u0027lsa shundayligicha asraladigan va inson aralashuvi mutlaqo taqiqlangan hudud."
+                      "explanation":  "Qo\u0027riqxona � bu tabiat qanday bo\u0027lsa shundayligicha asraladigan va inson aralashuvi mutlaqo taqiqlangan hudud."
                   },
                   {
                       "id":  "t9_advanced",
@@ -5875,7 +5875,7 @@
                                       "Qurilish qilish mumkin bo\u0027lgan yer"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "Milliy bog\u0027 – bu tabiatni asrash bilan birga, sayyohlarga dam olishga va tabiatdan zavqlanishga ruxsat etilgan maxsus hudud."
+                      "explanation":  "Milliy bog\u0027 � bu tabiatni asrash bilan birga, sayyohlarga dam olishga va tabiatdan zavqlanishga ruxsat etilgan maxsus hudud."
                   },
                   {
                       "id":  "bt1_advanced",
@@ -6139,7 +6139,7 @@
                                       "Odam qo\u0027lida yaratilgan turlar"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Masalan, Avstraliyadagi kenguru yoki O\u0027zbekistondagi Mengkuq lolasi вЂ“ endemik turlardir."
+                      "explanation":  "To\u0027g\u0027ri! Masalan, Avstraliyadagi kenguru yoki O\u0027zbekistondagi Mengkuq lolasi – endemik turlardir."
                   },
                   {
                       "id":  "bt25_advanced",
@@ -6172,7 +6172,7 @@
                                       "Ch. Darvin"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Noosfera вЂ“ inson aqliy faoliyati hal qiluvchi omilga aylangan biosferaning yangi bosqichi."
+                      "explanation":  "To\u0027g\u0027ri! Noosfera – inson aqliy faoliyati hal qiluvchi omilga aylangan biosferaning yangi bosqichi."
                   },
                   {
                       "id":  "bt28_advanced",
@@ -6282,7 +6282,7 @@
                                       "Muzliklarni"
                                   ],
                       "answer_index":  1,
-                      "explanation":  "To\u0027g\u0027ri! Gidro (suv) va fil (sevaman) вЂ“ namlikni sevuvchi organizmlar."
+                      "explanation":  "To\u0027g\u0027ri! Gidro (suv) va fil (sevaman) – namlikni sevuvchi organizmlar."
                   },
                   {
                       "id":  "bt38_advanced",
@@ -8819,7 +8819,7 @@
                                           "Yolg\u0027on"
                                       ],
                           "answer_index":  1,
-                          "explanation":  "Yolg\u0027on! Hayvonlar olamiga eng xavfli tahdid вЂ“ bu insonlarning ularning yashash muhitini (o\u0027rmon va cho\u0027llarni) yo\u0027q qilayotgani va iqlim o\u0027zgarishidir."
+                          "explanation":  "Yolg\u0027on! Hayvonlar olamiga eng xavfli tahdid – bu insonlarning ularning yashash muhitini (o\u0027rmon va cho\u0027llarni) yo\u0027q qilayotgani va iqlim o\u0027zgarishidir."
                       },
                       {
                           "id":  "btf54",
@@ -9843,3 +9843,4 @@
                       }
                   ]
 }
+

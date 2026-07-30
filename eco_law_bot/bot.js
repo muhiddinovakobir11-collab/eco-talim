@@ -123,10 +123,10 @@ bot.onText(/\/start/, (msg) => {
         fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
         
         // Adminga xabar yuborish
+        let userLink = `<a href="tg://user?id=${chatId}">${msg.from.first_name || 'Foydalanuvchi'}</a>`;
+        let username = msg.from.username ? ` (@${msg.from.username})` : '';
         if (chatId !== ADMIN_ID) {
-            let userLink = `[${msg.from.first_name || 'Foydalanuvchi'}](tg://user?id=${chatId})`;
-            let username = msg.from.username ? ` (@${msg.from.username})` : '';
-            bot.sendMessage(ADMIN_ID, `🆕 **Yangi obunachi qo'shildi!**\n👤 Profil: ${userLink}${username}`, { parse_mode: 'Markdown' });
+            bot.sendMessage(ADMIN_ID, `<tg-emoji emoji-id="5330558871129836783">🚀</tg-emoji> <b>Yangi obunachi qo'shildi!</b>\n👤 Profil: ${userLink}${username}`, { parse_mode: 'HTML' });
         }
     } else if (existingUser.is_blocked) {
         // Agar avval bloklagan bo'lsa va yana start bossa, blokni olib tashlaymiz
@@ -134,16 +134,17 @@ bot.onText(/\/start/, (msg) => {
         fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
-    const introText = "🌱 Assalomu alaykum! Eco Law Botga xush kelibsiz.\nBu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.\n\n📞 Murojaat uchun: @akoshprod";
+    const introText = `<tg-emoji emoji-id="5330558871129836783">🌟</tg-emoji> <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.</blockquote>\n\n<tg-emoji emoji-id="5303286168102650067">📲</tg-emoji> <b>Murojaat uchun:</b> @akoshprod`;
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {
         bot.sendVideo(chatId, videoPath, {
             caption: introText,
-            reply_markup: mainMenuOptions.reply_markup
+            reply_markup: mainMenuOptions.reply_markup,
+            parse_mode: 'HTML'
         });
     } else {
-        bot.sendMessage(chatId, introText, mainMenuOptions);
+        bot.sendMessage(chatId, introText, { ...mainMenuOptions, parse_mode: 'HTML' });
     }
 });
 
@@ -163,8 +164,8 @@ bot.on('callback_query', (query) => {
         }
         keyboard.push([{ text: "⬅️ Orqaga", callback_data: "menu_back" }]);
         
-        bot.sendMessage(chatId, "📚 **O'rganish uchun kerakli yo'nalishni tanlang:**", {
-            parse_mode: 'Markdown',
+        bot.sendMessage(chatId, "<tg-emoji emoji-id=\"5330558871129836783\">📚</tg-emoji> <b>O'rganish uchun kerakli yo'nalishni tanlang:</b>", {
+            parse_mode: 'HTML',
             reply_markup: { inline_keyboard: keyboard }
         });
     }
@@ -187,11 +188,11 @@ bot.on('callback_query', (query) => {
             const total = cat.rules.length;
             const rule = cat.rules[pageIdx];
             
-            let msgText = `🏛 **${cat.category_title}** yo'nalishi:\n\n`;
-            msgText += `🔹 ${pageIdx + 1}. ${rule.title}\n`;
-            msgText += `📝 _Mazmuni:_ ${rule.desc}\n`;
-            msgText += `📌 _Asosiy moddalar:_ ${rule.key_articles}\n`;
-            msgText += `⚖️ _Javobgarlik:_ ${rule.punishment}\n`;
+            let msgText = `<tg-emoji emoji-id="5202058805457740493">📂</tg-emoji> <b>${cat.category_title}</b> yo'nalishi:\n\n`;
+            msgText += `<tg-emoji emoji-id="5463297803235113601">📑</tg-emoji> <b>${pageIdx + 1}. ${rule.title}</b>\n`;
+            msgText += `<i>Mazmuni:</i>\n<blockquote>${rule.desc}</blockquote>\n`;
+            msgText += `<i>Asosiy moddalar:</i>\n<blockquote>${rule.key_articles}</blockquote>\n`;
+            msgText += `<i>Javobgarlik:</i>\n<blockquote>${rule.punishment}</blockquote>\n`;
             
             let navRow = [];
             
@@ -215,13 +216,13 @@ bot.on('callback_query', (query) => {
                 bot.editMessageText(msgText, {
                     chat_id: chatId,
                     message_id: query.message.message_id,
-                    parse_mode: 'Markdown',
+                    parse_mode: 'HTML',
                     reply_markup: { inline_keyboard: keyboard }
                 }).catch(e => console.log(e));
             } else {
                 // Send new message when coming from menu
                 bot.sendMessage(chatId, msgText, {
-                    parse_mode: 'Markdown',
+                    parse_mode: 'HTML',
                     reply_markup: { inline_keyboard: keyboard }
                 });
             }
@@ -263,19 +264,19 @@ bot.on('callback_query', (query) => {
         let sortedUsers = [...usersData].sort((a, b) => (b.score || 0) - (a.score || 0));
         let top10 = sortedUsers.slice(0, 10);
         
-        let msg = `🏆 **Eko-Bilimdonlar Top-10 Reytingi:**\n\n`;
+        let msg = `<tg-emoji emoji-id="5330558871129836783">🏆</tg-emoji> <b>Eko-Bilimdonlar Top-10 Reytingi:</b>\n\n`;
         top10.forEach((u, i) => {
             let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🔹";
-            msg += `${medal} ${i+1}. [${u.first_name}](tg://user?id=${u.id}) - **${u.score || 0} ball**\n`;
+            msg += `${medal} ${i+1}. <a href="tg://user?id=${u.id}">${u.first_name}</a> - <b>${u.score || 0} ball</b>\n`;
         });
         
         // O'zining o'rni
         let myIndex = sortedUsers.findIndex(u => u.id === chatId);
         let myScore = sortedUsers[myIndex]?.score || 0;
-        msg += `\n🎯 SIZNING O'RNINGIZ: **${myIndex + 1}-o'rin** (${myScore} ball)\n`;
-        msg += `_To'g'ri javob berib, ballingizni oshiring!_`;
+        msg += `\n<tg-emoji emoji-id="5463297803235113601">📍</tg-emoji> SIZNING O'RNINGIZ: <b>${myIndex + 1}-o'rin</b> (${myScore} ball)\n`;
+        msg += `<i>To'g'ri javob berib, ballingizni oshiring!</i>`;
         
-        bot.sendMessage(chatId, msg, { parse_mode: 'Markdown', ...mainMenuOptions });
+        bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...mainMenuOptions });
     }
     
     // Orqaga qaytish
@@ -297,7 +298,7 @@ bot.on('callback_query', (query) => {
         session.attempts[type]++;
         
         if (selectedIndex === questionData.answer_index) {
-            bot.sendMessage(chatId, `✅ **To'g'ri javob!**\n\n${questionData.explanation}`, { parse_mode: 'Markdown' });
+            bot.sendMessage(chatId, `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> <b>To'g'ri javob!</b>\n\n<blockquote>${questionData.explanation}</blockquote>\n`, { parse_mode: 'HTML' });
             
             // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
             if (!session[type].includes(qIndex)) {
@@ -314,7 +315,7 @@ bot.on('callback_query', (query) => {
             // Boshqa tasodifiy savolni yuboramiz
             sendRandomQuestion(chatId, type);
         } else {
-            bot.sendMessage(chatId, `❌ **Noto'g'ri!** Keyingi savolga o'tamiz...`);
+            bot.sendMessage(chatId, `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Noto'g'ri!</b> Keyingi savolga o'tamiz...`, { parse_mode: 'HTML' });
             
             // Xato qilsa ham keyingi savolga o'tkazamiz. 
             sendRandomQuestion(chatId, type);
@@ -330,13 +331,13 @@ bot.on('callback_query', (query) => {
         const totalAttempts = session.attempts[type];
         const wrong = totalAttempts - correct;
         
-        let msg = `🏁 **Test yakunlandi!**\n\n`;
-        msg += `📊 Jami ishlangan: **${totalAttempts}** ta\n`;
-        msg += `✅ To'g'ri javoblar: **${correct}** ta\n`;
-        msg += `❌ Xato javoblar: **${wrong}** ta\n\n`;
-        msg += `_Yana o'ynash uchun menyudan tanlang._`;
+        let msg = `<tg-emoji emoji-id="5330558871129836783">🏁</tg-emoji> <b>Test yakunlandi!</b>\n\n`;
+        msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> Jami ishlangan: <b>${totalAttempts}</b> ta\n`;
+        msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> To'g'ri javoblar: <b>${correct}</b> ta\n`;
+        msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> Xato javoblar: <b>${wrong}</b> ta\n\n`;
+        msg += `<i>Yana o'ynash uchun menyudan tanlang.</i>`;
         
-        bot.sendMessage(chatId, msg, { parse_mode: 'Markdown', ...mainMenuOptions });
+        bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...mainMenuOptions });
         
         // Progressni tozalash
         session[type] = [];
@@ -357,7 +358,7 @@ bot.on('callback_query', (query) => {
         (async () => {
             for (let i = 0; i < usersData.length; i++) {
                 let user = usersData[i];
-                let userLink = `[${user.first_name || 'Foydalanuvchi'}](tg://user?id=${user.id})`;
+                let userLink = `<a href="tg://user?id=${user.id}">${user.first_name || 'Foydalanuvchi'}</a>`;
                 let username = user.username ? ` (@${user.username})` : '';
                 let fullName = `${userLink}${username}`;
 
@@ -377,27 +378,27 @@ bot.on('callback_query', (query) => {
             // O'zgarishlarni saqlab qo'yamiz
             fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
             
-            let statsText = `📊 **To'liq Statistika:**\n\n`;
-            statsText += `👥 Jami obunachilar: **${usersData.length}** ta\n`;
-            statsText += `✅ Faol foydalanuvchilar: **${activeCount}** ta\n`;
-            statsText += `❌ Botni bloklaganlar: **${blockedCount}** ta\n\n`;
+            let statsText = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>To'liq Statistika:</b>\n\n`;
+            statsText += `👥 Jami obunachilar: <b>${usersData.length}</b> ta\n`;
+            statsText += `✅ Faol foydalanuvchilar: <b>${activeCount}</b> ta\n`;
+            statsText += `❌ Botni bloklaganlar: <b>${blockedCount}</b> ta\n\n`;
             
-            statsText += `📜 **Faol foydalanuvchilar:**\n${usersList || "Yo'q"}\n\n`;
-            statsText += `🚫 **Bloklaganlar:**\n${blockedList || "Yo'q"}`;
+            statsText += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Faol foydalanuvchilar:</b>\n<blockquote>${usersList || "Yo'q"}</blockquote>\n\n`;
+            statsText += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Bloklaganlar:</b>\n<blockquote>${blockedList || "Yo'q"}</blockquote>\n`;
             
             // Agar text juda uzun bo'lib ketsa (Telegram 4096 belgi limiti) kesib tashlaymiz
             if (statsText.length > 4000) {
                 statsText = statsText.substring(0, 4000) + "\n... (Ro'yxat juda uzun)";
             }
             
-            bot.sendMessage(chatId, statsText, { parse_mode: 'Markdown' });
+            bot.sendMessage(chatId, statsText, { parse_mode: 'HTML' });
         })();
     }
     
     if (data === 'admin_broadcast') {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
         isBroadcasting = true;
-        bot.sendMessage(chatId, "✉️ **Xabar tarqatish:**\n\nEndi botga tarqatmoqchi bo'lgan xabaringizni yuboring. (Rasm, video, audio yoki oddiy matn bo'lishi mumkin).\n\n_Bekor qilish uchun /start ni bosing._", { parse_mode: 'Markdown' });
+        bot.sendMessage(chatId, "<tg-emoji emoji-id=\"5303286168102650067\">📣</tg-emoji> <b>Xabar tarqatish:</b>\n\nEndi botga tarqatmoqchi bo'lgan xabaringizni yuboring. (Rasm, video, audio yoki oddiy matn bo'lishi mumkin).\n\n<i>Bekor qilish uchun /start ni bosing.</i>", { parse_mode: 'HTML' });
     }
     
     bot.answerCallbackQuery(query.id);
@@ -423,12 +424,12 @@ function sendRandomQuestion(chatId, type) {
         const totalAttempts = session.attempts[type];
         const wrong = totalAttempts - correct;
         
-        let msg = `🎉 **Qoyil! Siz ushbu bo'limdagi ${totalAttempts} ta savolni yakunladingiz!**\n\n`;
-        msg += `✅ To'g'ri: **${correct}** ta\n`;
-        msg += `❌ Xato: **${wrong}** ta\n\n`;
+        let msg = `<tg-emoji emoji-id="5330558871129836783">🎉</tg-emoji> <b>Qoyil! Siz ushbu bo'limdagi ${totalAttempts} ta savolni yakunladingiz!</b>\n\n`;
+        msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> To'g'ri: <b>${correct}</b> ta\n`;
+        msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> Xato: <b>${wrong}</b> ta\n\n`;
         msg += `🔄 Yana ishlash uchun tegishli bo'limni tanlang.`;
         
-        bot.sendMessage(chatId, msg, mainMenuOptions);
+        bot.sendMessage(chatId, msg, { ...mainMenuOptions, parse_mode: 'HTML' });
         
         // Keyingi safar yana yangi 20 ta savol o'ynashi uchun progressni tozalaymiz
         session[type] = []; 
@@ -453,8 +454,8 @@ function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     // Ekranda ko'rsatiladigan maksimal savollar soni
     const totalCount = Math.min(quizData[type].length, limit);
     
-    let text = `📊 **Savol: ${attemptsCount + 1} / ${totalCount}**\n\n`;
-    text += type === 'puzzles' ? `🧩 **Vaziyat:** ${questionObj.story}\n\n❓ ${questionObj.question}` : `📝 **Savol:** ${questionObj.question}`;
+    let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Savol: ${attemptsCount + 1} / ${totalCount}</b>\n\n`;
+    text += type === 'puzzles' ? `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Vaziyat:</b>\n<blockquote>${questionObj.story}</blockquote>\n\n<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>${questionObj.question}</b>` : `<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>Savol:</b>\n<blockquote>${questionObj.question}</blockquote>\n`;
     
     let keyboard = [];
     questionObj.options.forEach((opt, idx) => {
@@ -480,11 +481,11 @@ function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     if (imagePath) {
         bot.sendPhoto(chatId, imagePath, {
             caption: text,
-            parse_mode: 'Markdown',
+            parse_mode: 'HTML',
             reply_markup: { inline_keyboard: keyboard }
         });
     } else {
-        bot.sendMessage(chatId, text, { reply_markup: { inline_keyboard: keyboard }, parse_mode: 'Markdown' });
+        bot.sendMessage(chatId, text, { reply_markup: { inline_keyboard: keyboard }, parse_mode: 'HTML' });
     }
 }
 
@@ -504,7 +505,7 @@ bot.onText(/\/admin/, (msg) => {
     const chatId = msg.chat.id;
     if (chatId !== ADMIN_ID) return; // Faqat adminga ruxsat
     
-    bot.sendMessage(chatId, "🛠 **Admin Panelga xush kelibsiz!**\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'Markdown', ...adminMenuOptions });
+    bot.sendMessage(chatId, "⚙️ <b>Admin Panelga xush kelibsiz!</b>\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'HTML', ...adminMenuOptions });
 });
 
 bot.on('message', (msg) => {
@@ -527,7 +528,7 @@ bot.on('message', (msg) => {
                     .finally(() => {
                         // Oxirgi odamga yuborilganda hisobot berish
                         if (index === usersData.length - 1) {
-                            bot.sendMessage(chatId, `✅ **Xabar tarqatish yakunlandi!**\n\nYetib bordi: ${successCount} ta\nYetib bormadi (bloklaganlar): ${failCount} ta`, { parse_mode: 'Markdown' });
+                            bot.sendMessage(chatId, `✅ <b>Xabar tarqatish yakunlandi!</b>\n\nYetib bordi: ${successCount} ta\nYetib bormadi (bloklaganlar): ${failCount} ta`, { parse_mode: 'HTML' });
                         }
                     });
             }, index * 50); // Telegram limitiga tushmaslik uchun 50ms kechikish
@@ -573,12 +574,14 @@ function sendQuestNode(chatId, nodeId) {
         imagePath = './data/puzzle_bg.jpg';
     }
     
+    let text = `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Eko-Qahramon Sarguzashti:</b>\n<blockquote>${node.story}</blockquote>\n`;
+    
     if (imagePath) {
-        bot.sendPhoto(chatId, imagePath, { caption: node.story, parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
-            bot.sendMessage(chatId, node.story, { parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } });
+        bot.sendPhoto(chatId, imagePath, { caption: text, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
+            bot.sendMessage(chatId, text, { parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } });
         });
     } else {
-        bot.sendMessage(chatId, node.story, { parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } });
+        bot.sendMessage(chatId, text, { parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } });
     }
 }
 
@@ -591,14 +594,14 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     msg += `<tg-emoji emoji-id="5465540480538254161">🦚</tg-emoji> <b>Nomi:</b> ${animal.name}\n`;
     msg += `<tg-emoji emoji-id="5370930189322688800">🛑</tg-emoji> <b>Holati:</b> ${animal.status}\n\n`;
     
-    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">🗺</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>`;
-    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">🏕</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>`;
-    if (animal.soni) msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>`;
-    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">⏳</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>`;
-    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>`;
-    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">🧬</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>`;
-    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">🔰</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>`;
-    if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>`;
+    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">🗺</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>\n`;
+    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">🏕</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>\n`;
+    if (animal.soni) msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>\n`;
+    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">⏳</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>\n`;
+    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>\n`;
+    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">🧬</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>\n`;
+    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">🔰</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>\n`;
+    if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>\n`;
     
     let navRow = [];
     if (pageIdx > 0) navRow.push({ text: "⬅️ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
