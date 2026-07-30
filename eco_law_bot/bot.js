@@ -421,8 +421,10 @@ bot.on('callback_query', (query) => {
         keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
         
         const photoId = report.photo;
-        const captionText = report.caption + `\n\n📅 Sana: ${report.date}`;
-        
+        let captionText = report.caption + `\n\n📅 Sana: ${report.date}`;
+        if (report.solved) {
+            captionText = `✅ <b>HAL QILINDI</b>\n\n` + captionText;
+        }
         if (query.message.photo) {
             bot.editMessageMedia({
                 type: 'photo',
@@ -700,14 +702,11 @@ bot.on('callback_query', (query) => {
     
     if (data === 'admin_panel') {
         if (chatId !== ADMIN_ID) return;
-        bot.sendMessage(chatId, "⚙️ <b>Boshqaruv Paneli</b>\n\nQuyidagi amallardan birini tanlang yoki o'zgartirish uchun kerakli bazani yuklab oling:\n<i>(Yangi ma'lumot qo'shish uchun tahrirlangan JSON faylni yana botga yuboring)</i>", {
+        bot.sendMessage(chatId, "⚙️ <b>Boshqaruv Paneli</b>\n\nQuyidagi amallardan birini tanlang:", {
             parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: "📥 quiz.json (Barcha savollar)", callback_data: "download_db_quiz" }],
-                    [{ text: "📥 redbook.json (Qizil kitob)", callback_data: "download_db_redbook" }],
-                    [{ text: "📥 quest.json (Qahramon)", callback_data: "download_db_quest" }],
-                    [{ text: "📥 laws.json (Qonunlar)", callback_data: "download_db_laws" }],
+                    [{ text: "📸 Eko-Nazorat Murojaatlari", callback_data: "admin_rep_view_0" }],
                     [{ text: "📊 Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
                     [{ text: "📢 Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
                     [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
@@ -717,15 +716,43 @@ bot.on('callback_query', (query) => {
         return;
     }
     
-    if (data.startsWith('download_db_')) {
+    if (data.startsWith('admin_rep_view_')) {
         if (chatId !== ADMIN_ID) return;
-        const dbName = data.replace('download_db_', '');
-        const filePath = `./data/${dbName}.json`;
-        
-        if (fs.existsSync(filePath)) {
-            bot.sendDocument(chatId, filePath, { caption: `Fayl: ${dbName}.json\nShu faylni o'zgartirib qayta jo'natishingiz mumkin.` }).catch(()=>{});
-        } else {
-            bot.answerCallbackQuery(query.id, { text: "Fayl topilmadi!", show_alert: true });
+        if (feedData.length === 0) {
+            bot.answerCallbackQuery(query.id, { text: "Murojaatlar bazasi bo'sh.", show_alert: true });
+            return;
+        }
+        const index = parseInt(data.replace('admin_rep_view_', ''));
+        sendAdminReportMsg(chatId, index, query.message.message_id);
+        return;
+    }
+    
+    if (data.startsWith('admin_rep_solve_')) {
+        if (chatId !== ADMIN_ID) return;
+        const id = data.replace('admin_rep_solve_', '');
+        const index = feedData.findIndex(r => r.id === id);
+        if (index !== -1) {
+            feedData[index].solved = true;
+            fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
+            bot.answerCallbackQuery(query.id, { text: "✅ Hal qilindi deb belgilandi!", show_alert: false });
+            sendAdminReportMsg(chatId, index, query.message.message_id);
+        }
+        return;
+    }
+    
+    if (data.startsWith('admin_rep_del_')) {
+        if (chatId !== ADMIN_ID) return;
+        const id = data.replace('admin_rep_del_', '');
+        const index = feedData.findIndex(r => r.id === id);
+        if (index !== -1) {
+            feedData.splice(index, 1);
+            fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
+            bot.answerCallbackQuery(query.id, { text: "🗑 Murojaat o'chirildi!", show_alert: false });
+            if (feedData.length === 0) {
+                bot.editMessageCaption("Barcha murojaatlar o'chirildi.", { chat_id: chatId, message_id: query.message.message_id, reply_markup: { inline_keyboard: [[{ text: "🔙 Orqaga", callback_data: "admin_panel" }]] } });
+            } else {
+                sendAdminReportMsg(chatId, index >= feedData.length ? feedData.length - 1 : index, query.message.message_id);
+            }
         }
         return;
     }
@@ -940,6 +967,37 @@ const adminMenuOptions = {
     }
 };
 
+function sendAdminReportMsg(chatId, index, messageId) {
+    if (index < 0 || index >= feedData.length) return;
+    const report = feedData[index];
+    
+    let keyboard = [];
+    
+    if (!report.solved) {
+        keyboard.push([{ text: "✅ Hal qilinganligini belgilash", callback_data: `admin_rep_solve_${report.id}` }]);
+    } else {
+        keyboard.push([{ text: "✅ HAL QILINDI", callback_data: "dummy" }]);
+    }
+    
+    keyboard.push([{ text: "🗑 Bazadan o'chirish", callback_data: `admin_rep_del_${report.id}` }]);
+    
+    let nav = [];
+    if (index > 0) nav.push({ text: "⬅️ Oldingi", callback_data: `admin_rep_view_${index - 1}` });
+    nav.push({ text: `${index + 1} / ${feedData.length}`, callback_data: "dummy" });
+    if (index < feedData.length - 1) nav.push({ text: "Keyingi ➡️", callback_data: `admin_rep_view_${index + 1}` });
+    keyboard.push(nav);
+    
+    keyboard.push([{ text: "🔙 Orqaga", callback_data: "admin_panel" }]);
+    
+    let statusText = report.solved ? "✅ <b>HAL QILINDI</b>\n\n" : "";
+    let msgText = `📸 <b>Eko-Nazorat Murojaati</b>\n\n${statusText}ID: <code>${report.id}</code>\nSana: ${report.date || ''}\n\nMatn: ${report.caption || 'Yo\'q'}`;
+    
+    if (messageId) {
+        bot.deleteMessage(chatId, messageId).catch(() => {});
+    }
+    bot.sendPhoto(chatId, report.photo, { parse_mode: 'HTML', caption: msgText, reply_markup: { inline_keyboard: keyboard } });
+}
+
 bot.onText(/\/admin/, (msg) => {
     const chatId = msg.chat.id;
     if (chatId !== ADMIN_ID) return; // Faqat adminga ruxsat
@@ -947,64 +1005,6 @@ bot.onText(/\/admin/, (msg) => {
     bot.sendMessage(chatId, "⚙️ <b>Admin Panelga xush kelibsiz!</b>\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'HTML', ...adminMenuOptions });
 });
 
-bot.on('document', async (msg) => {
-    const chatId = msg.chat.id;
-    if (chatId !== ADMIN_ID) return;
-    
-    const allowedFiles = ['quiz.json', 'redbook.json', 'quest.json', 'laws.json'];
-    const fileName = msg.document.file_name;
-    
-    if (!allowedFiles.includes(fileName)) {
-        bot.sendMessage(chatId, "⚠️ <b>Faqat quyidagi fayllarni qabul qilaman:</b>\n" + allowedFiles.join(', '), { parse_mode: 'HTML' });
-        return;
-    }
-    
-    bot.sendMessage(chatId, `⏳ <b>${fileName}</b> qabul qilindi. Tekshirilmoqda...`, { parse_mode: 'HTML' });
-    
-    try {
-        const fileLink = await bot.getFileLink(msg.document.file_id);
-        const https = require('https');
-        
-        https.get(fileLink, (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-                try {
-                    // Sintaksis tekshiruvi
-                    const parsedData = JSON.parse(data);
-                    
-                    // Tuzilma tekshiruvi
-                    if (fileName === 'quiz.json') {
-                        if (!parsedData.quizzes || !parsedData.terms || !parsedData.penalties || !parsedData.truefalse || !parsedData.puzzles) {
-                            throw new Error("Fayl ichidagi bo'limlar to'liq emas! (quizzes, terms, penalties, truefalse, puzzles bo'lishi shart)");
-                        }
-                        quizData = parsedData; // RAM ni yangilash
-                    } else if (fileName === 'redbook.json') {
-                        if (!parsedData.hayvonlar || !parsedData.osimliklar) {
-                            throw new Error("Fayl ichidagi bo'limlar to'liq emas! (hayvonlar, osimliklar bo'lishi shart)");
-                        }
-                        redbookData = parsedData;
-                    } else if (fileName === 'quest.json') {
-                        questData = parsedData;
-                    } else if (fileName === 'laws.json') {
-                        lawsData = parsedData;
-                    }
-                    
-                    // Xatosiz bo'lsa, faylni yozish
-                    fs.writeFileSync(`./data/${fileName}`, JSON.stringify(parsedData, null, 2));
-                    
-                    bot.sendMessage(chatId, `✅ <b>Muvaffaqiyatli!</b>\n\n<code>${fileName}</code> bazasi yangilandi va ishga tushdi!`, { parse_mode: 'HTML' });
-                } catch (parseError) {
-                    bot.sendMessage(chatId, `❌ <b>Faylda xatolik bor!</b>\n\nXato turi: <i>${parseError.message}</i>\n\nIltimos xatoni to'g'irlab, qayta yuboring. Eski baza o'z holicha saqlab qolindi.`, { parse_mode: 'HTML' });
-                }
-            });
-        }).on('error', (e) => {
-            bot.sendMessage(chatId, `❌ Yuklab olishda xatolik: ${e.message}`);
-        });
-    } catch (e) {
-        bot.sendMessage(chatId, `❌ Tizim xatosi: ${e.message}`);
-    }
-});
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
