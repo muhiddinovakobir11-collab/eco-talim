@@ -34,6 +34,11 @@ try {
     redbookData = JSON.parse(fs.readFileSync('./data/redbook.json', 'utf8').replace(/^\uFEFF/, ''));
 } catch(e) {}
 
+let lawsData = [];
+try {
+    lawsData = JSON.parse(fs.readFileSync('./data/laws.json', 'utf8').replace(/^\uFEFF/, ''));
+} catch(e) {}
+
 let usersData = [];
 try {
     const rawData = JSON.parse(fs.readFileSync('./data/users.json', 'utf8').replace(/^\uFEFF/, ''));
