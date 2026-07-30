@@ -412,6 +412,15 @@ bot.on('callback_query', (query) => {
         const report = feedData[index];
         
         let keyboard = [];
+        
+        if (!report.solved) {
+            keyboard.push([{ text: "🟢 Faol muammo", callback_data: "dummy" }]);
+        } else {
+            keyboard.push([{ text: "✅ Hal qilingan muammo", callback_data: "dummy" }]);
+        }
+        
+        keyboard.push([{ text: `💬 Izohlar (${report.comments ? report.comments.length : 0})`, callback_data: `report_comments_${report.id}` }]);
+
         let navigationRow = [];
         if (index > 0) {
             navigationRow.push({ text: "⬅️ Oldingi", callback_data: `report_view_${feedData[index - 1].id}` });
@@ -450,6 +459,45 @@ bot.on('callback_query', (query) => {
         
         bot.answerCallbackQuery(query.id).catch(()=>{});
         return;
+    }
+    
+    if (data.startsWith('report_comments_')) {
+        const id = data.replace('report_comments_', '');
+        const report = feedData.find(r => r.id === id);
+        if (!report) return bot.answerCallbackQuery(query.id, { text: "Murojaat topilmadi", show_alert: true });
+        
+        let msgText = `💬 <b>Murojaat izohlari:</b>\n\n`;
+        if (!report.comments || report.comments.length === 0) {
+            msgText += "<i>Hozircha hech qanday izoh yo'q. Birinchi bo'lib izoh qoldiring!</i>\n";
+        } else {
+            report.comments.forEach((c, i) => {
+                msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
+            });
+        }
+        
+        let kb = [
+            [{ text: "📝 Izoh yozish", callback_data: `report_add_comment_${report.id}` }],
+            [{ text: "🔙 Orqaga (Rasmga qaytish)", callback_data: `report_view_${report.id}` }]
+        ];
+        
+        bot.deleteMessage(chatId, query.message.message_id).catch(()=>{});
+        bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
+        return bot.answerCallbackQuery(query.id);
+    }
+    
+    if (data.startsWith('report_add_comment_')) {
+        const id = data.replace('report_add_comment_', '');
+        if (!userStates[chatId]) userStates[chatId] = {};
+        userStates[chatId].step = 'awaiting_public_comment';
+        userStates[chatId].reportId = id;
+        
+        bot.sendMessage(chatId, "✍️ <b>Izohingizni yozing:</b>\n(Bekor qilish uchun 'Bekor qilish' deb yozing yoki pastdagi tugmani bosing)", {
+            parse_mode: 'HTML',
+            reply_markup: {
+                inline_keyboard: [[{ text: "🔙 Bekor qilish", callback_data: `report_comments_${id}` }]]
+            }
+        });
+        return bot.answerCallbackQuery(query.id);
     }
     
     if (data === 'report_continue') {
