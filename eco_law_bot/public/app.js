@@ -277,3 +277,26 @@ function resizeImage(file, maxWidth, callback) {
     };
     reader.readAsDataURL(file);
 }
+
+
+function getLocation() {
+    if (navigator.geolocation) {
+        tg.HapticFeedback.impactOccurred('medium');
+        document.getElementById('repLoc').value = "Joylashuv aniqlanmoqda...";
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                document.getElementById('repLoc').value = `https://maps.google.com/?q=${lat},${lon}`;
+                tg.HapticFeedback.notificationOccurred('success');
+            },
+            function(error) {
+                alert("Joylashuvni aniqlab bo'lmadi. Iltimos, manzilni qo'lda yozing.");
+                document.getElementById('repLoc').value = "";
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+    } else {
+        alert("Sizning qurilmangiz joylashuvni aniqlashni qo'llab-quvvatlamaydi.");
+    }
+}
