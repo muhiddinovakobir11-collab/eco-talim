@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "id":  "1",
         "name":  "Tibbiy zuluk",
@@ -9,211 +9,211 @@
     {
         "id":  "2",
         "name":  "Orol bahrsi (Bakra)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Ўткинчи, гала бўлиб яшайдиган балиқ. Денгизнинг чуқурлиги 10-15 метргача бўлган жойларида ва унга қуйиладиган дарёларда учрайди.",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "O'tkinchi, gala bo'lib yashaydigan baliq. Dengizning chuqurligi 10-15 metrgacha bo'lgan joylarida va unga quyiladigan daryolarda uchraydi.",
         "image": "r2.jpg"
     },
     {
         "id":  "3",
-        "name":  "Ўрта Осиё чўл тошбақаси",
-        "status":  "Заиф, камайиб бораётган",
-        "desc":  "Кундуз пайтлари фаол ҳаёт кечиради. Июнь ойида ёзги уйқуга кетиб, кейинчалик у қишки уйқуга уланиб кетади.",
+        "name":  "O'rta Osiyo cho'l toshbaqasi",
+        "status":  "Zaif, kamayib borayotgan",
+        "desc":  "Kunduz paytlari faol hayot kechiradi. Iyun oyida yozgi uyquga ketib, keyinchalik u qishki uyquga ulanib ketadi.",
         "image": "r3.jpg"
     },
     {
         "id":  "4",
-        "name":  "Бўз эчкемар",
-        "status":  "Заиф, камайиб бораётган",
-        "desc":  "Апрель-октябрь ойларида фаол ҳаёт кечиради. Катта қумсичқон ва тулкилар ташлаб кетган уяларни макон тутади.",
+        "name":  "Bo'z echkemar",
+        "status":  "Zaif, kamayib borayotgan",
+        "desc":  "Aprel-oktyabr oylarida faol hayot kechiradi. Katta qumsichqon va tulkilar tashlab ketgan uyalarni makon tutadi.",
         "image": "r4.png"
     },
     {
         "id":  "5",
-        "name":  "Қоплон (Леопард)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Оқшом ва тунлари, эрта тонгда овга чиқади. Ёввойи туёқлилар, кемирувчилар ва қушлар билан озиқланади.",
+        "name":  "Qoplon (Leopard)",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Oqshom va tunlari, erta tongda ovga chiqadi. Yovvoyi tuyoqlilar, kemiruvchilar va qushlar bilan oziqlanadi.",
         "image": "r5.jpg"
     },
     {
         "id":  "6",
-        "name":  "Илвирс (Қор қоплони)",
-        "status":  "Йўқ бўлиб кетиш арафасида",
-        "desc":  "Оқшомда фаол, кундузи ғорларга, қоялар орасига беркиниб ётади. Асосан Сибирь тоғ эчкиси билан озиқланади.",
+        "name":  "Ilvirs (Qor qoploni)",
+        "status":  "Yo'q bo'lib ketish arafasida",
+        "desc":  "Oqshomda faol, kunduzi g'orlarga, qoyalar orasiga berkinib yotadi. Asosan Sibir tog' echkisi bilan oziqlanadi.",
         "image": "r6.webp"
     },
     {
         "id":  "7",
-        "name":  "Жайрон",
-        "status":  "Заиф, қисқариб бораётган",
-        "desc":  "Пода бўлиб кўпроқ ўтроқ ёки ярим ўтроқ яшайди. Фақат ареалнинг шимолий қисмларида номунтазам мавсумий кўчиб юради.",
+        "name":  "Jayron",
+        "status":  "Zaif, qisqarib borayotgan",
+        "desc":  "Poda bo'lib ko'proq o'troq yoki yarim o'troq yashaydi. Faqat arealning shimoliy qismlarida nomuntazam mavsumiy ko'chib yuradi.",
         "image": "r7.jpg"
     },
     {
         "id":  "8",
-        "name":  "Капча илон (Кобра)",
-        "status":  "Заифга яқин, мозаик тарқалган",
-        "desc":  "Мартдан октябрь ойигача, асосан, ёзда тунлари фаол ҳаёт кечиради. Кемирувчи ва тошбақалар инларига яширинади.",
+        "name":  "Kapcha ilon (Kobra)",
+        "status":  "Zaifga yaqin, mozaik tarqalgan",
+        "desc":  "Martdan oktyabr oyigacha, asosan, yozda tunlari faol hayot kechiradi. Kemiruvchi va toshbaqalar inlariga yashirinadi.",
         "image": "r8.jpg"
     },
     {
         "id":  "9",
-        "name":  "Пушти сақоқуш",
-        "status":  "Заиф, қисқариб бораётган",
-        "desc":  "Баҳорги учиб ўтиши март-апрель ойида. Қамишли тўқайларда колония бўлиб уялайди, балиқлар билан озиқланади.",
+        "name":  "Pushti saqoqush",
+        "status":  "Zaif, qisqarib borayotgan",
+        "desc":  "Bahorgi uchib o'tishi mart-aprel oyida. Qamishli to'qaylarda koloniya bo'lib uyalaydi, baliqlar bilan oziqlanadi.",
         "image": "r9.jpg"
     },
     {
         "id":  "10",
-        "name":  "Жингалак сақоқуш",
-        "status":  "Йўқолиб бораётган",
-        "desc":  "Йирик текислик сув ҳавзаларида яшайди. Қамишзор, сув босган бутазорларда колония бўлиб уялайди.",
+        "name":  "Jingalak saqoqush",
+        "status":  "Yo'qolib borayotgan",
+        "desc":  "Yirik tekislik suv havzalarida yashaydi. Qamishzor, suv bosgan butazorlarda koloniya bo'lib uyalaydi.",
         "image": "r10.jpg"
     },
     {
         "id":  "11",
-        "name":  "Қора лайлак",
-        "status":  "Заиф, табиатан камёб",
-        "desc":  "Баҳорги учиб ўтиши февраль-мартда. Қоялар ва жарликларда уялайди. Майда балиқлар, қурбақалар билан озиқланади.",
+        "name":  "Qora laylak",
+        "status":  "Zaif, tabiatan kamyob",
+        "desc":  "Bahorgi uchib o'tishi fevral-martda. Qoyalar va jarliklarda uyalaydi. Mayda baliqlar, qurbaqalar bilan oziqlanadi.",
         "image": "r11.jpg"
     },
     {
         "id":  "12",
-        "name":  "Қизилғоз (Фламинго)",
-        "status":  "Заиф, қисқариб бораётган",
-        "desc":  "Текисликдаги йирик, саёз кўлларнинг ботқоқлашган қирғоқларида яшайди. Сувда яшовчи умуртқасизлар билан озиқланади.",
+        "name":  "Qizilg'oz (Flamingo)",
+        "status":  "Zaif, qisqarib borayotgan",
+        "desc":  "Tekislikdagi yirik, sayoz ko'llarning botqoqlashgan qirg'oqlarida yashaydi. Suvda yashovchi umurtqasizlar bilan oziqlanadi.",
         "image": "r12.jpg"
     },
     {
         "id":  "13",
-        "name":  "Вишилдоқ оққуш",
-        "status":  "Заифга яқин",
-        "desc":  "Денгиз қирғоқлари, ташлама сув кўллари ва сув омборларида яшайди. Қамишзорлар орасига, қия оролларга ин қуради.",
+        "name":  "Vishildoq oqqush",
+        "status":  "Zaifga yaqin",
+        "desc":  "Dengiz qirg'oqlari, tashlama suv ko'llari va suv omborlarida yashaydi. Qamishzorlar orasiga, qiya orollarga in quradi.",
         "image": "r13.jpg"
     },
     {
         "id":  "14",
-        "name":  "Тасқара (Қора гриф)",
-        "status":  "Заифга яқин, ўтроқ",
-        "desc":  "Тоғларнинг этак ва ўрта қисмлари, текисликларда учрайди. Дарахтлар, буталар ва қояларда уялайди. Ўлакса билан озиқланади.",
+        "name":  "Tasqara (Qora grif)",
+        "status":  "Zaifga yaqin, o'troq",
+        "desc":  "Tog'larning etak va o'rta qismlari, tekisliklarda uchraydi. Daraxtlar, butalar va qoyalarda uyalaydi. O'laksa bilan oziqlanadi.",
         "image": "r14.jpg"
     },
     {
         "id":  "15",
-        "name":  "Бургут",
-        "status":  "Заиф, табиатан камёб",
-        "desc":  "Қоялар, жарликлар, дарахтлар ва электр узатиш тармоқларининг симёғочларига ин қуради. Кемирувчилар ва қушларни овлайди.",
+        "name":  "Burgut",
+        "status":  "Zaif, tabiatan kamyob",
+        "desc":  "Qoyalar, jarliklar, daraxtlar va elektr uzatish tarmoqlarining simyog'ochlariga in quradi. Kemiruvchilar va qushlarni ovlaydi.",
         "image": "r15.jpg"
     },
     {
         "id":  "16",
-        "name":  "Оқ турна (Стерх)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Дарё ва кўллар қирғоқларида учрайди. Сувда яшовчи умуртқасизлар ва сув ўтлари билан озиқланади.",
+        "name":  "Oq turna (Sterx)",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Daryo va ko'llar qirg'oqlarida uchraydi. Suvda yashovchi umurtqasizlar va suv o'tlari bilan oziqlanadi.",
         "image": "r16.jpg"
     },
     {
         "id":  "17",
-        "name":  "Йўрға тувалоқ (Жек)",
-        "status":  "Заиф, қисқариб бораётган",
-        "desc":  "Чўлларнинг барханли, шўрхок қисмида яшайди. Ўт уруғи, умуртқасизлар, майда кемирувчилар билан озиқланади.",
+        "name":  "Yo'rg'a tuvaloq (Jek)",
+        "status":  "Zaif, qisqarib borayotgan",
+        "desc":  "Cho'llarning barxanli, sho'rxok qismida yashaydi. O't urug'i, umurtqasizlar, mayda kemiruvchilar bilan oziqlanadi.",
         "image": "r17.jpg"
     },
     {
         "id":  "18",
-        "name":  "Кўк суғур (Мензбир суғури)",
-        "status":  "Йўқолиб бораётган, локал эндемик",
-        "desc":  "Альп ва субальп ўтлоқлар зонасидаги булоқлар, соз тупроқларда яшайди. Оила бўлиб ҳаёт кечиради, колониялар ҳосил қилади.",
+        "name":  "Ko'k sug'ur (Menzbir sug'uri)",
+        "status":  "Yo'qolib borayotgan, lokal endemik",
+        "desc":  "Alp va subalp o'tloqlar zonasidagi buloqlar, soz tuproqlarda yashaydi. Oila bo'lib hayot kechiradi, koloniyalar hosil qiladi.",
         "image": "r18.jpg"
     },
     {
         "id":  "19",
-        "name":  "Қўнғир айиқ (Тянь-Шань)",
-        "status":  "Заиф, кенг тарқалган кенжа тур",
-        "desc":  "Тоғ ўрмонлари, субальп ва альп ўтлоқларида яшайди. Мевалар, илдизлар, баъзан сутэмизувчилар билан озиқланади.",
+        "name":  "Qo'ng'ir ayiq (Tyan-Shan)",
+        "status":  "Zaif, keng tarqalgan kenja tur",
+        "desc":  "Tog' o'rmonlari, subalp va alp o'tloqlarida yashaydi. Mevalar, ildizlar, ba'zan sutemizuvchilar bilan oziqlanadi.",
         "image": "r19.jpg"
     },
     {
         "id":  "20",
-        "name":  "Сиртлон (Дўлта)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Одатда тунлари фаол, кундузи уялари, ғор ва чуқурликларга беркиниб ётади. Оилавий ҳаёт кечиради.",
+        "name":  "Sirtlon (Do'lta)",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Odatda tunlari faol, kunduzi uyalari, g'or va chuqurliklarga berkinib yotadi. Oilaviy hayot kechiradi.",
         "image": "r20.jpg"
     },
     {
         "id":  "21",
-        "name":  "Турон йўлбарси",
-        "status":  "Йўқ бўлиб кетган",
-        "desc":  "Қайир қамишзорлари ва тўқайзорларда яшаган. Оқшомлари фаол бўлиб, кундузи қалин бутазорлар орасига яширинган.",
+        "name":  "Turon yo'lbarsi",
+        "status":  "Yo'q bo'lib ketgan",
+        "desc":  "Qayir qamishzorlari va to'qayzorlarda yashagan. Oqshomlari faol bo'lib, kunduzi qalin butazorlar orasiga yashiringan.",
         "image": "r21.jpg"
     },
     {
         "id":  "22",
-        "name":  "Хонгул (Бухоро буғуси)",
-        "status":  "Йўқ бўлиб кетаётган",
-        "desc":  "Қайир тўқайзорларида яшайди. Ижтимоий таркиби оилавий-гуруҳ бўлиб, дарахт, бута, ўтсимон ўсимликлар билан озиқланади.",
+        "name":  "Xongul (Buxoro bug'usi)",
+        "status":  "Yo'q bo'lib ketayotgan",
+        "desc":  "Qayir to'qayzorlarida yashaydi. Ijtimoiy tarkibi oilaviy-guruh bo'lib, daraxt, buta, o'tsimon o'simliklar bilan oziqlanadi.",
         "image": "r22.jpg"
     },
     {
         "id":  "23",
-        "name":  "Морхўр (Винторогий козёл)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Тоғларнинг тош-қояли ва сийрак арчазорли ёнбағирларида яшайди. Пода бўлиб яшайди, мавсумий кўчади.",
+        "name":  "Morxo'r (Vintorogiy kozyol)",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Tog'larning tosh-qoyali va siyrak archazorli yonbag'irlarida yashaydi. Poda bo'lib yashaydi, mavsumiy ko'chadi.",
         "image": "r23.jpg"
     },
     {
         "id":  "24",
-        "name":  "Устюрт қўйи (Арқал)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Чинк ва чуқур ботиқлар жарликларида яшайди. Пода ҳосил қилиб, ўтроқ ҳолда яшайди, баъзан кичик масофаларга кўчади.",
+        "name":  "Ustyurt qo'yi (Arqal)",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Chink va chuqur botiqlar jarliklarida yashaydi. Poda hosil qilib, o'troq holda yashaydi, ba'zan kichik masofalarga ko'chadi.",
         "image": "r24.jpg"
     },
     {
         "id":  "25",
-        "name":  "Сайғоқ",
-        "status":  "Бутунлай йўқолиб кетиш арафасида",
-        "desc":  "Чўллар ва яримчўлларда яшайди. Пода ҳосил қилади ва мавсумий кўчиб юради. Ўт ўсимликлар билан озиқланади.",
+        "name":  "Sayg'oq",
+        "status":  "Butunlay yo'qolib ketish arafasida",
+        "desc":  "Cho'llar va yarimcho'llarda yashaydi. Poda hosil qiladi va mavsumiy ko'chib yuradi. O't o'simliklar bilan oziqlanadi.",
         "image": "r25.jpg"
     },
     {
         "id":  "26",
-        "name":  "Туркман қулони",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Текисликдаги чўллар ва ярим чўллар, тоғ этакларида учрайди. Айғирлари етакчилигида пода ҳосил қилади.",
+        "name":  "Turkman quloni",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Tekislikdagi cho'llar va yarim cho'llar, tog' etaklarida uchraydi. Ayg'irlari yetakchiligida poda hosil qiladi.",
         "image": "r26.JPG"
     },
     {
         "id":  "27",
-        "name":  "Қум мушуги",
-        "status":  "Заифга яқин",
-        "desc":  "Ярим мустаҳкамлашган ва мустаҳкамлашган паст-баланд қумларда яшайди. Ёз пайти тунда фаол ҳаёт кечиради.",
+        "name":  "Qum mushugi",
+        "status":  "Zaifga yaqin",
+        "desc":  "Yarim mustahkamlashgan va mustahkamlashgan past-baland qumlarda yashaydi. Yoz payti tunda faol hayot kechiradi.",
         "image": "r27.jpg"
     },
     {
         "id":  "28",
-        "name":  "Манул",
-        "status":  "Ўта камёб",
-        "desc":  "Текис ёнбағирлар ва қояларга туташ кенг водийларда яшайди. Оқшом ва тунги пайтларда фаол ов қилади.",
+        "name":  "Manul",
+        "status":  "O'ta kamyob",
+        "desc":  "Tekis yonbag'irlar va qoyalarga tutash keng vodiylarda yashaydi. Oqshom va tungi paytlarda faol ov qiladi.",
         "image": "r28.jpg"
     },
     {
         "id":  "29",
-        "name":  "Қорақулоқ (Каракал)",
-        "status":  "Бутунлай йўқ бўлиб кетиш арафасида",
-        "desc":  "Чўлларнинг барханли ва мустаҳкамлашган қумли қисмларида, чинкларда яшайди. Ёзда тунлари фаол, бошқа фаслларда кундузи ҳам овга чиқади.",
+        "name":  "Qoraquloq (Karakal)",
+        "status":  "Butunlay yo'q bo'lib ketish arafasida",
+        "desc":  "Cho'llarning barxanli va mustahkamlashgan qumli qismlarida, chinklarda yashaydi. Yozda tunlari faol, boshqa fasllarda kunduzi ham ovga chiqadi.",
         "image": "r29.jpg"
     },
     {
         "id":  "30",
-        "name":  "Чўл бургути",
-        "status":  "Заиф, қисқариб бораётган",
-        "desc":  "Текисликлар ва паст тоғли ҳудудларда учрайди. Ёввойи табиатда кемирувчилар ва қушлар билан озиқланади.",
+        "name":  "Cho'l burguti",
+        "status":  "Zaif, qisqarib borayotgan",
+        "desc":  "Tekisliklar va past tog'li hududlarda uchraydi. Yovvoyi tabiatda kemiruvchilar va qushlar bilan oziqlanadi.",
         "image": "r30.jpg"
     },
     {
         "id": "31",
-        "name": "Ўрта Осиё лоласи (Ўсимлик)",
-        "status": "Заиф, қисқариб бораётган",
-        "desc": "Тоғ ёнбағирларида ўсадиган ноёб ва чиройли ўсимлик. Баҳорда қисқа муддат гуллайди. Одамлар томонидан кўп узилиши сабабли Қизил китобга киритилган.",
+        "name": "O'rta Osiyo lolasi (O'simlik)",
+        "status": "Zaif, qisqarib borayotgan",
+        "desc": "Tog' yonbag'irlarida o'sadigan noyob va chiroyli o'simlik. Bahorda qisqa muddat gullaydi. Odamlar tomonidan ko'p uzilishi sababli Qizil kitobga kiritilgan.",
         "image": "r31.jpg"
     }
 ]
