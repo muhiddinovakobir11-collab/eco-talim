@@ -133,8 +133,11 @@ let usersData = [];
 try {
     const rawData = JSON.parse(fs.readFileSync('./data/users.json', 'utf8').replace(/^\uFEFF/, ''));
     // Eski raqamli ID'larni yangi obyekt formatiga o'tkazish
-    usersData = rawData.map(u => typeof u === 'number' ? { id: u, first_name: 'Foydalanuvchi', username: '', is_blocked: false, score: 0 } : u);
-    usersData.forEach(u => { if (u.score === undefined) u.score = 0; });
+    usersData = rawData.map(u => typeof u === 'number' ? { id: u, first_name: 'Foydalanuvchi', username: '', is_blocked: false, score: 0, progress: {} } : u);
+    usersData.forEach(u => { 
+        if (u.score === undefined) u.score = 0; 
+        if (!u.progress) u.progress = {};
+    });
 } catch (e) {
     usersData = [];
 }
@@ -205,35 +208,32 @@ bot.onText(/\/start/, (msg) => {
             web_app: { url: "https://eco-talim.onrender.com/" }
         })
     }).catch(e => console.log(e));
-    
     // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
     if (!userSessions[chatId]) userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [], attempts: { quizzes: 0, puzzles: 0, terms: 0, penalties: 0, truefalse: 0 } };
     
     // Tarqatish holatini bekor qilish (agar yoqilgan bo'lsa)
     if (chatId === ADMIN_ID) isBroadcasting = false;
 
-    // Yangi foydalanuvchini bazaga qo'shish
-    let existingUser = usersData.find(u => u.id === chatId);
-    if (!existingUser) {
-        usersData.push({
+    // Foydalanuvchini bazaga qo'shish (agar yo'q bo'lsa)
+    let userObj = usersData.find(u => u.id === chatId);
+    if (!userObj) {
+        userObj = {
             id: chatId,
-            first_name: msg.from.first_name || 'Foydalanuvchi',
-            username: msg.from.username || '',
+            first_name: msg.chat.first_name || '',
+            username: msg.chat.username || '',
             is_blocked: false,
-            score: 0
-        });
+            score: 0,
+            progress: {}
+        };
+        usersData.push(userObj);
         fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
-        
-        // Adminga xabar yuborish
-        let userLink = `<a href="tg://user?id=${chatId}">${msg.from.first_name || 'Foydalanuvchi'}</a>`;
-        let username = msg.from.username ? ` (@${msg.from.username})` : '';
-        if (chatId !== ADMIN_ID) {
-            bot.sendMessage(ADMIN_ID, `<tg-emoji emoji-id="5330558871129836783">🚀</tg-emoji> <b>Yangi obunachi qo'shildi!</b>\n👤 Profil: ${userLink}${username}`, { parse_mode: 'HTML' });
-        }
-    } else if (existingUser.is_blocked) {
-        // Agar avval bloklagan bo'lsa va yana start bossa, blokni olib tashlaymiz
-        existingUser.is_blocked = false;
-        fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+    } else {
+        // Ism yoki username o'zgargan bo'lsa yangilaymiz
+        let changed = false;
+        if (userObj.first_name !== msg.chat.first_name) { userObj.first_name = msg.chat.first_name; changed = true; }
+        if (userObj.username !== msg.chat.username) { userObj.username = msg.chat.username; changed = true; }
+        if (!userObj.progress) { userObj.progress = {}; changed = true; }
+        if (changed) fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
     const introText = `<tg-emoji emoji-id="5330558871129836783">🌟</tg-emoji> <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin. Yozish knopkasi yonidagi "Eko-App" tugmasi orqali yangi zamonaviy Ilovamizga kiring!</blockquote>\n\n<tg-emoji emoji-id="5303286168102650067">📲</tg-emoji> <b>Murojaat uchun:</b> @akoshprod`;
@@ -429,10 +429,8 @@ bot.on('callback_query', (query) => {
         const qIndex = parseInt(parts[3]);
         
         let questionData = quizData[type][qIndex];
-        const session = getUserSession(chatId);
         
-        // Urinishlar sonini oshirish
-        session.attempts[type]++;
+        let userObj = usersData.find(u => u.id === chatId);
         
         if (selectedIndex === questionData.answer_index) {
             // Delete old question
@@ -444,14 +442,14 @@ bot.on('callback_query', (query) => {
                 show_alert: false 
             }).catch(e => console.log(e));
             
-            // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
-            if (!session[type].includes(qIndex)) {
-                session[type].push(qIndex);
-            }
-            
-            // Ball qoshish
-            let userObj = usersData.find(u => u.id === chatId);
-            if(userObj) {
+            // Foydalanuvchi buni to'g'ri topdi, endi progressga yozib qo'yamiz
+            if (userObj) {
+                if (!userObj.progress) userObj.progress = {};
+                if (!userObj.progress[type]) userObj.progress[type] = [];
+                
+                if (!userObj.progress[type].includes(qIndex)) {
+                    userObj.progress[type].push(qIndex);
+                }
                 userObj.score = (userObj.score || 0) + 2;
                 fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
             }
@@ -476,23 +474,36 @@ bot.on('callback_query', (query) => {
     // Testni o'z xohishi bilan tugatish (Tugatish tugmasi)
     if (data.startsWith('finish_')) {
         const type = data.replace('finish_', '');
-        const session = getUserSession(chatId);
         
-        const correct = session[type].length;
-        const totalAttempts = session.attempts[type];
-        const wrong = totalAttempts - correct;
+        let userObj = usersData.find(u => u.id === chatId);
+        const correct = userObj && userObj.progress && userObj.progress[type] ? userObj.progress[type].length : 0;
         
         let msg = `<tg-emoji emoji-id="5330558871129836783">🏁</tg-emoji> <b>Test yakunlandi!</b>\n\n`;
-        msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> Jami ishlangan: <b>${totalAttempts}</b> ta\n`;
-        msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> To'g'ri javoblar: <b>${correct}</b> ta\n`;
-        msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> Xato javoblar: <b>${wrong}</b> ta\n\n`;
-        msg += `<i>Yana o'ynash uchun menyudan tanlang.</i>`;
+        msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> Jami to'g'ri topilganlar: <b>${correct}</b> ta\n\n`;
+        msg += `<i>Yana davom ettirish uchun menyudan tanlang.</i>`;
         
         bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...mainMenuOptions });
+    }
+    
+    // Qayta boshlash va Adminga murojaat
+    if (data.startsWith('restart_all_')) {
+        const type = data.replace('restart_all_', '');
+        let userObj = usersData.find(u => u.id === chatId);
+        if (userObj) {
+            if (!userObj.progress) userObj.progress = {};
+            userObj.progress[type] = [];
+            fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+        }
         
-        // Progressni tozalash
-        session[type] = [];
-        session.attempts[type] = 0;
+        bot.deleteMessage(chatId, query.message.message_id).catch(() => {});
+        bot.answerCallbackQuery(query.id, { text: "Tarix tozalandi! Savollar noldan boshlanadi." });
+        sendRandomQuestion(chatId, type);
+    }
+    
+    if (data.startsWith('request_more_')) {
+        const type = data.replace('request_more_', '');
+        bot.answerCallbackQuery(query.id, { text: "So'rovingiz adminga yuborildi. Rahmat!", show_alert: true });
+        bot.sendMessage(ADMIN_ID, `⚠️ <b>Yangi savollar so'rovi:</b>\n<a href="tg://user?id=${chatId}">${query.from.first_name || 'Foydalanuvchi'}</a> (${chatId}) foydalanuvchisi <b>${type}</b> bo'limini to'liq yakunladi va yangi ma'lumotlar/savollar qo'shishingizni so'rayapti!`, { parse_mode: 'HTML' });
     }
     
     // ----- ADMIN FUNKSIYALARI TUGMALARI -----
@@ -599,34 +610,32 @@ bot.on('callback_query', (query) => {
 
 // Tasodifiy, takrorlanmas savol yuborish funksiyasi
 function sendRandomQuestion(chatId, type) {
-    const session = getUserSession(chatId);
     const allQuestions = quizData[type];
-    const SESSION_LIMIT = 20; // Har bir o'yin uchun savollar limiti
     
-    // Hali foydalanuvchi yechmagan savollar indeksini ajratib olamiz
-    const unansweredIndexes = [];
-    allQuestions.forEach((q, idx) => {
-        if (!session[type].includes(idx)) {
-            unansweredIndexes.push(idx);
+    let userObj = usersData.find(u => u.id === chatId);
+    if (!userObj) return;
+    if (!userObj.progress) userObj.progress = {};
+    if (!userObj.progress[type]) userObj.progress[type] = [];
+    
+    // Qaysi savollar yechilmaganini topamiz
+    let unansweredIndexes = [];
+    for (let i = 0; i < allQuestions.length; i++) {
+        if (!userObj.progress[type].includes(i)) {
+            unansweredIndexes.push(i);
         }
-    });
+    }
     
-    // Agar hamma savollarni tugatgan bo'lsa yoki limitga (20 taga) yetgan bo'lsa
-    if (unansweredIndexes.length === 0 || session.attempts[type] >= SESSION_LIMIT) {
-        const correct = session[type].length;
-        const totalAttempts = session.attempts[type];
-        const wrong = totalAttempts - correct;
-        
-        let msg = `<tg-emoji emoji-id="5330558871129836783">🎉</tg-emoji> <b>Qoyil! Siz ushbu bo'limdagi ${totalAttempts} ta savolni yakunladingiz!</b>\n\n`;
-        msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> To'g'ri: <b>${correct}</b> ta\n`;
-        msg += `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> Xato: <b>${wrong}</b> ta\n\n`;
-        msg += `🔄 Yana ishlash uchun tegishli bo'limni tanlang.`;
-        
-        bot.sendMessage(chatId, msg, { ...mainMenuOptions, parse_mode: 'HTML' });
-        
-        // Keyingi safar yana yangi 20 ta savol o'ynashi uchun progressni tozalaymiz
-        session[type] = []; 
-        session.attempts[type] = 0;
+    // Agar hamma savollar yechib bo'lingan bo'lsa
+    if (unansweredIndexes.length === 0) {
+        let text = `<tg-emoji emoji-id="5330558871129836783">🏆</tg-emoji> <b>Barakalla!</b>\n\nSiz ushbu bo'limdagi barcha (jami ${allQuestions.length} ta) savollarni yechib bo'ldingiz! Ayni paytda yangi savollar qolmadi.`;
+        let keyboard = {
+            inline_keyboard: [
+                [{ text: "🔄 Qayta hammasini boshlash", callback_data: `restart_all_${type}` }],
+                [{ text: "👨‍💻 Adminga murojaat (Yangi manba qo'shish)", callback_data: `request_more_${type}` }],
+                [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
+            ]
+        };
+        bot.sendMessage(chatId, text, { parse_mode: 'HTML', reply_markup: keyboard });
         return;
     }
     
@@ -635,20 +644,19 @@ function sendRandomQuestion(chatId, type) {
     const qIndex = unansweredIndexes[randomPos];
     
     // Tanlangan savolni ekranga chiqaramiz
-    sendSpecificQuestion(chatId, type, qIndex, SESSION_LIMIT);
+    sendSpecificQuestion(chatId, type, qIndex);
 }
 
 // Aniq bitta savolni ekranga chiqarish funksiyasi
-function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
+function sendSpecificQuestion(chatId, type, qIndex) {
     const questionObj = quizData[type][qIndex];
-    const session = getUserSession(chatId);
-    const attemptsCount = session.attempts[type];
+    let userObj = usersData.find(u => u.id === chatId);
+    const answeredCount = userObj && userObj.progress && userObj.progress[type] ? userObj.progress[type].length : 0;
     
-    // Ekranda ko'rsatiladigan maksimal savollar soni
-    const totalCount = Math.min(quizData[type].length, limit);
     const dbTotal = quizData[type].length;
+    const qolgan = dbTotal - answeredCount;
     
-    let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Savol: ${attemptsCount + 1} / ${totalCount}</b> <i>(Jami bazada: ${dbTotal} ta)</i>\n\n`;
+    let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Qolgan savollar: ${qolgan} / ${dbTotal}</b>\n\n`;
     text += type === 'puzzles' ? `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Vaziyat:</b>\n<blockquote>${questionObj.story}</blockquote>\n\n<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>${questionObj.question}</b>` : `<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>Savol:</b>\n<blockquote>${questionObj.question}</blockquote>\n`;
     
     let optionsWithIndex = questionObj.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
