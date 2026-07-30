@@ -255,13 +255,7 @@ const mainMenuOptions = {
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     
-    // Revert WebApp Menu Button to Default
-    bot.setChatMenuButton({
-        chat_id: chatId,
-        menu_button: JSON.stringify({
-            type: "default"
-        })
-    }).catch(e => console.log(e));
+    // setChatMenuButton olib tashlandi
     // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
     if (!userSessions[chatId]) userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [], attempts: { quizzes: 0, puzzles: 0, terms: 0, penalties: 0, truefalse: 0 } };
     
@@ -290,7 +284,7 @@ bot.onText(/\/start/, (msg) => {
         if (changed) fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
-    const introText = `🌟 <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin. Yozish knopkasi yonidagi "Eko-App" tugmasi orqali yangi zamonaviy Ilovamizga kiring!</blockquote>\n\n📲 <b>Murojaat uchun:</b> @akoshprod`;
+    const introText = `🌟 <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin! Quyidagi menyulardan birini tanlab boshlang.</blockquote>\n\n📲 <b>Murojaat uchun:</b> @akoshprod`;
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {
