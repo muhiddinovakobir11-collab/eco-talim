@@ -139,36 +139,9 @@ http.createServer((req, res) => {
         return;
     }
 
-    // Serve Static WebApp files from public directory
-    let filePath = './public' + (req.url === '/' ? '/index.html' : req.url);
-    const extname = String(path.extname(filePath)).toLowerCase();
-    const mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.json': 'application/json',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg',
-        '.gif': 'image/gif',
-        '.svg': 'image/svg+xml'
-    };
-    
-    const contentType = mimeTypes[extname] || 'application/octet-stream';
-    
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            if(error.code == 'ENOENT') {
-                res.writeHead(404, { 'Content-Type': 'text/plain' });
-                res.end('404 Not Found', 'utf-8');
-            } else {
-                res.writeHead(500);
-                res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
-            }
-        } else {
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
-        }
-    });
+    // Oddiy so'rovlar uchun doim 200 OK qaytaramiz (UptimeRobot uchun)
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot is running and alive!', 'utf-8');
 
 }).listen(port, () => {
     console.log(`Web server portda ishga tushdi: ${port}`);
