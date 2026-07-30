@@ -466,8 +466,9 @@ function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     
     // Ekranda ko'rsatiladigan maksimal savollar soni
     const totalCount = Math.min(quizData[type].length, limit);
+    const dbTotal = quizData[type].length;
     
-    let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Savol: ${attemptsCount + 1} / ${totalCount}</b>\n\n`;
+    let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Savol: ${attemptsCount + 1} / ${totalCount}</b> <i>(Jami bazada: ${dbTotal} ta)</i>\n\n`;
     text += type === 'puzzles' ? `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Vaziyat:</b>\n<blockquote>${questionObj.story}</blockquote>\n\n<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>${questionObj.question}</b>` : `<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>Savol:</b>\n<blockquote>${questionObj.question}</blockquote>\n`;
     
     let optionsWithIndex = questionObj.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
