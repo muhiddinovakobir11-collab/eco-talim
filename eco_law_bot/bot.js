@@ -402,7 +402,14 @@ bot.on('callback_query', (query) => {
         session.attempts[type]++;
         
         if (selectedIndex === questionData.answer_index) {
-            bot.sendMessage(chatId, `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> <b>To'g'ri javob!</b>\n\n<blockquote>${questionData.explanation}</blockquote>\n`, { parse_mode: 'HTML' });
+            // Delete old question
+            bot.deleteMessage(chatId, query.message.message_id).catch(e => console.log(e));
+            
+            // Show alert for correct answer
+            bot.answerCallbackQuery(query.id, { 
+                text: `✅ To'g'ri javob!\n${questionData.explanation || ''}`.substring(0, 190), 
+                show_alert: true 
+            }).catch(e => console.log(e));
             
             // Foydalanuvchi buni to'g'ri topdi, endi sessiyaga yozib qo'yamiz
             if (!session[type].includes(qIndex)) {
@@ -419,7 +426,14 @@ bot.on('callback_query', (query) => {
             // Boshqa tasodifiy savolni yuboramiz
             sendRandomQuestion(chatId, type);
         } else {
-            bot.sendMessage(chatId, `<tg-emoji emoji-id="5809782942536306227">❌</tg-emoji> <b>Noto'g'ri!</b> Keyingi savolga o'tamiz...`, { parse_mode: 'HTML' });
+            // Delete old question
+            bot.deleteMessage(chatId, query.message.message_id).catch(e => console.log(e));
+            
+            // Show toast for incorrect answer
+            bot.answerCallbackQuery(query.id, { 
+                text: `❌ Noto'g'ri javob!`, 
+                show_alert: false 
+            }).catch(e => console.log(e));
             
             // Xato qilsa ham keyingi savolga o'tkazamiz. 
             sendRandomQuestion(chatId, type);
