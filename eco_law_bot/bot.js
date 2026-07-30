@@ -2,6 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const http = require('http');
+const activeAppUsers = new Map();
 
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
@@ -9,6 +10,28 @@ const port = process.env.PORT || 3000;
 const path = require('path');
 
 http.createServer((req, res) => {
+    // API endpoint for real online users
+    if (req.url.startsWith('/api/ping')) {
+        const query = req.url.split('?')[1] || '';
+        let userId = 'anon-' + Math.random();
+        if (query.includes('userId=')) {
+            userId = query.split('userId=')[1].split('&')[0];
+        }
+        activeAppUsers.set(userId, Date.now());
+        
+        // cleanup
+        const now = Date.now();
+        for (const [id, time] of activeAppUsers.entries()) {
+            if (now - time > 20000) {
+                activeAppUsers.delete(id);
+            }
+        }
+        
+        res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.write(JSON.stringify({ online: activeAppUsers.size }));
+        return res.end();
+    }
+
     // API endpoint to get user data
     if (req.url.startsWith('/api/user/')) {
         const userId = parseInt(req.url.split('/').pop());

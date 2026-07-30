@@ -124,19 +124,24 @@ function openSection(sectionId) {
 }
 
 
+
 // --- Online Count Logic ---
-let currentOnline = Math.floor(Math.random() * 30) + 120; // Starts around 120-150
 function updateOnlineCount() {
-    const el = document.getElementById('onlineCount');
-    if(el) {
-        el.innerText = currentOnline;
+    let uid = 'unknown-' + Math.random();
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        uid = window.Telegram.WebApp.initDataUnsafe.user.id;
     }
-    
-    // fluctuates by -3 to +5
-    currentOnline += Math.floor(Math.random() * 9) - 3;
-    if (currentOnline < 85) currentOnline = 85 + Math.floor(Math.random() * 10);
-    if (currentOnline > 300) currentOnline = 280;
-    
-    setTimeout(updateOnlineCount, Math.random() * 15000 + 10000); // 10-25 seconds
+    fetch('/api/ping?userId=' + uid)
+        .then(r => r.json())
+        .then(data => {
+            const el = document.getElementById('onlineCount');
+            if (el) el.innerText = data.online;
+            setTimeout(updateOnlineCount, 10000);
+        })
+        .catch(e => {
+            console.error(e);
+            setTimeout(updateOnlineCount, 10000);
+        });
 }
 updateOnlineCount();
+
