@@ -181,3 +181,84 @@ function updateOnlineCount() {
 }
 updateOnlineCount();
 
+
+
+function loadFeed() {
+    const container = document.getElementById('feedContainer');
+    container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Yuklanmoqda...</p>';
+    
+    fetch('/api/reports')
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Hozircha hech qanday hisobot yo\'q.</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            // Reverse to show newest first
+            data.reverse().forEach(report => {
+                const card = document.createElement('div');
+                card.className = 'glass-card';
+                card.style.marginBottom = '20px';
+                card.style.padding = '15px';
+                
+                const header = document.createElement('div');
+                header.style.display = 'flex';
+                header.style.justifyContent = 'space-between';
+                header.style.alignItems = 'center';
+                header.style.marginBottom = '10px';
+                header.innerHTML = `<strong style="color: #00d2ff;"><i class="fa-solid fa-user"></i> ${report.name || 'Foydalanuvchi'}</strong> <span style="font-size: 0.8rem; color: var(--text-secondary);">${report.time}</span>`;
+                
+                const loc = document.createElement('div');
+                loc.style.fontSize = '0.85rem';
+                loc.style.color = '#ff6b81';
+                loc.style.marginBottom = '10px';
+                loc.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${report.loc}`;
+                
+                const img = document.createElement('img');
+                img.src = report.image;
+                img.style.width = '100%';
+                img.style.borderRadius = '10px';
+                img.style.marginBottom = '10px';
+                img.style.objectFit = 'cover';
+                
+                const desc = document.createElement('p');
+                desc.style.fontSize = '0.9rem';
+                desc.style.lineHeight = '1.4';
+                desc.innerText = report.desc;
+                
+                card.appendChild(header);
+                card.appendChild(loc);
+                card.appendChild(img);
+                card.appendChild(desc);
+                container.appendChild(card);
+            });
+        }).catch(() => {
+            container.innerHTML = '<p style="text-align: center; color: #ff4757;">Xatolik yuz berdi!</p>';
+        });
+}
+
+
+function resizeImage(file, maxWidth, callback) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            callback(canvas.toDataURL('image/jpeg', 0.7));
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
