@@ -700,14 +700,16 @@ bot.on('callback_query', (query) => {
     
     if (data === 'admin_panel') {
         if (chatId !== ADMIN_ID) return;
-        bot.sendMessage(chatId, "⚙️ <b>Boshqaruv Paneli (Ma'lumotlar Bazasi)</b>\n\nQaysi faylni yuklab olmoqchisiz?\n\n<i>Yangi ma'lumot qo'shish uchun tahrirlangan JSON faylni yana botga yuboring.</i>", {
+        bot.sendMessage(chatId, "⚙️ <b>Boshqaruv Paneli</b>\n\nQuyidagi amallardan birini tanlang yoki o'zgartirish uchun kerakli bazani yuklab oling:\n<i>(Yangi ma'lumot qo'shish uchun tahrirlangan JSON faylni yana botga yuboring)</i>", {
             parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: "📥 quiz.json (Savollar)", callback_data: "download_db_quiz" }],
+                    [{ text: "📥 quiz.json (Barcha savollar)", callback_data: "download_db_quiz" }],
                     [{ text: "📥 redbook.json (Qizil kitob)", callback_data: "download_db_redbook" }],
                     [{ text: "📥 quest.json (Qahramon)", callback_data: "download_db_quest" }],
                     [{ text: "📥 laws.json (Qonunlar)", callback_data: "download_db_laws" }],
+                    [{ text: "📊 Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
+                    [{ text: "📢 Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
                     [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
                 ]
             }
@@ -834,18 +836,7 @@ bot.on('callback_query', (query) => {
         bot.sendMessage(chatId, "📝 <b>Xabar tarqatish rejimi:</b>\n\nTarqatmoqchi bo'lgan xabaringizni yuboring (Rasm, video yoki matn bo'lishi mumkin). Bekor qilish uchun /cancel deb yozing.", { parse_mode: 'HTML' });
     }
     
-    if (data === 'admin_panel') {
-        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
-        
-        let adminKeyboard = {
-            inline_keyboard: [
-                [{ text: "📊 Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
-                [{ text: "📢 Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
-                [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
-            ]
-        };
-        bot.sendMessage(chatId, "👨‍💻 <b>Admin paneliga xush kelibsiz!</b>\n\nQuyidagi amallardan birini tanlang:", { parse_mode: 'HTML', reply_markup: adminKeyboard });
-    }
+    // Eski admin_panel o'chirildi (yuqoriga birlashtirildi)
     
     bot.answerCallbackQuery(query.id);
 });
