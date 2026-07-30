@@ -134,18 +134,7 @@ bot.onText(/\/start/, (msg) => {
         fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
-    const introText = `<tg-emoji emoji-id="5330558871129836783">🌟</tg-emoji> <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.</blockquote>\n
-<b>Bo'limlar:</b>
-<tg-emoji emoji-id="5242628160297641831">🎯</tg-emoji> Ekologiya Quiz
-<tg-emoji emoji-id="5465540480538254161">🔮</tg-emoji> Jumboqli Vaziyatlar
-<tg-emoji emoji-id="5370930189322688800">🦸‍♂️</tg-emoji> Eko-Qahramon
-<tg-emoji emoji-id="5386541175672953432">📕</tg-emoji> Qizil Kitob
-<tg-emoji emoji-id="5339098060683222770">💡</tg-emoji> Ekologik Atamalar
-<tg-emoji emoji-id="5469891106315446822">🚨</tg-emoji> Jazolar va Jarimalar
-<tg-emoji emoji-id="5249490306855878586">🟢</tg-emoji> To'g'ri / Noto'g'ri
-<tg-emoji emoji-id="5809782942536306227">👑</tg-emoji> Liderlar Reytingi
-<tg-emoji emoji-id="5373299568161087824">💎</tg-emoji> Admin\n
-<tg-emoji emoji-id="5303286168102650067">📲</tg-emoji> <b>Murojaat uchun:</b> @akoshprod`;
+    const introText = `<tg-emoji emoji-id="5330558871129836783">🌟</tg-emoji> <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin.</blockquote>\n\n<tg-emoji emoji-id="5303286168102650067">📲</tg-emoji> <b>Murojaat uchun:</b> @akoshprod`;
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {
