@@ -590,14 +590,15 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     let msg = `📕 <b>QIZIL KITOB (O'zbekiston)</b>\n\n`;
     msg += `🦚 <b>Nomi:</b> ${animal.name}\n`;
     msg += `🛑 <b>Holati:</b> ${animal.status}\n\n`;
-    if (animal.tarqalishi) msg += `🗺 <b>Tarqalishi:</b> ${animal.tarqalishi}\n`;
-    if (animal.yashash_joyi) msg += `🏕 <b>Yashash joyi:</b> ${animal.yashash_joyi}\n`;
-    if (animal.soni) msg += `📊 <b>Soni:</b> ${animal.soni}\n`;
-    if (animal.yashash_tarzi) msg += `⏳ <b>Yashash tarzi:</b> ${animal.yashash_tarzi}\n`;
-    if (animal.cheklovchi_omillar) msg += `❌ <b>Cheklovchi omillar:</b> ${animal.cheklovchi_omillar}\n`;
-    if (animal.kopaytirish) msg += `🧬 <b>Ko'paytirish:</b> ${animal.kopaytirish}\n`;
-    if (animal.muhofaza) msg += `🔰 <b>Muhofaza choralari:</b> ${animal.muhofaza}\n`;
-    if (animal.desc) msg += `📝 <b>Ma'lumot:</b> ${animal.desc}\n`;
+    
+    if (animal.tarqalishi) msg += `🗺 <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>`;
+    if (animal.yashash_joyi) msg += `🏕 <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>`;
+    if (animal.soni) msg += `📊 <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>`;
+    if (animal.yashash_tarzi) msg += `⏳ <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>`;
+    if (animal.cheklovchi_omillar) msg += `❌ <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>`;
+    if (animal.kopaytirish) msg += `🧬 <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>`;
+    if (animal.muhofaza) msg += `🔰 <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>`;
+    if (animal.desc) msg += `📝 <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>`;
     
     // Telegram caption limit is 1024 characters
     if (msg.length > 1020) {
