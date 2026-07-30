@@ -17,6 +17,11 @@ if (fs.existsSync('./data/feed.json')) {
     feedData = JSON.parse(fs.readFileSync('./data/feed.json', 'utf-8'));
 }
 
+let broadcastsData = [];
+if (fs.existsSync('./data/broadcasts.json')) {
+    broadcastsData = JSON.parse(fs.readFileSync('./data/broadcasts.json', 'utf-8'));
+}
+
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
 const port = process.env.PORT || 3000;
@@ -709,6 +714,7 @@ bot.on('callback_query', (query) => {
                     [{ text: "📸 Eko-Nazorat Murojaatlari", callback_data: "admin_rep_view_0" }],
                     [{ text: "📊 Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
                     [{ text: "📢 Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
+                    [{ text: "📜 Tarqatilgan xabarlar tarixi", callback_data: "admin_bcast_hist_0" }],
                     [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
                 ]
             }
@@ -863,7 +869,51 @@ bot.on('callback_query', (query) => {
         bot.sendMessage(chatId, "📝 <b>Xabar tarqatish rejimi:</b>\n\nTarqatmoqchi bo'lgan xabaringizni yuboring (Rasm, video yoki matn bo'lishi mumkin). Bekor qilish uchun /cancel deb yozing.", { parse_mode: 'HTML' });
     }
     
-    // Eski admin_panel o'chirildi (yuqoriga birlashtirildi)
+    if (data.startsWith('admin_bcast_hist_')) {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        if (broadcastsData.length === 0) {
+            bot.answerCallbackQuery(query.id, { text: "Hozircha hech qanday xabar tarqatilmagan.", show_alert: true });
+            return;
+        }
+        const index = parseInt(data.replace('admin_bcast_hist_', ''));
+        sendAdminBroadcastHistMsg(chatId, index, query.message.message_id);
+    }
+    
+    if (data.startsWith('admin_bcast_del_')) {
+        if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
+        const id = data.replace('admin_bcast_del_', '');
+        const index = broadcastsData.findIndex(b => b.id === id);
+        
+        if (index !== -1) {
+            const broadcast = broadcastsData[index];
+            bot.answerCallbackQuery(query.id, { text: "⏳ O'chirish jarayoni boshlandi... Bu biroz vaqt olishi mumkin.", show_alert: true });
+            
+            let delSuccess = 0;
+            let delFail = 0;
+            
+            broadcast.sent_messages.forEach((msgInfo, idx) => {
+                setTimeout(() => {
+                    bot.deleteMessage(msgInfo.chat_id, msgInfo.message_id)
+                        .then(() => { delSuccess++; })
+                        .catch(() => { delFail++; })
+                        .finally(() => {
+                            if (idx === broadcast.sent_messages.length - 1) {
+                                broadcastsData.splice(index, 1);
+                                fs.writeFileSync('./data/broadcasts.json', JSON.stringify(broadcastsData, null, 2));
+                                
+                                bot.sendMessage(chatId, `✅ <b>O'chirish yakunlandi!</b>\n\nMuvaffaqiyatli o'chirildi: ${delSuccess}\nO'chirib bo'lmadi (eski xabar bo'lishi mumkin): ${delFail}`, { parse_mode: 'HTML' });
+                                
+                                if (broadcastsData.length === 0) {
+                                    bot.editMessageText("Barcha tarqatilgan xabarlar o'chirib bo'lingan.", { chat_id: chatId, message_id: query.message.message_id, reply_markup: { inline_keyboard: [[{ text: "🔙 Orqaga", callback_data: "admin_panel" }]] } });
+                                } else {
+                                    sendAdminBroadcastHistMsg(chatId, index >= broadcastsData.length ? broadcastsData.length - 1 : index, query.message.message_id);
+                                }
+                            }
+                        });
+                }, idx * 50);
+            });
+        }
+    }
     
     bot.answerCallbackQuery(query.id);
 });
@@ -998,6 +1048,33 @@ function sendAdminReportMsg(chatId, index, messageId) {
     bot.sendPhoto(chatId, report.photo, { parse_mode: 'HTML', caption: msgText, reply_markup: { inline_keyboard: keyboard } });
 }
 
+function sendAdminBroadcastHistMsg(chatId, index, messageId) {
+    if (index < 0 || index >= broadcastsData.length) return;
+    const broadcast = broadcastsData[index];
+    
+    let keyboard = [];
+    keyboard.push([{ text: "🗑 Barchadan o'chirish (Recall)", callback_data: `admin_bcast_del_${broadcast.id}` }]);
+    
+    let nav = [];
+    if (index > 0) nav.push({ text: "⬅️ Oldingi", callback_data: `admin_bcast_hist_${index - 1}` });
+    nav.push({ text: `${index + 1} / ${broadcastsData.length}`, callback_data: "dummy" });
+    if (index < broadcastsData.length - 1) nav.push({ text: "Keyingi ➡️", callback_data: `admin_bcast_hist_${index + 1}` });
+    keyboard.push(nav);
+    
+    keyboard.push([{ text: "🔙 Orqaga", callback_data: "admin_panel" }]);
+    
+    let msgText = `📜 <b>Tarqatilgan Xabar</b>\n\nSana: ${broadcast.date}\nQamrov: ${broadcast.sent_messages.length} ta foydalanuvchiga yuborilgan\n\nMatn (qisqacha):\n<i>${broadcast.preview}</i>`;
+    
+    if (messageId) {
+        bot.editMessageText(msgText, { chat_id: chatId, message_id: messageId, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(() => {
+            bot.deleteMessage(chatId, messageId).catch(() => {});
+            bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } });
+        });
+    } else {
+        bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } });
+    }
+}
+
 bot.onText(/\/admin/, (msg) => {
     const chatId = msg.chat.id;
     if (chatId !== ADMIN_ID) return; // Faqat adminga ruxsat
@@ -1116,15 +1193,28 @@ bot.on('message', (msg) => {
         let successCount = 0;
         let failCount = 0;
         
+        let newBroadcast = {
+            id: Date.now().toString(),
+            date: new Date().toLocaleDateString('uz-UZ') + ' ' + new Date().toLocaleTimeString('uz-UZ'),
+            preview: msg.text ? msg.text.substring(0, 30) + '...' : (msg.caption ? msg.caption.substring(0, 30) + '...' : 'Media xabar'),
+            sent_messages: []
+        };
+        
         usersData.forEach((userObj, index) => {
             const uId = userObj.id || userObj;
             setTimeout(() => {
                 bot.copyMessage(uId, chatId, msg.message_id)
-                    .then(() => { successCount++; })
+                    .then((sentMsg) => { 
+                        successCount++; 
+                        // message_id returned by copyMessage
+                        newBroadcast.sent_messages.push({ chat_id: uId, message_id: sentMsg.message_id });
+                    })
                     .catch(() => { failCount++; })
                     .finally(() => {
                         // Oxirgi odamga yuborilganda hisobot berish
                         if (index === usersData.length - 1) {
+                            broadcastsData.unshift(newBroadcast);
+                            fs.writeFileSync('./data/broadcasts.json', JSON.stringify(broadcastsData, null, 2));
                             bot.sendMessage(chatId, `✅ <b>Xabar tarqatish yakunlandi!</b>\n\nYetib bordi: ${successCount} ta\nYetib bormadi (bloklaganlar): ${failCount} ta`, { parse_mode: 'HTML' });
                         }
                     });
