@@ -26,8 +26,8 @@
             </div>
         </header>
 
-        <!-- Main Content -->
-        <main>
+        <!-- Home Page -->
+        <main id="homePage">
             <!-- Progress Section -->
             <section class="glass-card progress-card">
                 <div class="progress-header">
@@ -48,7 +48,7 @@
             </section>
 
             <!-- Daily Task -->
-            <section class="glass-card action-card highlight-card" onclick="openSection('quiz')">
+            <section class="glass-card action-card highlight-card" onclick="openSection('quizzes')">
                 <div class="action-icon" style="background: rgba(255, 159, 67, 0.2); color: #ff9f43;">
                     <i class="fa-solid fa-lightbulb"></i>
                 </div>
@@ -61,7 +61,7 @@
 
             <!-- Menu Grid -->
             <div class="menu-list">
-                <div class="glass-card list-item" onclick="openSection('quiz')">
+                <div class="glass-card list-item" onclick="openSection('quizzes')">
                     <div class="list-icon" style="background: rgba(0, 210, 255, 0.2); color: #00d2ff;">
                         <i class="fa-solid fa-bolt"></i>
                     </div>
@@ -107,13 +107,28 @@
             </div>
         </main>
 
+        <!-- Leaderboard Page (Hidden by default) -->
+        <main id="leaderboardPage" style="display: none;">
+            <div class="glass-card text-center" style="margin-bottom: 24px; text-align: center;">
+                <h1 style="color: #ff9f43; margin-bottom: 10px;"><i class="fa-solid fa-trophy"></i> Top Eko-Bilimdonlar</h1>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">To'g'ri javob berib o'z o'rningizni ko'taring!</p>
+            </div>
+            
+            <div class="menu-list" id="leaderboardList">
+                <!-- Data will be populated here -->
+                <div style="text-align: center; color: var(--text-secondary); padding: 20px;">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Yuklanmoqda...
+                </div>
+            </div>
+        </main>
+
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a href="#" class="nav-item active">
+            <a href="#" class="nav-item active" id="nav-home" onclick="switchPage('home')">
                 <i class="fa-solid fa-bolt"></i>
                 <span>O'rganish</span>
             </a>
-            <a href="#" class="nav-item" onclick="openSection('leaderboard')">
+            <a href="#" class="nav-item" id="nav-leaderboard" onclick="switchPage('leaderboard')">
                 <i class="fa-solid fa-chart-simple"></i>
                 <span>Reyting</span>
             </a>

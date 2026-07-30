@@ -30,6 +30,19 @@ http.createServer((req, res) => {
         return res.end();
     }
     
+    // API endpoint for leaderboard
+    if (req.url === '/api/leaderboard') {
+        let sortedUsers = [...usersData].sort((a, b) => (b.score || 0) - (a.score || 0));
+        let topUsers = sortedUsers.slice(0, 100).map(u => ({
+            id: u.id,
+            first_name: u.first_name,
+            score: u.score || 0
+        }));
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify(topUsers));
+        return res.end();
+    }
+    
     // API endpoint to trigger bot action
     if (req.url === '/api/trigger' && req.method === 'POST') {
         let body = '';

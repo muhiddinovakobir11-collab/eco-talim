@@ -49,21 +49,62 @@ function loadUserData(userId) {
         .catch(err => console.error("Error loading user data:", err));
 }
 
+function switchPage(page) {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('leaderboardPage').style.display = 'none';
+    
+    document.getElementById('nav-home').classList.remove('active');
+    document.getElementById('nav-leaderboard').classList.remove('active');
+    
+    if (page === 'home') {
+        document.getElementById('homePage').style.display = 'block';
+        document.getElementById('nav-home').classList.add('active');
+    } else if (page === 'leaderboard') {
+        document.getElementById('leaderboardPage').style.display = 'block';
+        document.getElementById('nav-leaderboard').classList.add('active');
+        loadLeaderboard();
+    }
+}
+
+function loadLeaderboard() {
+    fetch('/api/leaderboard')
+        .then(res => res.json())
+        .then(data => {
+            let html = '';
+            data.forEach((user, index) => {
+                let medal = '';
+                if(index === 0) medal = '🥇';
+                else if(index === 1) medal = '🥈';
+                else if(index === 2) medal = '🥉';
+                else medal = `<span style="color: var(--text-secondary); width: 20px; display: inline-block;">${index+1}</span>`;
+                
+                let isMe = (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id === user.id);
+                let bgStyle = isMe ? 'background: rgba(46, 213, 115, 0.1); border: 1px solid rgba(46, 213, 115, 0.3);' : '';
+                
+                html += `
+                <div class="glass-card list-item" style="padding: 12px 16px; ${bgStyle}">
+                    <div style="font-size: 1.2rem; margin-right: 10px;">${medal}</div>
+                    <div class="list-text">
+                        <h3 style="font-size: 1rem;">${user.first_name} ${isMe ? '(Siz)' : ''}</h3>
+                    </div>
+                    <div style="font-weight: bold; color: var(--accent-orange);">${user.score} ball</div>
+                </div>`;
+            });
+            document.getElementById('leaderboardList').innerHTML = html;
+        })
+        .catch(err => {
+            document.getElementById('leaderboardList').innerHTML = '<div style="text-align: center; color: var(--accent-red);">Xatolik yuz berdi</div>';
+        });
+}
+
 // Handle section clicks
 function openSection(sectionId) {
-    // We can either open a new HTML page, or send data back to the bot
-    // For now, let's send data back to the bot to trigger a message in chat
-    // closing the WebApp automatically.
-    
     // Send data back to the bot
-    let command = `menu_${sectionId}`; // e.g. menu_quiz, menu_redbook
+    let command = `menu_${sectionId}`; // e.g. menu_quizzes, menu_redbook
     
     // Some visual feedback
     tg.HapticFeedback.impactOccurred('light');
     
-    // Use sendData (only works if WebApp was opened via Keyboard button)
-    // For Inline/Menu buttons, we need to use a custom backend API or Deep Links.
-    // Let's send a request to our backend
     if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         fetch('/api/trigger', {
             method: 'POST',
