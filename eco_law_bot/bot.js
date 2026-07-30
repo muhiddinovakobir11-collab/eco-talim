@@ -79,19 +79,49 @@ http.createServer((req, res) => {
                 let data = JSON.parse(body);
                 let userId = data.userId;
                 let action = data.action;
-                // Create a mock callback query object
                 let query = {
                     id: Math.random().toString(),
                     data: action,
                     message: { chat: { id: userId }, message_id: 0 }
                 };
-                // Emit it to the bot
                 bot.emit('callback_query', query);
                 res.writeHead(200);
                 res.end('OK');
             } catch(e) {
                 res.writeHead(400);
                 res.end('Error');
+            }
+        });
+        return;
+    }
+
+    // API endpoint for submitting report with image
+    if (req.url === '/api/submit_report' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            try {
+                let data = JSON.parse(body);
+                const caption = `🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\n👤 <b>Yuboruvchi:</b> ${data.name}\n📍 <b>Manzil:</b> ${data.location}\n📝 <b>Tavsif:</b> ${data.description}\n\n🔗 <b>Telegram Profili:</b> <a href="tg://user?id=${data.userId}">Profilga o'tish</a>`;
+                
+                let base64Data = data.image.replace(/^data:image\/\w+;base64,/, "");
+                let buffer = Buffer.from(base64Data, 'base64');
+                
+                bot.sendPhoto(ADMIN_ID, buffer, { caption: caption, parse_mode: 'HTML' })
+                    .then(() => {
+                        if (data.userId) {
+                            bot.sendMessage(data.userId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' }).catch(()=>{});
+                        }
+                    }).catch(e => console.log(e));
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true }));
+            } catch (e) {
+                console.log(e);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false }));
             }
         });
         return;

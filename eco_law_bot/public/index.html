@@ -168,15 +168,15 @@
                     
                     <div style="margin-bottom: 12px;">
                         <label style="display: block; font-size: 0.9rem; margin-bottom: 4px; color: var(--text-secondary);">Rasm yuklash (Majburiy)</label>
-                        <input type="file" id="repImage" accept="image/*" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+                        <input type="file" id="repImage" accept="image/*" capture="environment" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
                     </div>
 
                     <div style="margin-bottom: 12px;">
                         <label style="display: block; font-size: 0.9rem; margin-bottom: 4px; color: var(--text-secondary);">Aniq Manzil (Lokatsiya)</label>
                         <div style="display: flex; gap: 8px;">
-                            <input type="text" id="repLoc" required placeholder="Joylashuv linki yoki manzil" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
-                            <button type="button" onclick="getLocation()" style="padding: 10px 15px; border-radius: 8px; border: none; background: rgba(0, 210, 255, 0.2); color: #00d2ff; cursor: pointer;">
-                                <i class="fa-solid fa-location-crosshairs"></i>
+                            <input type="text" id="repLoc" required placeholder="Joylashuvni kiritish yoki aniqlash" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: #fff; font-family: inherit;">
+                            <button type="button" onclick="getLocation()" style="padding: 10px 15px; border-radius: 8px; border: none; background: rgba(0, 210, 255, 0.2); color: #00d2ff; cursor: pointer; white-space: nowrap;">
+                                <i class="fa-solid fa-location-crosshairs"></i> Aniqlash
                             </button>
                         </div>
                     </div>

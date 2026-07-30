@@ -90,18 +90,60 @@ function switchPage(page) {
 
 function submitReport(e) {
     e.preventDefault();
+    const btn = document.getElementById('repSubmitBtn');
+    const originalBtnHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Yuborilmoqda...';
+
     const name = document.getElementById('repName').value;
     const loc = document.getElementById('repLoc').value;
     const desc = document.getElementById('repDesc').value;
+    const fileInput = document.getElementById('repImage');
     
-    tg.sendData(JSON.stringify({
-        action: 'submit_report',
-        name: name,
-        location: loc,
-        description: desc
-    }));
+    if (fileInput.files && fileInput.files[0]) {
+        resizeImage(fileInput.files[0], 800, function(base64Img) {
+            let userId = 0;
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                userId = tg.initDataUnsafe.user.id;
+            }
+            
+            fetch('/api/submit_report', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: userId,
+                    name: name,
+                    location: loc,
+                    description: desc,
+                    image: base64Img
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Yuborildi!';
+                if (tg.showAlert) tg.showAlert("Murojaatingiz qabul qilindi. Rahmat!");
+                else alert("Murojaatingiz qabul qilindi. Rahmat!");
+                document.getElementById('reportForm').reset();
+                setTimeout(() => {
+                    btn.innerHTML = originalBtnHTML;
+                    switchPage('home');
+                }, 2000);
+            })
+            .catch(err => {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnHTML;
+                if (tg.showAlert) tg.showAlert("Xatolik yuz berdi. Qaytadan urinib ko'ring.");
+                else alert("Xatolik yuz berdi. Qaytadan urinib ko'ring.");
+            });
+        });
+    } else {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnHTML;
+        if (tg.showAlert) tg.showAlert("Iltimos, rasm yuklang!");
+        else alert("Iltimos, rasm yuklang!");
+    }
 }
-
 
 function loadLeaderboard() {
     fetch('/api/leaderboard')
@@ -174,8 +216,6 @@ function openSection(sectionId) {
     }
 }
 
-
-
 // --- Online Count Logic ---
 function updateOnlineCount() {
     let uid = 'unknown-' + Math.random();
@@ -196,8 +236,6 @@ function updateOnlineCount() {
 }
 updateOnlineCount();
 
-
-
 function loadFeed() {
     const container = document.getElementById('feedContainer');
     container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Yuklanmoqda...</p>';
@@ -206,7 +244,7 @@ function loadFeed() {
         .then(res => res.json())
         .then(data => {
             if (!data || data.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Hozircha hech qanday hisobot yo\'q.</p>';
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Hozircha hech qanday hisobot yo\\'q.</p>';
                 return;
             }
             
@@ -278,7 +316,6 @@ function resizeImage(file, maxWidth, callback) {
     reader.readAsDataURL(file);
 }
 
-
 function getLocation() {
     if (navigator.geolocation) {
         tg.HapticFeedback.impactOccurred('medium');
@@ -294,7 +331,7 @@ function getLocation() {
                 alert("Joylashuvni aniqlab bo'lmadi. Iltimos, manzilni qo'lda yozing.");
                 document.getElementById('repLoc').value = "";
             },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
     } else {
         alert("Sizning qurilmangiz joylashuvni aniqlashni qo'llab-quvvatlamaydi.");
