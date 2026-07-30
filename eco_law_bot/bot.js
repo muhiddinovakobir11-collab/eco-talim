@@ -334,6 +334,25 @@ bot.on('callback_query', (query) => {
                 parse_mode: 'HTML'
             });
             bot.sendMessage(report.userId, "✅ <b>Tabriklaymiz!</b> Sizning murojaatingiz tasdiqlandi va bot ichidagi Murojaatlar Lentasiga joylandi. Rahmat!", { parse_mode: 'HTML' }).catch(()=>{});
+            
+            // Xabar tarqatish (Broadcast) barcha foydalanuvchilarga
+            let successCount = 0;
+            usersData.forEach((userObj, idx) => {
+                const uId = userObj.id || userObj;
+                if (uId !== report.userId) { // O'ziga qayta jo'natmaymiz
+                    setTimeout(() => {
+                        bot.sendMessage(uId, "🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nTabiatga befarq bo'lmagan fuqaro tomonidan yangi muammo xabar qilindi. Uni ko'rish uchun pastdagi tugmani bosing:", {
+                            parse_mode: 'HTML',
+                            reply_markup: {
+                                inline_keyboard: [
+                                    [{ text: "👀 Ko'rish", callback_data: `report_view_${approvalId}` }]
+                                ]
+                            }
+                        }).catch(() => {});
+                    }, idx * 50);
+                }
+            });
+
             delete approvalsData[approvalId];
             fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
         } else {
@@ -367,7 +386,7 @@ bot.on('callback_query', (query) => {
             reply_markup: {
                 inline_keyboard: [
                     [{ text: "➕ Yangi muammo yuborish", callback_data: "report_new" }],
-                    [{ text: "🌍 Murojaatlar lentasi", callback_data: "report_feed_0" }],
+                    [{ text: "🌍 Murojaatlar lentasi", callback_data: "report_view_latest" }],
                     [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
                 ]
             }
@@ -390,25 +409,35 @@ bot.on('callback_query', (query) => {
         return;
     }
     
-    if (data.startsWith('report_feed_')) {
+    if (data.startsWith('report_view_')) {
         if (feedData.length === 0) {
             bot.sendMessage(chatId, "Hozircha murojaatlar lentasi bo'sh. Birinchi bo'lib muammo yuboring!");
             return;
         }
-        const index = parseInt(data.replace('report_feed_', ''));
+        
+        let index = 0;
+        const id = data.replace('report_view_', '');
+        if (id !== 'latest') {
+            index = feedData.findIndex(r => r.id === id);
+            if (index === -1) {
+                bot.answerCallbackQuery(query.id, { text: "Bu murojaat topilmadi yoki o'chirilgan.", show_alert: true });
+                return;
+            }
+        }
+        
         const report = feedData[index];
         
         let keyboard = [];
         let navigationRow = [];
         if (index > 0) {
-            navigationRow.push({ text: "⬅️ Oldingi", callback_data: `report_feed_${index - 1}` });
+            navigationRow.push({ text: "⬅️ Oldingi", callback_data: `report_view_${feedData[index - 1].id}` });
         }
         navigationRow.push({ text: `${index + 1} / ${feedData.length}`, callback_data: "dummy" });
         if (index < feedData.length - 1) {
-            navigationRow.push({ text: "Keyingi ➡️", callback_data: `report_feed_${index + 1}` });
+            navigationRow.push({ text: "Keyingi ➡️", callback_data: `report_view_${feedData[index + 1].id}` });
         }
         keyboard.push(navigationRow);
-        keyboard.push([{ text: "🏠 Bekor qilish", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
         
         const photoId = report.photo;
         const captionText = report.caption + `\n\n📅 Sana: ${report.date}`;
