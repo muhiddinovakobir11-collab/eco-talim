@@ -461,7 +461,7 @@ bot.on('callback_query', (query) => {
             
             // Show alert for correct answer
             bot.answerCallbackQuery(query.id, { 
-                text: `✅ To'g'ri javob!\n${questionData.explanation || ''}`.substring(0, 190), 
+                text: `✅ To'g'ri javob! (+2 ball)\n${questionData.explanation || ''}`.substring(0, 190), 
                 show_alert: false 
             }).catch(e => console.log(e));
             
@@ -797,6 +797,10 @@ function sendQuestNode(chatId, nodeId) {
             userObj.score = (userObj.score || 0) + node.score_delta;
             fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
         }
+        
+        // Matnga qo'shish
+        let sign = node.score_delta > 0 ? '+' : '';
+        node.text = `<i>(${sign}${node.score_delta} ball)</i>\n\n` + node.text;
     }
     
     let imagePath = null;
