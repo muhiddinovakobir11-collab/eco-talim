@@ -568,6 +568,9 @@ function sendQuestNode(chatId, nodeId) {
     if (keyboard.length === 0) {
         // O'yin tugadi, menyuga qaytish tugmasi
         keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
+    } else {
+        // O'yin jarayonida orqaga (bosh menyuga) qaytish tugmasi
+        keyboard.push([{ text: "⬅️ Orqaga", callback_data: "menu_back" }]);
     }
     
     // Ball qoshish (agar score_delta bo'lsa)
