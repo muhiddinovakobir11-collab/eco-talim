@@ -407,7 +407,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Turkiston lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Turkiston lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r32.jpg"
     },
     {
         "id": "33",
@@ -420,7 +421,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Greig lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Greig lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r33.jpg"
     },
     {
         "id": "34",
@@ -433,7 +435,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Foster lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Foster lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r34.jpg"
     },
     {
         "id": "35",
@@ -446,7 +449,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Kaufman lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Kaufman lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r35.jpg"
     },
     {
         "id": "36",
@@ -459,7 +463,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Korolkov lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Korolkov lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r36.jpg"
     },
     {
         "id": "37",
@@ -472,7 +477,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Vvedenskiy lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Vvedenskiy lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r37.jpg"
     },
     {
         "id": "38",
@@ -485,7 +491,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "O'zbekiston lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "O'zbekiston lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r38.jpg"
     },
     {
         "id": "39",
@@ -498,7 +505,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Chimyon lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Chimyon lolasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r39.jpg"
     },
     {
         "id": "40",
@@ -511,7 +519,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Buxoro badomi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Buxoro badomi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r40.jpg"
     },
     {
         "id": "41",
@@ -524,7 +533,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Vavilov badomi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Vavilov badomi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r41.jpg"
     },
     {
         "id": "42",
@@ -537,7 +547,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Piskom piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Piskom piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r42.jpg"
     },
     {
         "id": "43",
@@ -550,7 +561,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Suvorov piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Suvorov piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r43.jpg"
     },
     {
         "id": "44",
@@ -563,7 +575,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Oshanin piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Oshanin piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r44.jpg"
     },
     {
         "id": "45",
@@ -576,7 +589,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Qoratov piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Qoratov piyozi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r45.jpg"
     },
     {
         "id": "46",
@@ -589,7 +603,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Yovvoyi anor tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Yovvoyi anor tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r46.jpg"
     },
     {
         "id": "47",
@@ -602,7 +617,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Yovvoyi anjir tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Yovvoyi anjir tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r47.jpg"
     },
     {
         "id": "48",
@@ -615,7 +631,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "O'zbekiston astragali tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "O'zbekiston astragali tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r48.jpg"
     },
     {
         "id": "49",
@@ -628,7 +645,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Bobrov astragali tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Bobrov astragali tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r49.jpg"
     },
     {
         "id": "50",
@@ -641,7 +659,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Turkiston archasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Turkiston archasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r50.jpg"
     },
     {
         "id": "51",
@@ -654,7 +673,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Baqtriya lolaqizg'aldog'i tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Baqtriya lolaqizg'aldog'i tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r51.jpg"
     },
     {
         "id": "52",
@@ -667,7 +687,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Boboev yetimchasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Boboev yetimchasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r52.jpg"
     },
     {
         "id": "53",
@@ -680,7 +701,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Olga sorbariyasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Olga sorbariyasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r53.jpg"
     },
     {
         "id": "54",
@@ -693,7 +715,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Piskom zirasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Piskom zirasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r54.jpg"
     },
     {
         "id": "55",
@@ -706,7 +729,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Fedchenko inoyatguli tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Fedchenko inoyatguli tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r55.jpg"
     },
     {
         "id": "56",
@@ -719,7 +743,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Qizilqum cherkezi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Qizilqum cherkezi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r56.jpg"
     },
     {
         "id": "57",
@@ -732,7 +757,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "O'zbekiston shiryashi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "O'zbekiston shiryashi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r57.jpg"
     },
     {
         "id": "58",
@@ -745,7 +771,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Ajoyib shiryash tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Ajoyib shiryash tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r58.jpg"
     },
     {
         "id": "59",
@@ -758,7 +785,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Buxoro za'farosi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Buxoro za'farosi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r59.jpg"
     },
     {
         "id": "60",
@@ -771,7 +799,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Alatov za'farosi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Alatov za'farosi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r60.jpg"
     },
     {
         "id": "61",
@@ -784,7 +813,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Kichik qorqiz tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Kichik qorqiz tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r61.jpg"
     },
     {
         "id": "62",
@@ -797,7 +827,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Tog' pioni tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Tog' pioni tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r62.jpg"
     },
     {
         "id": "63",
@@ -810,7 +841,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Cho'l yalpizi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Cho'l yalpizi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r63.jpg"
     },
     {
         "id": "64",
@@ -823,7 +855,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Maksimovich ravochi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Maksimovich ravochi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r64.jpg"
     },
     {
         "id": "65",
@@ -836,7 +869,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Qizilqum kovragi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Qizilqum kovragi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r65.jpg"
     },
     {
         "id": "66",
@@ -849,7 +883,8 @@
         "cheklovchi_omillar": "Dorivor xususiyati sababli yovvoyi holatda nazoratsiz yig'ishtirib olinishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Ko'ksag'iz tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Ko'ksag'iz tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r66.jpg"
     },
     {
         "id": "67",
@@ -862,7 +897,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "Qizil tasbeh tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Qizil tasbeh tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r67.jpg"
     },
     {
         "id": "68",
@@ -875,7 +911,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Qora saksovul tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Qora saksovul tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r68.jpg"
     },
     {
         "id": "69",
@@ -888,7 +925,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Oq saksovul tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Oq saksovul tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r69.jpg"
     },
     {
         "id": "70",
@@ -901,7 +939,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Turkiston ro'yoni tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Turkiston ro'yoni tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r70.jpg"
     },
     {
         "id": "71",
@@ -914,7 +953,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Darvoz yalpizi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Darvoz yalpizi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r71.jpg"
     },
     {
         "id": "72",
@@ -927,7 +967,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Suvchechak tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Suvchechak tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r72.jpg"
     },
     {
         "id": "73",
@@ -940,7 +981,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Tikanli kavar tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Tikanli kavar tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r73.jpg"
     },
     {
         "id": "74",
@@ -953,7 +995,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Chotqol va Ugom-Chotqol milliy tabiat bog'larida muhofaza qilinadi.",
-        "desc": "Zarafshon chayiri tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Zarafshon chayiri tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r74.jpg"
     },
     {
         "id": "75",
@@ -966,7 +1009,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Qizilqum davlat qo'riqxonasida muhofazaga olingan.",
-        "desc": "O'rta Osiyo yovvoyi uzumi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "O'rta Osiyo yovvoyi uzumi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r75.jpg"
     },
     {
         "id": "76",
@@ -979,7 +1023,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "Bo'riqora tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Bo'riqora tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r76.jpg"
     },
     {
         "id": "77",
@@ -992,7 +1037,8 @@
         "cheklovchi_omillar": "O'rmon yong'inlari, o'tin sifatida kesilishi va ekologik muhitning o'zgarishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Buxoro parpisi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Buxoro parpisi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r77.jpg"
     },
     {
         "id": "78",
@@ -1005,7 +1051,8 @@
         "cheklovchi_omillar": "Chiroyli guli tufayli odamlar tomonidan ko'plab terib olinishi, mol boqilishi natijasida tepkilanishi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Turkiston savrinjoni tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Turkiston savrinjoni tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r78.jpg"
     },
     {
         "id": "79",
@@ -1018,7 +1065,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Muhofaza choralari belgilanmagan, Botanika bog'larida sun'iy ko'paytirish ustida ish olib borilmoqda.",
-        "desc": "Yovvoyi olma tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Yovvoyi olma tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r79.jpg"
     },
     {
         "id": "80",
@@ -1031,7 +1079,8 @@
         "cheklovchi_omillar": "Yashash joylarining o'zlashtirilishi, ekinzorlarga aylantirilishi va qurg'oqchilik.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Turkiston do'lanasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Turkiston do'lanasi tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r80.jpg"
     },
     {
         "id": "81",
@@ -1044,7 +1093,8 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Zarafshon milliy tabiat bog'i hududida yovvoyi holda ko'paytiriladi.",
-        "desc": "Zarafshon zirk tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "Zarafshon zirk tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r81.jpg"
     },
     {
         "id": "82",
@@ -1057,6 +1107,7 @@
         "cheklovchi_omillar": "O'simlik ildizi va piyozi kovlab olinishi sababli qayta tiklana olmasligi.",
         "kopaytirish": "Toshkent Botanika bog'ida urug'idan ekib o'stirilmoqda.",
         "muhofaza": "Surxon davlat qo'riqxonasi va Kitob geologik milliy bog'ida asraladi.",
-        "desc": "G'arbiy Tyan-Shan lolasiguli tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart."
+        "desc": "G'arbiy Tyan-Shan lolasiguli tabiatda go'zalligi va noyobligi bilan ajralib turadigan o'ziga xos o'simlikdir. Ekologik muvozanatni saqlashda ahamiyatli bo'lib, kelajak avlod uchun asrab-avaylanishi shart.",
+        "image": "r82.jpg"
     }
 ]
