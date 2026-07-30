@@ -89,15 +89,15 @@ function getUserSession(chatId) {
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
-            [{ text: "📝 Ekologiya Quiz", callback_data: "menu_quizzes" }],
-            [{ text: "🧩 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
+            [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
+            [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
             [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
-            [{ text: "📜 Qizil Kitob", callback_data: "menu_redbook" }],
-            [{ text: "🔤 Ekologik Atamalar", callback_data: "menu_terms" }],
-            [{ text: "⚖️ Jazolar va Jarimalar", callback_data: "menu_penalties" }],
-            [{ text: "✅ To'g'ri / Noto'g'ri", callback_data: "menu_truefalse" }],
-            [{ text: "🏆 Liderlar Reytingi", callback_data: "menu_leaderboard" }],
-            [{ text: "👨‍💻 Admin", url: "https://t.me/akoshprod" }]
+            [{ text: "📕 Qizil Kitob", callback_data: "menu_redbook" }],
+            [{ text: "💡 Ekologik Atamalar", callback_data: "menu_terms" }],
+            [{ text: "🚨 Jazolar va Jarimalar", callback_data: "menu_penalties" }],
+            [{ text: "🟢 To'g'ri / 🔴 Noto'g'ri", callback_data: "menu_truefalse" }],
+            [{ text: "👑 Liderlar Reytingi", callback_data: "menu_leaderboard" }],
+            [{ text: "💎 Admin", url: "https://t.me/akoshprod" }]
         ]
     }
 };
