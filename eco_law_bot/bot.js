@@ -12,6 +12,11 @@ if (fs.existsSync('./data/approvals.json')) {
     approvalsData = JSON.parse(fs.readFileSync('./data/approvals.json', 'utf-8'));
 }
 
+let feedData = [];
+if (fs.existsSync('./data/feed.json')) {
+    feedData = JSON.parse(fs.readFileSync('./data/feed.json', 'utf-8'));
+}
+
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
 const port = process.env.PORT || 3000;
@@ -314,18 +319,23 @@ bot.on('callback_query', (query) => {
         const approvalId = data.replace('approve_', '');
         if (approvalsData[approvalId]) {
             const report = approvalsData[approvalId];
-            bot.sendMediaGroup(PORTFOLIO_CHANNEL, report.mediaGroup).then(() => {
-                bot.editMessageText(`✅ <b>Tasdiqlandi va kanalga yuborildi!</b>\nMurojaat-ID: ${approvalId}`, {
-                    chat_id: chatId,
-                    message_id: query.message.message_id,
-                    parse_mode: 'HTML'
-                });
-                bot.sendMessage(report.userId, "✅ <b>Tabriklaymiz!</b> Sizning murojaatingiz tasdiqlandi va rasmiy kanalimizga joylandi. Rahmat!", { parse_mode: 'HTML' }).catch(()=>{});
-                delete approvalsData[approvalId];
-                fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
-            }).catch(err => {
-                bot.sendMessage(chatId, "❌ Kanalga yuborishda xatolik yuz berdi. Bot kanalda admin emasmi?");
+            // Push to feed array
+            feedData.unshift({
+                id: approvalId,
+                photo: report.mediaGroup[0].media,
+                caption: report.mediaGroup[0].caption || "Eco-Nazorat murojaati",
+                date: new Date().toLocaleDateString('uz-UZ')
             });
+            fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
+
+            bot.editMessageText(`✅ <b>Tasdiqlandi va Eko-Lentaga qo'shildi!</b>\nMurojaat-ID: ${approvalId}`, {
+                chat_id: chatId,
+                message_id: query.message.message_id,
+                parse_mode: 'HTML'
+            });
+            bot.sendMessage(report.userId, "✅ <b>Tabriklaymiz!</b> Sizning murojaatingiz tasdiqlandi va bot ichidagi Murojaatlar Lentasiga joylandi. Rahmat!", { parse_mode: 'HTML' }).catch(()=>{});
+            delete approvalsData[approvalId];
+            fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
         } else {
             bot.answerCallbackQuery(query.id, { text: "Bu murojaat allaqachon ko'rib chiqilgan yoki topilmadi.", show_alert: true });
         }
@@ -352,8 +362,22 @@ bot.on('callback_query', (query) => {
 
     
     if (data === 'menu_report') {
+        bot.sendMessage(chatId, "📸 <b>Eko-Nazorat</b> bo'limi:\nIltimos, kerakli amalni tanlang:", {
+            parse_mode: 'HTML',
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "➕ Yangi muammo yuborish", callback_data: "report_new" }],
+                    [{ text: "🌍 Murojaatlar lentasi", callback_data: "report_feed_0" }],
+                    [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
+                ]
+            }
+        });
+        return;
+    }
+
+    if (data === 'report_new') {
         userStates[chatId] = { step: 'awaiting_photos', photos: [] };
-        let msgText = `📸 <b>Eko-Nazorat</b>\n\nIltimos, ekologik muammo yuz bergan joyning rasmlarini yuboring (6 tagacha qabul qilinadi).\n\nRasm yuborish uchun pastdagi 📎 (qisqich) belgisini bosib kameradan yoki galereyadan tanlang. Barcha rasmlarni yuborib bo'lgach, quyidagi <b>"Davom etish ➡️"</b> tugmasini bosing.`;
+        let msgText = `➕ <b>Yangi Eko-Muammo</b>\n\nIltimos, ekologik muammo yuz bergan joyning rasmlarini yuboring (6 tagacha qabul qilinadi).\n\nRasm yuborish uchun pastdagi 📎 (qisqich) belgisini bosib kameradan yoki galereyadan tanlang. Barcha rasmlarni yuborib bo'lgach, quyidagi <b>"Davom etish ➡️"</b> tugmasini bosing.`;
         bot.sendMessage(chatId, msgText, {
             parse_mode: 'HTML',
             reply_markup: {
@@ -363,6 +387,53 @@ bot.on('callback_query', (query) => {
                 ]
             }
         });
+        return;
+    }
+    
+    if (data.startsWith('report_feed_')) {
+        if (feedData.length === 0) {
+            bot.sendMessage(chatId, "Hozircha murojaatlar lentasi bo'sh. Birinchi bo'lib muammo yuboring!");
+            return;
+        }
+        const index = parseInt(data.replace('report_feed_', ''));
+        const report = feedData[index];
+        
+        let keyboard = [];
+        let navigationRow = [];
+        if (index > 0) {
+            navigationRow.push({ text: "⬅️ Oldingi", callback_data: `report_feed_${index - 1}` });
+        }
+        navigationRow.push({ text: `${index + 1} / ${feedData.length}`, callback_data: "dummy" });
+        if (index < feedData.length - 1) {
+            navigationRow.push({ text: "Keyingi ➡️", callback_data: `report_feed_${index + 1}` });
+        }
+        keyboard.push(navigationRow);
+        keyboard.push([{ text: "🏠 Bekor qilish", callback_data: "menu_back" }]);
+        
+        const photoId = report.photo;
+        const captionText = report.caption + `\n\n📅 Sana: ${report.date}`;
+        
+        if (query.message.photo) {
+            bot.editMessageMedia({
+                type: 'photo',
+                media: photoId,
+                caption: captionText,
+                parse_mode: 'HTML'
+            }, {
+                chat_id: chatId,
+                message_id: query.message.message_id,
+                reply_markup: { inline_keyboard: keyboard }
+            }).catch(() => {});
+        } else {
+            bot.deleteMessage(chatId, query.message.message_id).catch(() => {});
+            bot.sendPhoto(chatId, photoId, {
+                caption: captionText,
+                parse_mode: 'HTML',
+                reply_markup: { inline_keyboard: keyboard }
+            });
+        }
+        
+        bot.answerCallbackQuery(query.id).catch(()=>{});
         return;
     }
     
@@ -920,16 +991,16 @@ bot.on('message', (msg) => {
                     };
                     fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
                     
-                    bot.sendMessage(ADMIN_ID, `Murojaat-ID: ${approvalId}\nUshbu murojaatni ${PORTFOLIO_CHANNEL} kanaliga chiqarasizmi?`, {
+                    bot.sendMessage(ADMIN_ID, `Murojaat-ID: ${approvalId}\nUshbu murojaatni botning "Eko-Lentasi"ga chiqarasizmi?`, {
                         reply_markup: {
                             inline_keyboard: [
-                                [{ text: "✅ Kanalga chiqarish", callback_data: `approve_${approvalId}` }],
+                                [{ text: "✅ Lentaga chiqarish", callback_data: `approve_${approvalId}` }],
                                 [{ text: "❌ Rad etish", callback_data: `reject_${approvalId}` }]
                             ]
                         }
                     });
                     
-                    bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga tasdiqlash uchun yuborildi. Tasdiqlangach, ekologik nazorat kanaliga chiqariladi!", { parse_mode: 'HTML' });
+                    bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga tasdiqlash uchun yuborildi. Tasdiqlangach, botning Eko-Lentasiga joylanadi!", { parse_mode: 'HTML' });
                 }).catch(err => {
                     console.log("Error sending report:", err);
                     bot.sendMessage(chatId, "❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
