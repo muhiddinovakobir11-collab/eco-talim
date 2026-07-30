@@ -11,7 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Populate user info if available from Telegram
     if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
         const user = tg.initDataUnsafe.user;
-        document.getElementById('userName').innerText = user.first_name;
+        let displayName = user.username ? '@' + user.username : user.first_name;
+        document.getElementById('userName').innerText = displayName;
+        
+        let avatarEl = document.getElementById('userAvatar');
+        if (avatarEl) {
+            if (user.photo_url) {
+                avatarEl.src = user.photo_url;
+            } else {
+                avatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName.replace('@', ''))}&background=0D8ABC&color=fff`;
+            }
+        }
         
         // Load initial data from backend if needed
         // For now, we will simulate loading data
