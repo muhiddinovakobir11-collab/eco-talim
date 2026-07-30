@@ -252,7 +252,8 @@ bot.on('callback_query', (query) => {
         if (redbookData.length === 0) {
             return bot.sendMessage(chatId, "Hozircha Qizil Kitob ma'lumotlari yuklanmoqda... Birozdan so'ng qayta urinib ko'ring.");
         }
-        sendRedbookPage(chatId, 0);
+        const randomPage = Math.floor(Math.random() * redbookData.length);
+        sendRedbookPage(chatId, randomPage);
     }
     
     if (data.startsWith('redbook_page_')) {
@@ -469,9 +470,13 @@ function sendSpecificQuestion(chatId, type, qIndex, limit = 20) {
     let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Savol: ${attemptsCount + 1} / ${totalCount}</b>\n\n`;
     text += type === 'puzzles' ? `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Vaziyat:</b>\n<blockquote>${questionObj.story}</blockquote>\n\n<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>${questionObj.question}</b>` : `<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>Savol:</b>\n<blockquote>${questionObj.question}</blockquote>\n`;
     
+    let optionsWithIndex = questionObj.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
+    // Variantlarni tasodifiy aralashtirish
+    optionsWithIndex.sort(() => Math.random() - 0.5);
+    
     let keyboard = [];
-    questionObj.options.forEach((opt, idx) => {
-        keyboard.push([{ text: opt, callback_data: `ans_${type}_${idx}_${qIndex}` }]);
+    optionsWithIndex.forEach(optObj => {
+        keyboard.push([{ text: optObj.text, callback_data: `ans_${type}_${optObj.originalIdx}_${qIndex}` }]);
     });
     
     keyboard.push([
