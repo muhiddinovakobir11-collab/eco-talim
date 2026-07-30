@@ -254,7 +254,9 @@ function getMainMenuOptions(chatId) {
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     
-    // setChatMenuButton olib tashlandi
+    // Eski qolib ketgan "Mini App" menyu tugmasini majburiy tozalash
+    bot.setChatMenuButton({ chat_id: chatId, menu_button: { type: 'default' } }).catch(() => {});
+    
     // Sessiyani tozalash (yangi start berilganda boshidan boshlashi uchun)
     if (!userSessions[chatId]) userSessions[chatId] = { quizzes: [], puzzles: [], terms: [], penalties: [], truefalse: [], attempts: { quizzes: 0, puzzles: 0, terms: 0, penalties: 0, truefalse: 0 } };
     
@@ -1179,6 +1181,21 @@ bot.onText(/\/admin/, (msg) => {
     bot.sendMessage(chatId, "⚙️ <b>Admin Panelga xush kelibsiz!</b>\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'HTML', ...adminMenuOptions });
 });
 
+bot.onText(/\/resetmenus/, (msg) => {
+    const chatId = msg.chat.id;
+    if (chatId !== ADMIN_ID) return;
+    
+    bot.sendMessage(chatId, "🔄 Barcha foydalanuvchilar uchun eski Mini App tugmalarini tozalash boshlandi...");
+    let count = 0;
+    usersData.forEach((u, i) => {
+        setTimeout(() => {
+            bot.setChatMenuButton({ chat_id: u.id, menu_button: { type: 'default' } }).then(() => count++).catch(() => {});
+            if (i === usersData.length - 1) {
+                bot.sendMessage(chatId, `✅ Tozalash yakunlandi. Jami: ${count} ta foydalanuvchi menyusi yangilandi.`);
+            }
+        }, i * 50);
+    });
+});
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
