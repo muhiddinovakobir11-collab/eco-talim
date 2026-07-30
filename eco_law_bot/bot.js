@@ -325,18 +325,16 @@ bot.on('callback_query', (query) => {
             let successCount = 0;
             usersData.forEach((userObj, idx) => {
                 const uId = userObj.id || userObj;
-                if (uId !== report.userId) { // O'ziga qayta jo'natmaymiz
-                    setTimeout(() => {
-                        bot.sendMessage(uId, "🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nTabiatga befarq bo'lmagan fuqaro tomonidan yangi muammo xabar qilindi. Uni ko'rish uchun pastdagi tugmani bosing:", {
-                            parse_mode: 'HTML',
-                            reply_markup: {
-                                inline_keyboard: [
-                                    [{ text: "👀 Ko'rish", callback_data: `report_view_${approvalId}` }]
-                                ]
-                            }
-                        }).catch(() => {});
-                    }, idx * 50);
-                }
+                setTimeout(() => {
+                    bot.sendMessage(uId, "🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nTabiatga befarq bo'lmagan fuqaro tomonidan yangi muammo xabar qilindi. Uni ko'rish uchun pastdagi tugmani bosing:", {
+                        parse_mode: 'HTML',
+                        reply_markup: {
+                            inline_keyboard: [
+                                [{ text: "👀 Ko'rish", callback_data: `report_view_${approvalId}` }]
+                            ]
+                        }
+                    }).catch(() => {});
+                }, idx * 50);
             });
 
             delete approvalsData[approvalId];
