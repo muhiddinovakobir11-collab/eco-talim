@@ -590,7 +590,19 @@ function sendRedbookPage(chatId, pageIdx, messageId = null) {
     let msg = `📜 **QIZIL KITOB (O'zbekiston)**\n\n`;
     msg += `🐾 **Nomi:** ${animal.name}\n`;
     msg += `⚠️ **Holati:** ${animal.status}\n\n`;
-    msg += `📝 **Ma'lumot:** ${animal.desc}`;
+    if (animal.tarqalishi) msg += `🌍 **Tarqalishi:** ${animal.tarqalishi}\n`;
+    if (animal.yashash_joyi) msg += `🏞 **Yashash joyi:** ${animal.yashash_joyi}\n`;
+    if (animal.soni) msg += `🔢 **Soni:** ${animal.soni}\n`;
+    if (animal.yashash_tarzi) msg += `🔄 **Yashash tarzi:** ${animal.yashash_tarzi}\n`;
+    if (animal.cheklovchi_omillar) msg += `❗ **Cheklovchi omillar:** ${animal.cheklovchi_omillar}\n`;
+    if (animal.kopaytirish) msg += `🐣 **Ko'paytirish:** ${animal.kopaytirish}\n`;
+    if (animal.muhofaza) msg += `🛡 **Muhofaza choralari:** ${animal.muhofaza}\n`;
+    if (animal.desc) msg += `📝 **Ma'lumot:** ${animal.desc}\n`;
+    
+    // Telegram caption limit is 1024 characters
+    if (msg.length > 1020) {
+        msg = msg.substring(0, 1020) + "...";
+    }
     
     let navRow = [];
     if (pageIdx > 0) navRow.push({ text: "⬅️ Oldingi", callback_data: `redbook_page_${pageIdx - 1}` });
