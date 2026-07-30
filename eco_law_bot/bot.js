@@ -4,6 +4,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const http = require('http');
 const activeAppUsers = new Map();
 const pendingReports = {};
+const userStates = {};
 
 // Render platformasida Web Service sifatida ishlashi uchun soxta (dummy) server yaratamiz.
 // Bu Render "Port topilmadi" degan xatoni bermasligi uchun kerak.
@@ -239,6 +240,7 @@ function getUserSession(chatId) {
 const mainMenuOptions = {
     reply_markup: {
         inline_keyboard: [
+            [{ text: "📸 Eko-Nazorat", callback_data: "menu_report" }],
             [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
             [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
             [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
@@ -301,6 +303,42 @@ bot.onText(/\/start/, (msg) => {
 bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     const data = query.data;
+    
+    if (data === 'menu_report') {
+        userStates[chatId] = { step: 'awaiting_photos', photos: [] };
+        let msgText = `📸 <b>Eko-Nazorat</b>\n\nIltimos, ekologik muammo yuz bergan joyning rasmlarini yuboring (6 tagacha qabul qilinadi).\n\nRasm yuborish uchun pastdagi 📎 (qisqich) belgisini bosib kameradan yoki galereyadan tanlang. Barcha rasmlarni yuborib bo'lgach, quyidagi <b>"Davom etish ➡️"</b> tugmasini bosing.`;
+        bot.sendMessage(chatId, msgText, {
+            parse_mode: 'HTML',
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: "Davom etish ➡️", callback_data: "report_continue" }],
+                    [{ text: "🏠 Bekor qilish", callback_data: "menu_back" }]
+                ]
+            }
+        });
+        return;
+    }
+    
+    if (data === 'report_continue') {
+        if (!userStates[chatId] || !userStates[chatId].photos || userStates[chatId].photos.length === 0) {
+            bot.sendMessage(chatId, "Iltimos, avval kamida 1 ta rasm yuboring.");
+            return;
+        }
+        userStates[chatId].step = 'awaiting_location';
+        bot.sendMessage(chatId, `📍 <b>Zo'r! Endi manzilni yuboring.</b>\n\nIltimos, pastdagi klaviaturadagi "📍 Lokatsiyani jo'natish" tugmasini bosing yoki xaritadan manzilni belgilab yuboring.`, {
+            parse_mode: 'HTML',
+            reply_markup: {
+                keyboard: [
+                    [{ text: "📍 Lokatsiyani jo'natish", request_location: true }],
+                    [{ text: "Bekor qilish" }]
+                ],
+                resize_keyboard: true,
+                one_time_keyboard: true
+            }
+        });
+        return;
+    }
+
     
     if (data === 'menu_learn') {
         let keyboard = [];
@@ -765,44 +803,79 @@ bot.onText(/\/admin/, (msg) => {
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
 
-    // Eko-Nazorat: Web App dan kelgan ma'lumotlarni qabul qilish
-    if (msg.web_app_data) {
-        try {
-            const data = JSON.parse(msg.web_app_data.data);
-            if (data.action === 'submit_report') {
-                pendingReports[chatId] = {
-                    name: data.name,
-                    location: data.location,
-                    description: data.description
-                };
-                return bot.sendMessage(chatId, "✅ <b>Ma'lumotlar qabul qilindi!</b>\n\nEndi ushbu muammo joyining aniq rasm yoki videosini shu yerga yuboring.", { parse_mode: 'HTML' });
+    // Eko-Nazorat State Machine Logic
+    if (userStates[chatId]) {
+        const state = userStates[chatId].step;
+        
+        if (state === 'awaiting_photos') {
+            if (msg.photo) {
+                const fileId = msg.photo[msg.photo.length - 1].file_id;
+                if (userStates[chatId].photos.length < 6) {
+                    userStates[chatId].photos.push(fileId);
+                    
+                    // Don't send multiple confirmations for media group
+                    if (!msg.media_group_id || !userStates[chatId].lastMediaGroup) {
+                        userStates[chatId].lastMediaGroup = msg.media_group_id;
+                        bot.sendMessage(chatId, "✅ <b>Rasm qabul qilindi.</b> Yana rasm yuborishingiz yoki yuqoridagi <b>'Davom etish ➡️'</b> tugmasini bosishingiz mumkin.", { parse_mode: 'HTML' });
+                    }
+                }
+                return;
+            } else if (msg.text === 'Bekor qilish') {
+                delete userStates[chatId];
+                bot.sendMessage(chatId, "Amal bekor qilindi.", { reply_markup: { remove_keyboard: true } });
+                return;
+            } else if (msg.text && !msg.text.startsWith('/')) {
+                bot.sendMessage(chatId, "Iltimos, avval rasmlarni yuboring yoki amalni bekor qiling.");
+                return;
             }
-        } catch(e) {}
-    }
-
-    // Eko-Nazorat: Rasm yoki video qabul qilish
-    if ((msg.photo || msg.video) && pendingReports[chatId]) {
-        const report = pendingReports[chatId];
-        delete pendingReports[chatId]; // O'chirib tashlaymiz
-        
-        const caption = `🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\n👤 <b>Yuboruvchi:</b> ${report.name}\n📍 <b>Manzil:</b> ${report.location}\n📝 <b>Tavsif:</b> ${report.description}\n\n🔗 <b>Telegram Profili:</b> <a href="tg://user?id=${chatId}">Profilga o'tish</a>`;
-        
-        let sendPromise;
-        if (msg.photo) {
-            const fileId = msg.photo[msg.photo.length - 1].file_id;
-            sendPromise = bot.sendPhoto(ADMIN_ID, fileId, { caption: caption, parse_mode: 'HTML' });
-        } else if (msg.video) {
-            const fileId = msg.video.file_id;
-            sendPromise = bot.sendVideo(ADMIN_ID, fileId, { caption: caption, parse_mode: 'HTML' });
         }
-        
-        sendPromise.then(() => {
-            bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' });
-        }).catch(err => {
-            bot.sendMessage(chatId, "❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
-        });
-        
-        return; // Boshqa handlerlarga o'tmaslik uchun
+
+        if (state === 'awaiting_location') {
+            if (msg.location) {
+                userStates[chatId].location = msg.location;
+                userStates[chatId].step = 'awaiting_comment';
+                bot.sendMessage(chatId, "📝 <b>Juda yaxshi. Endi muammo haqida qisqacha izoh yozing.</b>\n\n(Nima muammo borligini tushuntiring)", {
+                    parse_mode: 'HTML',
+                    reply_markup: { remove_keyboard: true }
+                });
+                return;
+            } else if (msg.text === 'Bekor qilish') {
+                delete userStates[chatId];
+                bot.sendMessage(chatId, "Amal bekor qilindi.", { reply_markup: { remove_keyboard: true } });
+                return;
+            } else if (msg.text && !msg.text.startsWith('/')) {
+                bot.sendMessage(chatId, "Iltimos, pastdagi klaviaturadan foydalanib lokatsiyani yuboring.");
+                return;
+            }
+        }
+
+        if (state === 'awaiting_comment') {
+            if (msg.text && !msg.text.startsWith('/')) {
+                userStates[chatId].comment = msg.text;
+                
+                const rep = userStates[chatId];
+                const name = msg.from.first_name + (msg.from.username ? ` (@${msg.from.username})` : '');
+                const locUrl = `https://www.google.com/maps?q=${rep.location.latitude},${rep.location.longitude}`;
+                const caption = `🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\n👤 <b>Yuboruvchi:</b> <a href="tg://user?id=${chatId}">${name}</a>\n📍 <b>Manzil:</b> <a href="${locUrl}">Xaritada ko'rish</a>\n📝 <b>Tavsif:</b> ${rep.comment}`;
+                
+                const mediaGroup = rep.photos.map((photoId, index) => ({
+                    type: 'photo',
+                    media: photoId,
+                    caption: index === 0 ? caption : '',
+                    parse_mode: 'HTML'
+                }));
+                
+                bot.sendMediaGroup(ADMIN_ID, mediaGroup).then(() => {
+                    bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' });
+                }).catch(err => {
+                    console.log("Error sending report:", err);
+                    bot.sendMessage(chatId, "❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
+                });
+                
+                delete userStates[chatId];
+                return;
+            }
+        }
     }
 
     
