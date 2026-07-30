@@ -6,13 +6,15 @@
             { "text": "Indamay uyga qaytaman (Menga nima)", "next": "end_ignore" },
             { "text": "Yaqinroq borib vaziyatni o'rganaman", "next": "investigate_fire" },
             { "text": "Daraxt ustiga chiqib kuzataman", "next": "investigate_fire" }
-        ]
+        ],
+        "image": "./data/images/q1.jpg"
     },
     {
         "id": "end_ignore",
         "story": "Siz indamay qaytib ketdingiz. Birozdan so'ng shamol kuchayib, olov butun o'rmonga tarqaldi. Siz hududni tark etishga ulgurdingiz, lekin yuzlab hayvonlar va daraxtlar nobud bo'ldi.\n\n❌ **Missiya muvaffaqiyatsiz!** Eko-qahramon bunday qilmaydi.",
         "options": [],
-        "score_delta": 0
+        "score_delta": 0,
+        "image": "./data/images/q2.jpg"
     },
     {
         "id": "investigate_fire",
@@ -20,13 +22,15 @@
         "options": [
             { "text": "Borib ularga baqiraman, urishaman!", "next": "end_fight" },
             { "text": "Yashirincha rasm/videoga olaman", "next": "record_evidence" }
-        ]
+        ],
+        "image": "./data/images/q3.jpg"
     },
     {
         "id": "end_fight",
         "story": "Siz borib ular bilan janjallashdingiz. Ular ikkita edi, sizni qo'rqitib haydab yuborishdi. Ular ishini davom ettirdi va atrof-muhit yanada zarar ko'rdi.\n\n❌ **Missiya muvaffaqiyatsiz!** Qonuniy yo'l bilan ishlash kerak.",
         "options": [],
-        "score_delta": 0
+        "score_delta": 0,
+        "image": "./data/images/q4.jpg"
     },
     {
         "id": "record_evidence",
@@ -34,18 +38,21 @@
         "options": [
             { "text": "11-57 (Ekologiya vazirligi) ga tel qilaman", "next": "end_success" },
             { "text": "Videoni ijtimoiy tarmoqlarga tarqataman", "next": "end_partial" }
-        ]
+        ],
+        "image": "./data/images/q5.jpg"
     },
     {
         "id": "end_partial",
         "story": "Video tarqaldi, hamma ularni qoraladi. Lekin vakolatli organlar rasmiy ariza tushmaguncha ularni darhol topa olmasligi mumkin. Bu qisman to'g'ri yo'l, lekin eng yaxshisi emas.\n\n⚠️ **Missiya qisman bajarildi!** (+5 ball)",
         "options": [],
-        "score_delta": 5
+        "score_delta": 5,
+        "image": "./data/images/q6.jpg"
     },
     {
         "id": "end_success",
         "story": "Ajoyib! Siz tezda 11-57 raqamiga (Ekologiya vazirligi ishonch telefoni) qo'ng'iroq qilib, lokatsiyani tashladingiz va rasmlarni jo'natdingiz. Davlat inspektorlari 15 daqiqada yetib kelib ularni to'xtatdi hamda ma'muriy bayonnoma rasmiylashtirdi!\nTabiat sizdan minnatdor!\n\n🏆 **O'yin yakunlandi.** Siz asil Eko-Qahramonsiz! (+20 ball)",
         "options": [],
-        "score_delta": 20
+        "score_delta": 20,
+        "image": "./data/images/q7.jpg"
     }
 ]

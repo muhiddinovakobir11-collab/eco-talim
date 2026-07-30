@@ -562,7 +562,20 @@ function sendQuestNode(chatId, nodeId) {
         }
     }
     
-    bot.sendMessage(chatId, node.story, { parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } });
+    let imagePath = null;
+    if (node.image && fs.existsSync(node.image)) {
+        imagePath = node.image;
+    } else if (fs.existsSync('./data/puzzle_bg.jpg')) {
+        imagePath = './data/puzzle_bg.jpg';
+    }
+    
+    if (imagePath) {
+        bot.sendPhoto(chatId, imagePath, { caption: node.story, parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
+            bot.sendMessage(chatId, node.story, { parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } });
+        });
+    } else {
+        bot.sendMessage(chatId, node.story, { parse_mode: 'Markdown', reply_markup: { inline_keyboard: keyboard } });
+    }
 }
 
 // Qizil Kitob sahifasini yuborish
