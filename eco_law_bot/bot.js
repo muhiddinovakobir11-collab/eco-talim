@@ -551,6 +551,9 @@ bot.on('callback_query', (query) => {
     }
     
     if (data.startsWith('report_comments_')) {
+        if (userStates[chatId] && userStates[chatId].step === 'awaiting_public_comment') {
+            delete userStates[chatId];
+        }
         const id = data.replace('report_comments_', '');
         const report = feedData.find(r => r.id === id);
         if (!report) return bot.answerCallbackQuery(query.id, { text: "Murojaat topilmadi", show_alert: true });
