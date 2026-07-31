@@ -200,9 +200,96 @@ if (!token) {
     console.warn("DIQQAT: TELEGRAM_TOKEN yoki GEMINI_API_KEY topilmadi!");
 }
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, { polling: false });
 
-console.log('Eco Law Bot ishga tushdi...');
+console.log('Eco Law Bot ishga tushdi (DB kutilmoqda)...');
+
+const originalWriteFileSync = fs.writeFileSync;
+let dbMessageId = null;
+let isSaving = false;
+let pendingSave = false;
+
+fs.writeFileSync = function(file, data, options) {
+    originalWriteFileSync(file, data, options);
+    if (file.includes('users.json') || file.includes('feed.json') || file.includes('approvals.json') || file.includes('broadcasts.json')) {
+        if (!isSaving && !pendingSave) {
+            pendingSave = true;
+            setTimeout(syncToTelegram, 5000);
+        }
+    }
+};
+
+async function syncToTelegram() {
+    if (isSaving) {
+        pendingSave = true;
+        return;
+    }
+    isSaving = true;
+    pendingSave = false;
+    try {
+        const allData = {
+            users: usersData,
+            feed: feedData,
+            approvals: approvalsData,
+            broadcasts: broadcastsData
+        };
+        const buffer = Buffer.from(JSON.stringify(allData, null, 2));
+        
+        const sent = await bot.sendDocument(ADMIN_ID, buffer, { 
+            disable_notification: true, 
+            caption: "💾 BOT BAZASI (O'CHIRMANG VA PINNI OLIB TASHLAMANG)\nBu fayl botning barcha xotirasini o'z ichiga oladi va server o'chib yonganda qayta tiklash uchun ishlatiladi."
+        }, { filename: 'database.json', contentType: 'application/json' });
+        
+        if (dbMessageId) {
+            await bot.deleteMessage(ADMIN_ID, dbMessageId).catch(()=>{});
+        }
+        dbMessageId = sent.message_id;
+        await bot.pinChatMessage(ADMIN_ID, dbMessageId, { disable_notification: true }).catch(()=>{});
+    } catch (e) {
+        console.error("DB Sync Error", e);
+    }
+    isSaving = false;
+    if (pendingSave) {
+        setTimeout(syncToTelegram, 5000);
+    }
+}
+
+async function initTelegramDB() {
+    try {
+        const chat = await bot.getChat(ADMIN_ID);
+        if (chat.pinned_message && chat.pinned_message.document) {
+            console.log("Telegramdan baza topildi. Yuklanmoqda...");
+            dbMessageId = chat.pinned_message.message_id;
+            const fileId = chat.pinned_message.document.file_id;
+            const fileLink = await bot.getFileLink(fileId);
+            
+            const response = await fetch(fileLink);
+            const data = await response.json();
+            
+            if (data.users) usersData = data.users;
+            if (data.feed) feedData = data.feed;
+            if (data.approvals) approvalsData = data.approvals;
+            if (data.broadcasts) broadcastsData = data.broadcasts;
+            
+            originalWriteFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
+            originalWriteFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
+            originalWriteFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
+            originalWriteFileSync('./data/broadcasts.json', JSON.stringify(broadcastsData, null, 2));
+            
+            console.log("Baza muvaffaqiyatli tiklandi!");
+        } else {
+            console.log("Baza topilmadi. Yangi baza boshlanmoqda.");
+            syncToTelegram();
+        }
+    } catch (e) {
+        console.error("Telegram DB ni o'qishda xatolik:", e);
+    }
+    
+    bot.startPolling();
+    console.log("Bot xabarlarni qabul qilishni boshladi.");
+}
+
+initTelegramDB();
 
 // Foydalanuvchilar sessiyasini saqlash xotirasi (random va takrorlanmaslik uchun)
 const userSessions = {};
