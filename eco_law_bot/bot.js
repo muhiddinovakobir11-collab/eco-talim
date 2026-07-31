@@ -152,12 +152,12 @@ http.createServer((req, res) => {
     console.log(`Web server portda ishga tushdi: ${port}`);
 });
 
-// Render'da tekin server uxlab qolmasligi uchun bot o'ziga-o'zi har 14 daqiqada so'rov yuboradi
+// Render'da tekin server uxlab qolmasligi uchun bot o'ziga-o'zi har 1 daqiqada so'rov yuboradi
 setInterval(() => {
-    http.get('https://eco-talim.onrender.com').on('error', (err) => {
+    http.get('https://eco-talim.onrender.com/api/ping').on('error', (err) => {
         console.error("Ping xatosi:", err.message);
     });
-}, 14 * 60 * 1000);
+}, 1 * 60 * 1000);
 
 // Load Data
 let quizData = JSON.parse(fs.readFileSync('./data/quiz.json', 'utf8').replace(/^\uFEFF/, ''));
