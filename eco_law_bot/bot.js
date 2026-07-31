@@ -1561,7 +1561,7 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
     navRow.push({ text: `📄 ${pageIdx + 1} / ${targetData.length}`, callback_data: "ignore" });
     if (pageIdx < targetData.length - 1) navRow.push({ text: "Keyingi ⏩", callback_data: `redbook_page_${pageIdx + 1}_${category}` });
     
-    let keyboard = { inline_keyboard: [ navRow, [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }] ] };
+    let keyboard = { inline_keyboard: [ navRow, [{ text: "🔙 Orqaga", callback_data: "menu_redbook" }, { text: "🏠 Bosh menyu", callback_data: "menu_back" }] ] };
     
     let imagePath = null;
     if (animal.image && fs.existsSync('./data/images/' + animal.image)) {
