@@ -1633,15 +1633,21 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
     
     if (messageId) {
         if (imagePath) {
+            let mediaObj = fileIdsCache[imagePath] || fs.createReadStream(imagePath);
             bot.editMessageMedia({
                 type: 'photo',
-                media: fs.createReadStream(imagePath),
+                media: mediaObj,
                 caption: msg,
                 parse_mode: 'HTML'
             }, {
                 chat_id: chatId,
                 message_id: messageId,
                 reply_markup: keyboard
+            }).then(resp => {
+                if (resp && resp.photo && resp.photo.length > 0) {
+                    fileIdsCache[imagePath] = resp.photo[resp.photo.length - 1].file_id;
+                    if (!isSaving && !pendingSave) { pendingSave = true; setTimeout(syncToTelegram, 5000); }
+                }
             }).catch(e => {
                 bot.deleteMessage(chatId, messageId).catch(() => {});
                 sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
