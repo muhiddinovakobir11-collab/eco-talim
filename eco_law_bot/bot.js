@@ -202,9 +202,10 @@ if (!token) {
 
 const bot = new TelegramBot(token, { polling: false });
 
-// Global xatoliklarni ushlab qolish (dastur qulab tushmasligi uchun)
+// Global xatoliklarni ushlab qolish (faqat log qilish va qayta ishga tushish uchun)
 process.on('uncaughtException', (err) => {
-    console.error("Kutilmagan xatolik:", err);
+    console.error("Kutilmagan xatolik (CRITICAL):", err);
+    process.exit(1); // Render qayta ishga tushirishi uchun o'ldirish kerak!
 });
 process.on('unhandledRejection', (reason, promise) => {
     console.error("Kutilmagan Promise xatosi:", reason);
@@ -216,9 +217,14 @@ bot.on('polling_error', (error) => {
 
 // Polling tasodifan to'xtab qolsa, uni avtomatik qayta ishga tushirish
 setInterval(() => {
-    if (!bot.isPolling()) {
-        console.log("Polling to'xtab qolgan, qayta ishga tushirilmoqda...");
-        bot.startPolling();
+    try {
+        const isPolling = typeof bot.isPolling === 'function' ? bot.isPolling() : bot.isPolling;
+        if (!isPolling) {
+            console.log("Polling to'xtab qolgan, qayta ishga tushirilmoqda...");
+            bot.startPolling();
+        }
+    } catch (e) {
+        console.error("Polling restart xatosi:", e);
     }
 }, 60 * 1000);
 
