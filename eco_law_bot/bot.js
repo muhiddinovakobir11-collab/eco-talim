@@ -154,7 +154,7 @@ http.createServer((req, res) => {
 
 // Render'da tekin server uxlab qolmasligi uchun bot o'ziga-o'zi har 5 daqiqada so'rov yuboradi
 setInterval(() => {
-    http.get('https://eco-talim.onrender.com/api/ping').on('error', (err) => {
+    require('https').get('https://eco-talim.onrender.com/api/ping').on('error', (err) => {
         console.error("Ping xatosi:", err.message);
     });
 }, 5 * 60 * 1000);
