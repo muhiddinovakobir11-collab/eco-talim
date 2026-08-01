@@ -1130,6 +1130,28 @@ bot.on('callback_query', (query) => {
         sendAdminBroadcastHistMsg(chatId, index, query.message.message_id);
     }
     
+    if (data.startsWith('feedback_bcast_')) {
+        if (!userStates[chatId]) userStates[chatId] = {};
+        userStates[chatId].step = 'awaiting_bcast_feedback';
+        userStates[chatId].bcastId = data.replace('feedback_bcast_', '');
+        
+        bot.sendMessage(chatId, "?? Iltimos, ushbu xabar yuzasidan o'z fikr, taklif yoki shikoyatingizni yozib yuboring.\n(Bekor qilish uchun pastdagi tugmani bosing)", {
+            reply_markup: {
+                inline_keyboard: [[{ text: "? Bekor qilish", callback_data: `cancel_bcast_feedback` }]]
+            }
+        });
+    }
+    
+    if (data === 'cancel_bcast_feedback') {
+        if (userStates[chatId] && userStates[chatId].step === 'awaiting_bcast_feedback') {
+            delete userStates[chatId];
+        }
+        bot.editMessageText("? Fikr bildirish bekor qilindi.", {
+            chat_id: chatId,
+            message_id: query.message.message_id
+        }).catch(()=>{});
+    }
+
     if (data.startsWith('admin_bcast_del_')) {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
         const id = data.replace('admin_bcast_del_', '');
@@ -1438,6 +1460,22 @@ bot.on('message', (msg) => {
             }
         }
 
+        if (state === 'awaiting_bcast_feedback') {
+            if (msg.text === '/cancel' || msg.text === 'Bekor qilish') {
+                delete userStates[chatId];
+                bot.sendMessage(chatId, "? Fikr bildirish bekor qilindi.", { reply_markup: { remove_keyboard: true } });
+                return;
+            }
+            if (msg.text && !msg.text.startsWith('/')) {
+                const senderName = msg.from.first_name + (msg.from.username ? ` (@${msg.from.username})` : '');
+                bot.sendMessage(ADMIN_ID, `? <b>Yangi Izoh (Tarqatilgan xabarga)</b>\n? Yuboruvchi: <a href="tg://user?id=${chatId}">${senderName}</a>\n\n? Izoh: ${msg.text}`, { parse_mode: 'HTML' });
+                
+                bot.sendMessage(chatId, "?? Rahmat! Xabaringiz adminga yetkazildi.");
+                delete userStates[chatId];
+                return;
+            }
+        }
+
         if (state === 'awaiting_location') {
             if (msg.location) {
                 userStates[chatId].location = msg.location;
@@ -1521,7 +1559,11 @@ bot.on('message', (msg) => {
         usersData.forEach((userObj, index) => {
             const uId = userObj.id || userObj;
             setTimeout(() => {
-                bot.copyMessage(uId, chatId, msg.message_id)
+                bot.copyMessage(uId, chatId, msg.message_id, {
+                    reply_markup: {
+                        inline_keyboard: [[{ text: "? Izoh qoldirish", callback_data: `feedback_bcast_${newBroadcast.id}` }]]
+                    }
+                })
                     .then((sentMsg) => { 
                         successCount++; 
                         // message_id returned by copyMessage
