@@ -1558,12 +1558,23 @@ bot.on('message', (msg) => {
         
         usersData.forEach((userObj, index) => {
             const uId = userObj.id || userObj;
+            let name = userObj.first_name || 'Obunachi';
+            if (userObj.username) {
+                name = `<a href="https://t.me/${userObj.username}">${name}</a>`;
+            } else {
+                name = `<a href="tg://user?id=${uId}">${name}</a>`;
+            }
+            const greeting = `Hurmatli ${name},`;
+            
             setTimeout(() => {
-                bot.copyMessage(uId, chatId, msg.message_id, {
-                    reply_markup: {
-                        inline_keyboard: [[{ text: "? Izoh qoldirish", callback_data: `feedback_bcast_${newBroadcast.id}` }]]
-                    }
-                })
+                bot.sendMessage(uId, greeting, { parse_mode: 'HTML' })
+                    .then(() => {
+                        return bot.copyMessage(uId, chatId, msg.message_id, {
+                            reply_markup: {
+                                inline_keyboard: [[{ text: "💬 Izoh qoldirish", callback_data: `feedback_bcast_${newBroadcast.id}` }]]
+                            }
+                        });
+                    })
                     .then((sentMsg) => { 
                         successCount++; 
                         // message_id returned by copyMessage
