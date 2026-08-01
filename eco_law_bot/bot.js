@@ -202,7 +202,7 @@ if (!token) {
     console.warn("DIQQAT: TELEGRAM_TOKEN yoki GEMINI_API_KEY topilmadi!");
 }
 
-const bot = new TelegramBot(token, { polling: false });
+const bot = new TelegramBot(token, { polling: { autoStart: false, interval: 50 } });
 
 // Global xatoliklarni ushlab qolish (faqat log qilish va qayta ishga tushish uchun)
 process.on('uncaughtException', (err) => {
