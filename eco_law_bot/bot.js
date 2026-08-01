@@ -202,6 +202,26 @@ if (!token) {
 
 const bot = new TelegramBot(token, { polling: false });
 
+// Global xatoliklarni ushlab qolish (dastur qulab tushmasligi uchun)
+process.on('uncaughtException', (err) => {
+    console.error("Kutilmagan xatolik:", err);
+});
+process.on('unhandledRejection', (reason, promise) => {
+    console.error("Kutilmagan Promise xatosi:", reason);
+});
+
+bot.on('polling_error', (error) => {
+    console.error("Polling xatosi:", error.message);
+});
+
+// Polling tasodifan to'xtab qolsa, uni avtomatik qayta ishga tushirish
+setInterval(() => {
+    if (!bot.isPolling()) {
+        console.log("Polling to'xtab qolgan, qayta ishga tushirilmoqda...");
+        bot.startPolling();
+    }
+}, 60 * 1000);
+
 console.log('Eco Law Bot ishga tushdi (DB kutilmoqda)...');
 
 const originalWriteFileSync = fs.writeFileSync;
