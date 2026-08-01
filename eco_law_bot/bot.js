@@ -189,6 +189,8 @@ try {
     usersData = [];
 }
 
+let fileIdsCache = {};
+
 // Environment Variables (Maxfiy kalitlar)
 const token = process.env.TELEGRAM_TOKEN || "8816258838:AAEUKvrASp9XfwfapeEG-ibsFgvTeY24Bw8";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AQ.Ab8RN6Ij-ITyOZy09qfVaeBuoCqfbBsSTyhAABlYMMU0OQsA8w";
@@ -257,7 +259,8 @@ async function syncToTelegram() {
             users: usersData,
             feed: feedData,
             approvals: approvalsData,
-            broadcasts: broadcastsData
+            broadcasts: broadcastsData,
+            fileIds: fileIdsCache
         };
         const buffer = Buffer.from(JSON.stringify(allData, null, 2));
         
@@ -296,6 +299,7 @@ async function initTelegramDB() {
             if (data.feed) feedData = data.feed;
             if (data.approvals) approvalsData = data.approvals;
             if (data.broadcasts) broadcastsData = data.broadcasts;
+            if (data.fileIds) fileIdsCache = data.fileIds;
             
             originalWriteFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
             originalWriteFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
@@ -319,6 +323,39 @@ initTelegramDB();
 
 // Foydalanuvchilar sessiyasini saqlash xotirasi (random va takrorlanmaslik uchun)
 const userSessions = {};
+
+async function sendFastPhoto(chatId, imagePath, options) {
+    // Agar fayl keshda bo'lsa (ID bo'lsa), ID orqali juda tez yuboramiz
+    if (typeof imagePath === 'string' && fileIdsCache[imagePath]) {
+        try {
+            return await bot.sendPhoto(chatId, fileIdsCache[imagePath], options);
+        } catch (e) {
+            // ID eskirgan bo'lishi mumkin, davom etamiz
+        }
+    }
+    // Agar keshda yo'q bo'lsa yoki xato bersa, faylni yuklaymiz
+    const msg = await bot.sendPhoto(chatId, imagePath, options);
+    if (msg && msg.photo && msg.photo.length > 0 && typeof imagePath === 'string') {
+        fileIdsCache[imagePath] = msg.photo[msg.photo.length - 1].file_id;
+        // Kesh yangilanganda zaxirani yangilash uchun
+        if (!isSaving && !pendingSave) { pendingSave = true; setTimeout(syncToTelegram, 5000); }
+    }
+    return msg;
+}
+
+async function sendFastVideo(chatId, videoPath, options) {
+    if (typeof videoPath === 'string' && fileIdsCache[videoPath]) {
+        try {
+            return await bot.sendVideo(chatId, fileIdsCache[videoPath], options);
+        } catch (e) { }
+    }
+    const msg = await bot.sendVideo(chatId, videoPath, options);
+    if (msg && msg.video && msg.video.file_id && typeof videoPath === 'string') {
+        fileIdsCache[videoPath] = msg.video.file_id;
+        if (!isSaving && !pendingSave) { pendingSave = true; setTimeout(syncToTelegram, 5000); }
+    }
+    return msg;
+}
 
 function getUserSession(chatId) {
     if (!userSessions[chatId]) {
@@ -402,11 +439,11 @@ bot.onText(/\/start/, (msg) => {
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {
-        bot.sendVideo(chatId, videoPath, {
+        sendFastVideo(chatId, videoPath, {
             caption: introText,
             reply_markup: getMainMenuOptions(chatId).reply_markup,
             parse_mode: 'HTML'
-        });
+        }).catch(()=>{});
     } else {
         bot.sendMessage(chatId, introText, { ...getMainMenuOptions(chatId), parse_mode: 'HTML' });
     }
@@ -1209,11 +1246,11 @@ function sendSpecificQuestion(chatId, type, qIndex) {
     }
     
     if (imagePath) {
-        bot.sendPhoto(chatId, imagePath, {
+        sendFastPhoto(chatId, imagePath, {
             caption: text,
             parse_mode: 'HTML',
             reply_markup: { inline_keyboard: keyboard }
-        });
+        }).catch(()=>{});
     } else {
         bot.sendMessage(chatId, text, { reply_markup: { inline_keyboard: keyboard }, parse_mode: 'HTML' });
     }
@@ -1552,7 +1589,7 @@ function sendQuestNode(chatId, nodeId) {
     let text = `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Eko-Qahramon Sarguzashti</b> <i>(Jami bazada: ${questData.length} ta vaziyat)</i>:\n<blockquote>${node.story}</blockquote>\n`;
     
     if (imagePath) {
-        bot.sendPhoto(chatId, imagePath, { caption: text, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
+        sendFastPhoto(chatId, imagePath, { caption: text, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
             bot.sendMessage(chatId, text, { parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } });
         });
     } else {
@@ -1607,7 +1644,7 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
                 reply_markup: keyboard
             }).catch(e => {
                 bot.deleteMessage(chatId, messageId).catch(() => {});
-                bot.sendPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard });
+                sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
             });
         } else {
             bot.editMessageText(msg, {
@@ -1622,7 +1659,7 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
         }
     } else {
         if (imagePath) {
-            bot.sendPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard });
+            sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
         } else {
             bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
         }
