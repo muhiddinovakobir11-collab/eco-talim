@@ -239,7 +239,9 @@ let isSaving = false;
 let pendingSave = false;
 
 fs.writeFileSync = function(file, data, options) {
-    originalWriteFileSync(file, data, options);
+    fs.writeFile(file, data, options, (err) => {
+        if (err) console.error("Write error:", err);
+    });
     if (file.includes('users.json') || file.includes('feed.json') || file.includes('approvals.json') || file.includes('broadcasts.json')) {
         if (!isSaving && !pendingSave) {
             pendingSave = true;
