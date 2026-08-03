@@ -243,9 +243,9 @@ fs.writeFileSync = function(file, data, options) {
         if (err) console.error("Write error:", err);
     });
     if (file.includes('users.json') || file.includes('feed.json') || file.includes('approvals.json') || file.includes('broadcasts.json')) {
-        if (!isSaving && !pendingSave) {
+        if (!pendingSave) {
             pendingSave = true;
-            setTimeout(syncToTelegram, 5000);
+            setTimeout(syncToTelegram, 600000); // Har 5 soniyada emas, 10 daqiqada bir marta bazani Telegramga yuklaydi (bot qotib qolmasligi uchun juda muhim)
         }
     }
 };
