@@ -1387,7 +1387,7 @@ bot.onText(/\/resetmenus/, (msg) => {
     });
 });
 
-bot.on('message', (msg) => {
+bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
 
     // Foydalanuvchini bazaga qo'shish (agar yo'q bo'lsa) - server o'chib yonganda data yo'qolishiga qarshi
