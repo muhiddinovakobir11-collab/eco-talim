@@ -383,6 +383,7 @@ function getMainMenuOptions(chatId) {
     let keyboard = [
         [{ text: "📸 Eko-Nazorat", callback_data: "menu_report" }],
         [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
+        [{ text: "🤖 AI Slayd/Referat", callback_data: "menu_ai_generate" }],
         [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
         [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
         [{ text: "📕 Qizil Kitob", callback_data: "menu_redbook" }],
@@ -839,6 +840,17 @@ bot.on('callback_query', (query) => {
         msg += `<i>To'g'ri javob berib, ballingizni oshiring!</i>`;
         
         bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...getMainMenuOptions(chatId) });
+        return;
+    }
+    
+    if (data === 'menu_ai_generate') {
+        userStates[chatId] = { step: 'awaiting_ai_topic' };
+        bot.sendMessage(chatId, `?? <b>Slayd yoki Referat yaratish!</b>\n\nQaysi mavzuda va qanaqa turdagi ma'lumot tayyorlamoqchisiz? Iltimos, batafsil yozib yuboring.\n\n<i>Masalan: "Orol dengizi qurishi bo'yicha 5 betlik referat yozib ber" yoki "O'zbekiston Qizil kitobiga kiritilgan hayvonlar haqida 10 ta slayd matni tayyorla"</i>`, {
+            parse_mode: 'HTML',
+            reply_markup: {
+                inline_keyboard: [[{ text: "?? Bekor qilish", callback_data: "menu_back" }]]
+            }
+        });
         return;
     }
     
@@ -1538,6 +1550,40 @@ bot.on('message', (msg) => {
                 });
                 
                 delete userStates[chatId];
+                return;
+            }
+            
+            if (state === 'awaiting_ai_topic') {
+                if (!msg.text) {
+                    bot.sendMessage(chatId, "Iltimos, mavzuni matn ko'rinishida yozib yuboring.");
+                    return;
+                }
+                
+                delete userStates[chatId];
+                bot.sendMessage(chatId, "? <b>Sun'iy intellekt so'rovingiz ustida ishlamoqda. Iltimos, biroz kuting (bu 10-15 soniya vaqt olishi mumkin)...</b>", { parse_mode: 'HTML' });
+                
+                try {
+                    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                    const prompt = `Siz professional darajadagi ekologiya o'qituvchisi va ilmiy xodimsiz. Foydalanuvchi sizdan quyidagi mavzuda Slayd, Referat yoki Kurs ishi yozib berishni so'ramoqda:\n\n"${msg.text}"\n\nIltimos, faqat o'zbek tilida, juda chiroyli formatlangan, sarlavhalar bilan boyitilgan va ilmiy asoslangan holda to'liq matnni yozib bering. Agar u slayd bo'lsa, har bir slayd uchun alohida sarlavha va uning izoh matni qilib (Slide 1, Slide 2...) yozing. Matn tushunarli, ravon va ilmiy pishiq bo'lsin.`;
+                    
+                    const result = await model.generateContent(prompt);
+                    const response = await result.response;
+                    let text = response.text();
+                    
+                    // Telegram xabar limiti (4096 belgi) dan o'tib ketmasligi uchun matnni bo'lib yuboramiz
+                    const maxLen = 4000;
+                    if (text.length <= maxLen) {
+                        bot.sendMessage(chatId, text, { parse_mode: 'Markdown' });
+                    } else {
+                        for (let i = 0; i < text.length; i += maxLen) {
+                            bot.sendMessage(chatId, text.substring(i, i + maxLen));
+                        }
+                    }
+                } catch (err) {
+                    console.error("Gemini xatosi:", err);
+                    bot.sendMessage(chatId, "? <b>Kechirasiz, tizimda xatolik yuz berdi.</b> API kaliti noto'g'ri bo'lishi mumkin yoki tizim band. Iltimos keyinroq urunib ko'ring.", { parse_mode: 'HTML' });
+                }
                 return;
             }
         }
