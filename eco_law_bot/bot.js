@@ -844,11 +844,29 @@ bot.on('callback_query', (query) => {
     }
     
     if (data === 'menu_ai_generate') {
-        userStates[chatId] = { step: 'awaiting_ai_topic' };
-        bot.sendMessage(chatId, `?? <b>Slayd yoki Referat yaratish!</b>\n\nQaysi mavzuda va qanaqa turdagi ma'lumot tayyorlamoqchisiz? Iltimos, batafsil yozib yuboring.\n\n<i>Masalan: "Orol dengizi qurishi bo'yicha 5 betlik referat yozib ber" yoki "O'zbekiston Qizil kitobiga kiritilgan hayvonlar haqida 10 ta slayd matni tayyorla"</i>`, {
+        bot.sendMessage(chatId, `?? <b>AI Yordamchi Menu</b>\n\nNima yaratmoqchisiz? Quyidagi 8 ta yo'nalishdan birini tanlang:`, {
             parse_mode: 'HTML',
             reply_markup: {
-                inline_keyboard: [[{ text: "?? Bekor qilish", callback_data: "menu_back" }]]
+                inline_keyboard: [
+                    [{ text: "?? Slayd (Taqdimot)", callback_data: "ai_gen_Slayd" }, { text: "?? Referat", callback_data: "ai_gen_Referat" }],
+                    [{ text: "?? Kurs ishi", callback_data: "ai_gen_Kurs ishi" }, { text: "?? Ilmiy Maqola", callback_data: "ai_gen_Maqola" }],
+                    [{ text: "?? Ochiq Dars Ishlanmasi", callback_data: "ai_gen_Dars ishlanmasi" }, { text: "?? Ekologik Loyiha", callback_data: "ai_gen_Loyiha" }],
+                    [{ text: "?? Insho", callback_data: "ai_gen_Insho" }, { text: "?? Test (Quiz) Tuzish", callback_data: "ai_gen_Test" }],
+                    [{ text: "?? Orqaga", callback_data: "menu_back" }]
+                ]
+            }
+        });
+        return;
+    }
+    
+    if (data.startsWith('ai_gen_')) {
+        const docType = data.replace('ai_gen_', '');
+        userStates[chatId] = { step: 'awaiting_ai_topic', type: docType };
+        
+        bot.sendMessage(chatId, `?? <b>Siz tanladingiz: ${docType}</b>\n\nEndi menga qaysi mavzuda yozib berishim kerakligini va qanday talablaringiz borligini batafsil yozib yuboring.\n\n<i>Masalan: "Orol dengizi qurishi bo'yicha 5 betlik matn" yoki "Chiqindilarni qayta ishlash mavzusida qiziqarli testlar"</i>`, {
+            parse_mode: 'HTML',
+            reply_markup: {
+                inline_keyboard: [[{ text: "?? Bekor qilish", callback_data: "menu_ai_generate" }]]
             }
         });
         return;
@@ -1559,13 +1577,14 @@ bot.on('message', async (msg) => {
                     return;
                 }
                 
+                const docType = userStates[chatId].type || "Matn";
                 delete userStates[chatId];
-                bot.sendMessage(chatId, "? <b>Sun'iy intellekt so'rovingiz ustida ishlamoqda. Iltimos, biroz kuting (bu 10-15 soniya vaqt olishi mumkin)...</b>", { parse_mode: 'HTML' });
+                bot.sendMessage(chatId, `? <b>Sun'iy intellekt sizning so'rovingiz bo'yicha "${docType}" tayyorlamoqda. Iltimos, biroz kuting (10-15 soniya)...</b>`, { parse_mode: 'HTML' });
                 
                 try {
                     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
                     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-                    const prompt = `Siz professional darajadagi ekologiya o'qituvchisi va ilmiy xodimsiz. Foydalanuvchi sizdan quyidagi mavzuda Slayd, Referat yoki Kurs ishi yozib berishni so'ramoqda:\n\n"${msg.text}"\n\nIltimos, faqat o'zbek tilida, juda chiroyli formatlangan, sarlavhalar bilan boyitilgan va ilmiy asoslangan holda to'liq matnni yozib bering. Agar u slayd bo'lsa, har bir slayd uchun alohida sarlavha va uning izoh matni qilib (Slide 1, Slide 2...) yozing. Matn tushunarli, ravon va ilmiy pishiq bo'lsin.`;
+                    const prompt = `Siz professional darajadagi ekologiya o'qituvchisi va ilmiy xodimsiz. Foydalanuvchi sizdan quyidagi mavzuda "${docType}" yozib berishni so'ramoqda:\n\nMavzu/Talab: "${msg.text}"\n\nIltimos, faqat o'zbek tilida, juda chiroyli formatlangan, sarlavhalar bilan boyitilgan va ilmiy asoslangan holda to'liq matnni yozib bering. Agar u slayd bo'lsa, har bir slayd uchun alohida sarlavha va uning izoh matni qilib (Slide 1, Slide 2...) yozing. Test tuzish so'ralgan bo'lsa, variantlar (A,B,C,D) bilan tuzib, to'g'ri javoblarni belgilang. Matn tushunarli, ravon va ilmiy pishiq bo'lsin.`;
                     
                     const result = await model.generateContent(prompt);
                     const response = await result.response;
