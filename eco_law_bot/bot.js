@@ -759,7 +759,7 @@ bot.on('callback_query', (query) => {
     }
     
     // Test va savollar bo'limlari uchun umumiy tutib oluvchi
-    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back' && data !== 'menu_hero' && data !== 'menu_leaderboard' && data !== 'menu_redbook') {
+    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back' && data !== 'menu_hero' && data !== 'menu_leaderboard' && data !== 'menu_redbook' && data !== 'menu_ai_generate') {
         const type = data.replace('menu_', ''); // quizzes, puzzles, terms, penalties, truefalse bo'ladi
         sendRandomQuestion(chatId, type);
     }
