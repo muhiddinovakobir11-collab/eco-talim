@@ -1718,7 +1718,7 @@ bot.on('message', async (msg) => {
     
     // Boshqa har qanday (buyruq bo'lmagan) xabarlar uchun
     if (msg.text && !msg.text.startsWith('/')) {
-        bot.sendMessage(chatId, "⚠️ Botdan foydalanish uchun /start buyrug'ini bosing yoki bot menyusidan foydalaning.");
+        bot.sendMessage(chatId, "⚠️ Iltimos botdan foydalanish uchun /start tugmasini bosing.");
     }
 });
 
@@ -1927,3 +1927,4 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(Server listening on port );
 });
+
