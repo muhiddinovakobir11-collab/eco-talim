@@ -1800,55 +1800,18 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
     
     let keyboard = { inline_keyboard: [ navRow, [{ text: "🔙 Orqaga", callback_data: "menu_redbook" }, { text: "🏠 Bosh menyu", callback_data: "menu_back" }] ] };
     
-    let imagePath = null;
-    if (animal.image && fs.existsSync('./data/images/' + animal.image)) {
-        imagePath = './data/images/' + animal.image;
-    }
-    
-    let aiPhoto = null;
-    if (!imagePath) {
-        const keyword = encodeURIComponent("beautiful rare botanical plant flower " + animal.name);
-        aiPhoto = "https://image.pollinations.ai/prompt/" + keyword + "?width=800&height=600&nologo=true&seed=" + Math.floor(Math.random() * 10000);
-    }
-    
     if (messageId) {
-        if (imagePath || aiPhoto) {
-            let mediaObj = imagePath ? (fileIdsCache[imagePath] || fs.createReadStream(imagePath)) : aiPhoto;
-            bot.editMessageMedia({
-                type: 'photo',
-                media: mediaObj,
-                caption: msg,
-                parse_mode: 'HTML'
-            }, {
-                chat_id: chatId,
-                message_id: messageId,
-                reply_markup: keyboard
-            }).then(resp => {
-                if (resp && resp.photo && resp.photo.length > 0) {
-                    fileIdsCache[imagePath] = resp.photo[resp.photo.length - 1].file_id;
-                    if (!isSaving && !pendingSave) { pendingSave = true; setTimeout(syncToTelegram, 5000); }
-                }
-            }).catch(e => {
-                bot.deleteMessage(chatId, messageId).catch(() => {});
-                sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
-            });
-        } else {
-            bot.editMessageText(msg, {
-                chat_id: chatId,
-                message_id: messageId,
-                parse_mode: 'HTML',
-                reply_markup: keyboard
-            }).catch(e => {
-                bot.deleteMessage(chatId, messageId).catch(() => {});
-                bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
-            });
-        }
-    } else {
-        if (imagePath) {
-            sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
-        } else {
+        bot.editMessageText(msg, {
+            chat_id: chatId,
+            message_id: messageId,
+            parse_mode: 'HTML',
+            reply_markup: keyboard
+        }).catch(e => {
+            bot.deleteMessage(chatId, messageId).catch(() => {});
             bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
-        }
+        });
+    } else {
+        bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
     }
 }
 
@@ -1924,3 +1887,4 @@ Shablon (Har bir obyekt bitta slayd):
 }
 
 // Dummy HTTP server for Render web service binding
+
