@@ -1805,9 +1805,15 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
         imagePath = './data/images/' + animal.image;
     }
     
+    let aiPhoto = null;
+    if (!imagePath) {
+        const keyword = encodeURIComponent(animal.name + " high quality realistic nature");
+        aiPhoto = "https://image.pollinations.ai/prompt/" + keyword + "?width=800&height=600&nologo=true";
+    }
+    
     if (messageId) {
-        if (imagePath) {
-            let mediaObj = fileIdsCache[imagePath] || fs.createReadStream(imagePath);
+        if (imagePath || aiPhoto) {
+            let mediaObj = imagePath ? (fileIdsCache[imagePath] || fs.createReadStream(imagePath)) : aiPhoto;
             bot.editMessageMedia({
                 type: 'photo',
                 media: mediaObj,
@@ -1917,3 +1923,4 @@ Shablon (Har bir obyekt bitta slayd):
     }
 }
 
+// Dummy HTTP server for Render web service binding
