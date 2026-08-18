@@ -1917,13 +1917,3 @@ Shablon (Har bir obyekt bitta slayd):
     }
 }
 
-// Dummy HTTP server for Render web service binding
-const http_server = require('http');
-const server = http_server.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Eco Law Bot is running!\n');
-});
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(Server listening on port );
-});
