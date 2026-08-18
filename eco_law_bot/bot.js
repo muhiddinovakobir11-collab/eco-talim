@@ -1807,8 +1807,8 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
     
     let aiPhoto = null;
     if (!imagePath) {
-        const keyword = encodeURIComponent(animal.name + " high quality realistic nature");
-        aiPhoto = "https://image.pollinations.ai/prompt/" + keyword + "?width=800&height=600&nologo=true";
+        const keyword = encodeURIComponent("beautiful rare botanical plant flower " + animal.name);
+        aiPhoto = "https://image.pollinations.ai/prompt/" + keyword + "?width=800&height=600&nologo=true&seed=" + Math.floor(Math.random() * 10000);
     }
     
     if (messageId) {
