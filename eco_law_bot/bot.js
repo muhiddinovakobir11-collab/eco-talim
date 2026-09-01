@@ -1716,63 +1716,9 @@ bot.on('message', async (msg) => {
         return; // Tarqatish paytida pastdagi xato xabari chiqmasligi uchun funksiyani to'xtatamiz
     }
     
-    // --- 2- va 4- G'OYALAR: QIDIRUV VA SUN'IY INTELLEKT TABIATSHUNOS ---
+    // Boshqa har qanday (buyruq bo'lmagan) xabarlar uchun
     if (msg.text && !msg.text.startsWith('/')) {
-        const query = msg.text.toLowerCase().trim();
-        
-        // 1. Qizil Kitobdan izlash (2-g'oya)
-        const animalsData = redbookData.filter(i => !i.name.includes("(O'simlik)"));
-        const plantsData = redbookData.filter(i => i.name.includes("(O'simlik)"));
-        
-        let matches = [];
-        // Hayvonlar
-        animalsData.forEach((a, idx) => {
-            if (a.name.toLowerCase().includes(query)) matches.push({ type: 'animals', name: a.name, idx: idx });
-        });
-        // O'simliklar
-        plantsData.forEach((p, idx) => {
-            if (p.name.toLowerCase().includes(query)) matches.push({ type: 'plants', name: p.name, idx: idx });
-        });
-        
-        if (matches.length > 0) {
-            if (matches.length === 1) {
-                // To'g'ridan-to'g'ri ko'rsatish
-                bot.sendMessage(chatId, "✅ <b>Qizil Kitobdan topildi!</b>", { parse_mode: 'HTML' }).then(m => {
-                    sendRedbookPage(chatId, matches[0].idx, null, matches[0].type);
-                });
-            } else {
-                // Agar bir nechta topsa, ro'yxat qilib tugmalar beramiz (maksimal 10 ta)
-                let btns = [];
-                for (let i = 0; i < Math.min(matches.length, 10); i++) {
-                    btns.push([{ text: "🟢 " + matches[i].name.replace("(O'simlik)", "").trim(), callback_data: "redbook_page_" + matches[i].idx + "_" + matches[i].type }]);
-                }
-                btns.push([{ text: "🔙 Bosh menyu", callback_data: "menu_back" }]);
-                bot.sendMessage(chatId, `🔍 <b>Qizil Kitobdan ${matches.length} ta natija topildi!</b>\nKerakli sahifani tanlang:`, {
-                    parse_mode: 'HTML',
-                    reply_markup: { inline_keyboard: btns }
-                });
-            }
-            return;
-        }
-        
-        // 2. Agar Qizil Kitobdan topilmasa, Sun'iy Intellekt tabiatshunos javob beradi (4-g'oya)
-        bot.sendMessage(chatId, "🌱 <i>Tabiatshunos AI sizning xabaringizni o'qib chiqmoqda... (Kuting)</i>", { parse_mode: 'HTML' }).then(async (waitMsg) => {
-            try {
-                const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-                
-                const prompt = "Siz O'zbekiston tabiati, ekologiyasi, Qizil Kitob flora va faunasini juda yaxshi biladigan professor, ekolog-tabiatshunossiz. Foydalanuvchining quyidagi xabariga do'stona, ilmiy va o'zbek tilida chiroyli javob bering. Uning ekologiya, tabiat yoki o'simlik/hayvonlar haqidagi savoli yoki mulohazasiga yordam bering. Foydalanuvchi xabari: " + msg.text;
-                
-                const result = await model.generateContent(prompt);
-                const response = result.response.text();
-                
-                bot.deleteMessage(chatId, waitMsg.message_id).catch(()=>{});
-                bot.sendMessage(chatId, "🤖 <b>Ekolog-AI javobi:</b>\n\n" + response, { parse_mode: 'Markdown' });
-            } catch (err) {
-                bot.deleteMessage(chatId, waitMsg.message_id).catch(()=>{});
-                bot.sendMessage(chatId, "⚠️ Tizimda kichik uzilish. Iltimos, savolingizni keyinroq qayta yozing yoki /start orqali menyuga qayting.");
-            }
-        });
+        bot.sendMessage(chatId, "⚠️ Iltimos botdan foydalanish uchun /start tugmasini bosing.");
     }
 });
 
