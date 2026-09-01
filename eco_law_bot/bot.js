@@ -1,4 +1,4 @@
-﻿const TelegramBot = require('node-telegram-bot-api');
+const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const http = require('http');
@@ -121,7 +121,7 @@ http.createServer((req, res) => {
         req.on('end', () => {
             try {
                 let data = JSON.parse(body);
-                const caption = `ðŸš¨ <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nðŸ‘¤ <b>Yuboruvchi:</b> ${data.name}\nðŸ“ <b>Manzil:</b> ${data.location}\nðŸ“ <b>Tavsif:</b> ${data.description}\n\nðŸ”— <b>Telegram Profili:</b> <a href="tg://user?id=${data.userId}">Profilga o'tish</a>`;
+                const caption = `🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\n👤 <b>Yuboruvchi:</b> ${data.name}\n📍 <b>Manzil:</b> ${data.location}\n📝 <b>Tavsif:</b> ${data.description}\n\n🔗 <b>Telegram Profili:</b> <a href="tg://user?id=${data.userId}">Profilga o'tish</a>`;
                 
                 let base64Data = data.image.replace(/^data:image\/\w+;base64,/, "");
                 let buffer = Buffer.from(base64Data, 'base64');
@@ -129,7 +129,7 @@ http.createServer((req, res) => {
                 bot.sendPhoto(ADMIN_ID, buffer, { caption: caption, parse_mode: 'HTML' })
                     .then(() => {
                         if (data.userId) {
-                            bot.sendMessage(data.userId, "ðŸŽ‰ <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' }).catch(()=>{});
+                            bot.sendMessage(data.userId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga muvaffaqiyatli yuborildi. Ekologiyaga qo'shayotgan hissangiz uchun tashakkur!", { parse_mode: 'HTML' }).catch(()=>{});
                         }
                     }).catch(e => console.log(e));
                 
@@ -269,7 +269,7 @@ async function syncToTelegram() {
         
         const sent = await bot.sendDocument(ADMIN_ID, buffer, { 
             disable_notification: true, 
-            caption: "ðŸ’¾ BOT BAZASI (O'CHIRMANG VA PINNI OLIB TASHLAMANG)\nBu fayl botning barcha xotirasini o'z ichiga oladi va server o'chib yonganda qayta tiklash uchun ishlatiladi."
+            caption: "💾 BOT BAZASI (O'CHIRMANG VA PINNI OLIB TASHLAMANG)\nBu fayl botning barcha xotirasini o'z ichiga oladi va server o'chib yonganda qayta tiklash uchun ishlatiladi."
         }, { filename: 'database.json', contentType: 'application/json' });
         
         if (dbMessageId) {
@@ -381,21 +381,21 @@ function getUserSession(chatId) {
 // Bosh menyu klaviaturasi
 function getMainMenuOptions(chatId) {
     let keyboard = [
-        [{ text: "ðŸ“¸ Eko-Nazorat", callback_data: "menu_report" }],
-        [{ text: "ðŸŽ¯ Ekologiya Quiz", callback_data: "menu_quizzes" }],
-        [{ text: "ðŸ¤– AI Slayd/Referat", callback_data: "menu_ai_generate" }],
-        [{ text: "ðŸ”® Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
-        [{ text: "ðŸ¦¸â€â™‚ï¸ Eko-Qahramon", callback_data: "menu_hero" }],
-        [{ text: "ðŸ“• Qizil Kitob", callback_data: "menu_redbook" }],
-        [{ text: "ðŸ’¡ Ekologik Atamalar", callback_data: "menu_terms" }],
-        [{ text: "ðŸš¨ Jazolar va Jarimalar", callback_data: "menu_penalties" }],
-        [{ text: "ðŸŸ¢ To'g'ri / ðŸ”´ Noto'g'ri", callback_data: "menu_truefalse" }],
-        [{ text: "ðŸ‘‘ Liderlar Reytingi", callback_data: "menu_leaderboard" }]
+        [{ text: "📸 Eko-Nazorat", callback_data: "menu_report" }],
+        [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
+        [{ text: "🤖 AI Slayd/Referat", callback_data: "menu_ai_generate" }],
+        [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
+        [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
+        [{ text: "📕 Qizil Kitob", callback_data: "menu_redbook" }],
+        [{ text: "💡 Ekologik Atamalar", callback_data: "menu_terms" }],
+        [{ text: "🚨 Jazolar va Jarimalar", callback_data: "menu_penalties" }],
+        [{ text: "🟢 To'g'ri / 🔴 Noto'g'ri", callback_data: "menu_truefalse" }],
+        [{ text: "👑 Liderlar Reytingi", callback_data: "menu_leaderboard" }]
     ];
     
     // Faqat Adminga "Boshqaruv Paneli" tugmasi chiqadi
     if (chatId === ADMIN_ID) {
-        keyboard.push([{ text: "âš™ï¸ Boshqaruv Paneli", callback_data: "admin_panel" }]);
+        keyboard.push([{ text: "⚙️ Boshqaruv Paneli", callback_data: "admin_panel" }]);
     }
     
     return {
@@ -439,7 +439,7 @@ bot.onText(/\/start/, (msg) => {
         if (changed) fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
-    const introText = `ðŸŒŸ <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin! Quyidagi menyulardan birini tanlab boshlang.</blockquote>\n\nðŸ“² <b>Murojaat uchun:</b> @akoshprod`;
+    const introText = `🌟 <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin! Quyidagi menyulardan birini tanlab boshlang.</blockquote>\n\n📲 <b>Murojaat uchun:</b> @akoshprod`;
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {
@@ -470,23 +470,23 @@ bot.on('callback_query', (query) => {
             });
             fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
 
-            bot.editMessageText(`âœ… <b>Tasdiqlandi va Eko-Lentaga qo'shildi!</b>\nMurojaat-ID: ${approvalId}`, {
+            bot.editMessageText(`✅ <b>Tasdiqlandi va Eko-Lentaga qo'shildi!</b>\nMurojaat-ID: ${approvalId}`, {
                 chat_id: chatId,
                 message_id: query.message.message_id,
                 parse_mode: 'HTML'
             });
-            bot.sendMessage(report.userId, "âœ… <b>Tabriklaymiz!</b> Sizning murojaatingiz tasdiqlandi va bot ichidagi Murojaatlar Lentasiga joylandi. Rahmat!", { parse_mode: 'HTML' }).catch(()=>{});
+            bot.sendMessage(report.userId, "✅ <b>Tabriklaymiz!</b> Sizning murojaatingiz tasdiqlandi va bot ichidagi Murojaatlar Lentasiga joylandi. Rahmat!", { parse_mode: 'HTML' }).catch(()=>{});
             
             // Xabar tarqatish (Broadcast) barcha foydalanuvchilarga
             let successCount = 0;
             usersData.forEach((userObj, idx) => {
                 const uId = userObj.id || userObj;
                 setTimeout(() => {
-                    bot.sendMessage(uId, "ðŸš¨ <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nTabiatga befarq bo'lmagan fuqaro tomonidan yangi muammo xabar qilindi. Uni ko'rish uchun pastdagi tugmani bosing:", {
+                    bot.sendMessage(uId, "🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nTabiatga befarq bo'lmagan fuqaro tomonidan yangi muammo xabar qilindi. Uni ko'rish uchun pastdagi tugmani bosing:", {
                         parse_mode: 'HTML',
                         reply_markup: {
                             inline_keyboard: [
-                                [{ text: "ðŸ‘€ Ko'rish", callback_data: `report_view_${approvalId}` }]
+                                [{ text: "👀 Ko'rish", callback_data: `report_view_${approvalId}` }]
                             ]
                         }
                     }).catch(() => {});
@@ -505,12 +505,12 @@ bot.on('callback_query', (query) => {
         const approvalId = data.replace('reject_', '');
         if (approvalsData[approvalId]) {
             const report = approvalsData[approvalId];
-            bot.editMessageText(`âŒ <b>Rad etildi!</b>\nMurojaat-ID: ${approvalId}`, {
+            bot.editMessageText(`❌ <b>Rad etildi!</b>\nMurojaat-ID: ${approvalId}`, {
                 chat_id: chatId,
                 message_id: query.message.message_id,
                 parse_mode: 'HTML'
             });
-            bot.sendMessage(report.userId, "âŒ Sizning murojaatingiz admin tomonidan rad etildi (talablarga mos kelmagan bo'lishi mumkin).", { parse_mode: 'HTML' }).catch(()=>{});
+            bot.sendMessage(report.userId, "❌ Sizning murojaatingiz admin tomonidan rad etildi (talablarga mos kelmagan bo'lishi mumkin).", { parse_mode: 'HTML' }).catch(()=>{});
             delete approvalsData[approvalId];
             fs.writeFileSync('./data/approvals.json', JSON.stringify(approvalsData, null, 2));
         } else {
@@ -521,13 +521,13 @@ bot.on('callback_query', (query) => {
 
     
     if (data === 'menu_report') {
-        bot.sendMessage(chatId, "ðŸ“¸ <b>Eko-Nazorat</b> bo'limi:\nIltimos, kerakli amalni tanlang:", {
+        bot.sendMessage(chatId, "📸 <b>Eko-Nazorat</b> bo'limi:\nIltimos, kerakli amalni tanlang:", {
             parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: "âž• Yangi muammo yuborish", callback_data: "report_new" }],
-                    [{ text: "ðŸŒ Murojaatlar lentasi", callback_data: "report_view_latest" }],
-                    [{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]
+                    [{ text: "➕ Yangi muammo yuborish", callback_data: "report_new" }],
+                    [{ text: "🌍 Murojaatlar lentasi", callback_data: "report_view_latest" }],
+                    [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
                 ]
             }
         });
@@ -536,13 +536,13 @@ bot.on('callback_query', (query) => {
 
     if (data === 'report_new') {
         userStates[chatId] = { step: 'awaiting_photos', photos: [] };
-        let msgText = `âž• <b>Yangi Eko-Muammo</b>\n\nIltimos, ekologik muammo yuz bergan joyning rasmlarini yuboring (6 tagacha qabul qilinadi).\n\nRasm yuborish uchun pastdagi ðŸ“Ž (qisqich) belgisini bosib kameradan yoki galereyadan tanlang. Barcha rasmlarni yuborib bo'lgach, quyidagi <b>"Davom etish âž¡ï¸"</b> tugmasini bosing.`;
+        let msgText = `➕ <b>Yangi Eko-Muammo</b>\n\nIltimos, ekologik muammo yuz bergan joyning rasmlarini yuboring (6 tagacha qabul qilinadi).\n\nRasm yuborish uchun pastdagi 📎 (qisqich) belgisini bosib kameradan yoki galereyadan tanlang. Barcha rasmlarni yuborib bo'lgach, quyidagi <b>"Davom etish ➡️"</b> tugmasini bosing.`;
         bot.sendMessage(chatId, msgText, {
             parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: "Davom etish âž¡ï¸", callback_data: "report_continue" }],
-                    [{ text: "ðŸ  Bekor qilish", callback_data: "menu_back" }]
+                    [{ text: "Davom etish ➡️", callback_data: "report_continue" }],
+                    [{ text: "🏠 Bekor qilish", callback_data: "menu_back" }]
                 ]
             }
         });
@@ -570,28 +570,28 @@ bot.on('callback_query', (query) => {
         let keyboard = [];
         
         if (!report.solved) {
-            keyboard.push([{ text: "ðŸŸ¢ Faol muammo", callback_data: "dummy" }]);
+            keyboard.push([{ text: "🟢 Faol muammo", callback_data: "dummy" }]);
         } else {
-            keyboard.push([{ text: "âœ… Hal qilingan muammo", callback_data: "dummy" }]);
+            keyboard.push([{ text: "✅ Hal qilingan muammo", callback_data: "dummy" }]);
         }
         
-        keyboard.push([{ text: `ðŸ’¬ Izohlar (${report.comments ? report.comments.length : 0})`, callback_data: `report_comments_${report.id}` }]);
+        keyboard.push([{ text: `💬 Izohlar (${report.comments ? report.comments.length : 0})`, callback_data: `report_comments_${report.id}` }]);
 
         let navigationRow = [];
         if (index > 0) {
-            navigationRow.push({ text: "â¬…ï¸ Oldingi", callback_data: `report_view_${feedData[index - 1].id}` });
+            navigationRow.push({ text: "⬅️ Oldingi", callback_data: `report_view_${feedData[index - 1].id}` });
         }
         navigationRow.push({ text: `${index + 1} / ${feedData.length}`, callback_data: "dummy" });
         if (index < feedData.length - 1) {
-            navigationRow.push({ text: "Keyingi âž¡ï¸", callback_data: `report_view_${feedData[index + 1].id}` });
+            navigationRow.push({ text: "Keyingi ➡️", callback_data: `report_view_${feedData[index + 1].id}` });
         }
         keyboard.push(navigationRow);
-        keyboard.push([{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
         
         const photoId = report.photo;
-        let captionText = report.caption + `\n\nðŸ“… Sana: ${report.date}`;
+        let captionText = report.caption + `\n\n📅 Sana: ${report.date}`;
         if (report.solved) {
-            captionText = `âœ… <b>HAL QILINDI</b>\n\n` + captionText;
+            captionText = `✅ <b>HAL QILINDI</b>\n\n` + captionText;
         }
         if (query.message.photo) {
             bot.editMessageMedia({
@@ -625,7 +625,7 @@ bot.on('callback_query', (query) => {
         const report = feedData.find(r => r.id === id);
         if (!report) return bot.answerCallbackQuery(query.id, { text: "Murojaat topilmadi", show_alert: true });
         
-        let msgText = `ðŸ’¬ <b>Murojaat izohlari:</b>\n\n`;
+        let msgText = `💬 <b>Murojaat izohlari:</b>\n\n`;
         if (!report.comments || report.comments.length === 0) {
             msgText += "<i>Hozircha hech qanday izoh yo'q. Birinchi bo'lib izoh qoldiring!</i>\n";
         } else {
@@ -635,8 +635,8 @@ bot.on('callback_query', (query) => {
         }
         
         let kb = [
-            [{ text: "ðŸ“ Izoh yozish", callback_data: `report_add_comment_${report.id}` }],
-            [{ text: "ðŸ”™ Orqaga (Rasmga qaytish)", callback_data: `report_view_${report.id}` }]
+            [{ text: "📝 Izoh yozish", callback_data: `report_add_comment_${report.id}` }],
+            [{ text: "🔙 Orqaga (Rasmga qaytish)", callback_data: `report_view_${report.id}` }]
         ];
         
         bot.deleteMessage(chatId, query.message.message_id).catch(()=>{});
@@ -650,10 +650,10 @@ bot.on('callback_query', (query) => {
         userStates[chatId].step = 'awaiting_public_comment';
         userStates[chatId].reportId = id;
         
-        bot.sendMessage(chatId, "âœï¸ <b>Izohingizni yozing:</b>\n(Bekor qilish uchun 'Bekor qilish' deb yozing yoki pastdagi tugmani bosing)", {
+        bot.sendMessage(chatId, "✍️ <b>Izohingizni yozing:</b>\n(Bekor qilish uchun 'Bekor qilish' deb yozing yoki pastdagi tugmani bosing)", {
             parse_mode: 'HTML',
             reply_markup: {
-                inline_keyboard: [[{ text: "ðŸ”™ Bekor qilish", callback_data: `report_comments_${id}` }]]
+                inline_keyboard: [[{ text: "🔙 Bekor qilish", callback_data: `report_comments_${id}` }]]
             }
         });
         return bot.answerCallbackQuery(query.id);
@@ -665,11 +665,11 @@ bot.on('callback_query', (query) => {
             return;
         }
         userStates[chatId].step = 'awaiting_location';
-        bot.sendMessage(chatId, `ðŸ“ <b>Zo'r! Endi manzilni yuboring.</b>\n\nIltimos, pastdagi klaviaturadagi "ðŸ“ Lokatsiyani jo'natish" tugmasini bosing yoki xaritadan manzilni belgilab yuboring.`, {
+        bot.sendMessage(chatId, `📍 <b>Zo'r! Endi manzilni yuboring.</b>\n\nIltimos, pastdagi klaviaturadagi "📍 Lokatsiyani jo'natish" tugmasini bosing yoki xaritadan manzilni belgilab yuboring.`, {
             parse_mode: 'HTML',
             reply_markup: {
                 keyboard: [
-                    [{ text: "ðŸ“ Lokatsiyani jo'natish", request_location: true }],
+                    [{ text: "📍 Lokatsiyani jo'natish", request_location: true }],
                     [{ text: "Bekor qilish" }]
                 ],
                 resize_keyboard: true,
@@ -684,15 +684,15 @@ bot.on('callback_query', (query) => {
         let keyboard = [];
         for (let i = 0; i < lawsData.length; i += 2) {
             let row = [];
-            row.push({ text: "ðŸ› " + lawsData[i].category_title, callback_data: `law_cat_${lawsData[i].id}` });
+            row.push({ text: "🏛 " + lawsData[i].category_title, callback_data: `law_cat_${lawsData[i].id}` });
             if (i + 1 < lawsData.length) {
-                row.push({ text: "ðŸ› " + lawsData[i+1].category_title, callback_data: `law_cat_${lawsData[i+1].id}` });
+                row.push({ text: "🏛 " + lawsData[i+1].category_title, callback_data: `law_cat_${lawsData[i+1].id}` });
             }
             keyboard.push(row);
         }
-        keyboard.push([{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
         
-        bot.sendMessage(chatId, "<tg-emoji emoji-id=\"5330558871129836783\">ðŸ“š</tg-emoji> <b>O'rganish uchun kerakli yo'nalishni tanlang:</b>", {
+        bot.sendMessage(chatId, "<tg-emoji emoji-id=\"5330558871129836783\">📚</tg-emoji> <b>O'rganish uchun kerakli yo'nalishni tanlang:</b>", {
             parse_mode: 'HTML',
             reply_markup: { inline_keyboard: keyboard }
         });
@@ -716,8 +716,8 @@ bot.on('callback_query', (query) => {
             const total = cat.rules.length;
             const rule = cat.rules[pageIdx];
             
-            let msgText = `<tg-emoji emoji-id="5202058805457740493">ðŸ“‚</tg-emoji> <b>${cat.category_title}</b> yo'nalishi:\n\n`;
-            msgText += `<tg-emoji emoji-id="5463297803235113601">ðŸ“‘</tg-emoji> <b>${pageIdx + 1}. ${rule.title}</b>\n`;
+            let msgText = `<tg-emoji emoji-id="5202058805457740493">📂</tg-emoji> <b>${cat.category_title}</b> yo'nalishi:\n\n`;
+            msgText += `<tg-emoji emoji-id="5463297803235113601">📑</tg-emoji> <b>${pageIdx + 1}. ${rule.title}</b>\n`;
             msgText += `<i>Mazmuni:</i>\n<blockquote>${rule.desc}</blockquote>\n`;
             msgText += `<i>Asosiy moddalar:</i>\n<blockquote>${rule.key_articles}</blockquote>\n`;
             msgText += `<i>Javobgarlik:</i>\n<blockquote>${rule.punishment}</blockquote>\n`;
@@ -726,18 +726,18 @@ bot.on('callback_query', (query) => {
             let keyboard = [];
             
             if (pageIdx > 0) {
-                navRow.push({ text: "âª Oldingi", callback_data: `law_page_${catId}_${pageIdx - 1}` });
+                navRow.push({ text: "⏪ Oldingi", callback_data: `law_page_${catId}_${pageIdx - 1}` });
             }
             
-            navRow.push({ text: `ðŸ“„ ${pageIdx + 1} / ${total}`, callback_data: "ignore" });
+            navRow.push({ text: `📄 ${pageIdx + 1} / ${total}`, callback_data: "ignore" });
             
             if (pageIdx < total - 1) {
-                navRow.push({ text: "Keyingi â©", callback_data: `law_page_${catId}_${pageIdx + 1}` });
+                navRow.push({ text: "Keyingi ⏩", callback_data: `law_page_${catId}_${pageIdx + 1}` });
             }
             
             keyboard.push(navRow);
             keyboard.push(
-                [{ text: "ðŸ“‚ Yo'nalishlar", callback_data: "menu_learn" }]
+                [{ text: "📂 Yo'nalishlar", callback_data: "menu_learn" }]
             );
             
             if (data.startsWith('law_page_')) {
@@ -766,12 +766,12 @@ bot.on('callback_query', (query) => {
     
     // Qizil Kitob
     if (data === 'menu_redbook') {
-        let msg = `<tg-emoji emoji-id="5242628160297641831">ðŸ“•</tg-emoji> <b>Qizil Kitob</b> bo'limiga xush kelibsiz.\n\nQaysi yo'nalish bo'yicha ma'lumot olmoqchisiz?`;
+        let msg = `<tg-emoji emoji-id="5242628160297641831">📕</tg-emoji> <b>Qizil Kitob</b> bo'limiga xush kelibsiz.\n\nQaysi yo'nalish bo'yicha ma'lumot olmoqchisiz?`;
         let keyboard = {
             inline_keyboard: [
-                [{ text: "ðŸ… Hayvonot olami", callback_data: "redbook_start_animals" }],
-                [{ text: "ðŸŒ¿ O'simliklar dunyosi", callback_data: "redbook_start_plants" }],
-                [{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]
+                [{ text: "🐅 Hayvonot olami", callback_data: "redbook_start_animals" }],
+                [{ text: "🌿 O'simliklar dunyosi", callback_data: "redbook_start_plants" }],
+                [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
             ]
         };
         
@@ -827,16 +827,16 @@ bot.on('callback_query', (query) => {
         let sortedUsers = [...usersData].sort((a, b) => (b.score || 0) - (a.score || 0));
         let top10 = sortedUsers.slice(0, 10);
         
-        let msg = `<tg-emoji emoji-id="5330558871129836783">ðŸ†</tg-emoji> <b>Eko-Bilimdonlar Top-10 Reytingi:</b>\n\n`;
+        let msg = `<tg-emoji emoji-id="5330558871129836783">🏆</tg-emoji> <b>Eko-Bilimdonlar Top-10 Reytingi:</b>\n\n`;
         top10.forEach((u, i) => {
-            let medal = i === 0 ? "ðŸ¥‡" : i === 1 ? "ðŸ¥ˆ" : i === 2 ? "ðŸ¥‰" : "ðŸ”¹";
+            let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🔹";
             msg += `${medal} ${i+1}. <a href="tg://user?id=${u.id}">${u.first_name}</a> - <b>${u.score || 0} ball</b>\n`;
         });
         
         // O'zining o'rni
         let myIndex = sortedUsers.findIndex(u => u.id === chatId);
         let myScore = sortedUsers[myIndex]?.score || 0;
-        msg += `\n<tg-emoji emoji-id="5463297803235113601">ðŸ“</tg-emoji> SIZNING O'RNINGIZ: <b>${myIndex + 1}-o'rin</b> (${myScore} ball)\n`;
+        msg += `\n<tg-emoji emoji-id="5463297803235113601">📍</tg-emoji> SIZNING O'RNINGIZ: <b>${myIndex + 1}-o'rin</b> (${myScore} ball)\n`;
         msg += `<i>To'g'ri javob berib, ballingizni oshiring!</i>`;
         
         bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...getMainMenuOptions(chatId) });
@@ -864,17 +864,17 @@ bot.on('callback_query', (query) => {
         userStates[chatId] = { step: 'awaiting_ai_topic', type: docType };
         
         if (docType === 'Slayd') {
-            bot.sendMessage(chatId, `ðŸ“Š <b>Haqiqiy Slayd (PPTX) yasalmoqda!</b>\n\n1-qadam: Slayd qaysi mavzuda bo'lishini yozib yuboring (Masalan: "Orol dengizi fojiasi"):`, {
+            bot.sendMessage(chatId, `📊 <b>Haqiqiy Slayd (PPTX) yasalmoqda!</b>\n\n1-qadam: Slayd qaysi mavzuda bo'lishini yozib yuboring (Masalan: "Orol dengizi fojiasi"):`, {
                 parse_mode: 'HTML',
-                reply_markup: { inline_keyboard: [[{ text: "âŒ Bekor qilish", callback_data: "menu_ai_generate" }]] }
+                reply_markup: { inline_keyboard: [[{ text: "❌ Bekor qilish", callback_data: "menu_ai_generate" }]] }
             });
             return;
         }
 
-        bot.sendMessage(chatId, `âœ… <b>Siz tanladingiz: ${docType}</b>\n\nEndi menga qaysi mavzuda yozib berishim kerakligini va qanday talablaringiz borligini batafsil yozib yuboring.\n\n<i>Masalan: "Orol dengizi qurishi bo'yicha 5 betlik matn" yoki "Chiqindilarni qayta ishlash mavzusida qiziqarli testlar"</i>`, {
+        bot.sendMessage(chatId, `✅ <b>Siz tanladingiz: ${docType}</b>\n\nEndi menga qaysi mavzuda yozib berishim kerakligini va qanday talablaringiz borligini batafsil yozib yuboring.\n\n<i>Masalan: "Orol dengizi qurishi bo'yicha 5 betlik matn" yoki "Chiqindilarni qayta ishlash mavzusida qiziqarli testlar"</i>`, {
             parse_mode: 'HTML',
             reply_markup: {
-                inline_keyboard: [[{ text: "âŒ Bekor qilish", callback_data: "menu_ai_generate" }]]
+                inline_keyboard: [[{ text: "❌ Bekor qilish", callback_data: "menu_ai_generate" }]]
             }
         });
         return;
@@ -911,7 +911,7 @@ bot.on('callback_query', (query) => {
             
             // Show alert for correct answer
             bot.answerCallbackQuery(query.id, { 
-                text: `âœ… To'g'ri javob! (+2 ball)\n${questionData.explanation || ''}`.substring(0, 190), 
+                text: `✅ To'g'ri javob! (+2 ball)\n${questionData.explanation || ''}`.substring(0, 190), 
                 show_alert: false 
             }).catch(e => console.log(e));
             
@@ -935,7 +935,7 @@ bot.on('callback_query', (query) => {
             
             // Show toast for incorrect answer
             bot.answerCallbackQuery(query.id, { 
-                text: `âŒ Noto'g'ri javob!`, 
+                text: `❌ Noto'g'ri javob!`, 
                 show_alert: false 
             }).catch(e => console.log(e));
             
@@ -951,8 +951,8 @@ bot.on('callback_query', (query) => {
         let userObj = usersData.find(u => u.id === chatId);
         const correct = userObj && userObj.progress && userObj.progress[type] ? userObj.progress[type].length : 0;
         
-        let msg = `<tg-emoji emoji-id="5330558871129836783">ðŸ</tg-emoji> <b>Test yakunlandi!</b>\n\n`;
-        msg += `<tg-emoji emoji-id="5373299568161087824">âœ…</tg-emoji> Jami to'g'ri topilganlar: <b>${correct}</b> ta\n\n`;
+        let msg = `<tg-emoji emoji-id="5330558871129836783">🏁</tg-emoji> <b>Test yakunlandi!</b>\n\n`;
+        msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> Jami to'g'ri topilganlar: <b>${correct}</b> ta\n\n`;
         msg += `<i>Yana davom ettirish uchun menyudan tanlang.</i>`;
         
         bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...getMainMenuOptions(chatId) });
@@ -960,15 +960,15 @@ bot.on('callback_query', (query) => {
     
     if (data === 'admin_panel') {
         if (chatId !== ADMIN_ID) return;
-        bot.sendMessage(chatId, "âš™ï¸ <b>Boshqaruv Paneli</b>\n\nQuyidagi amallardan birini tanlang:", {
+        bot.sendMessage(chatId, "⚙️ <b>Boshqaruv Paneli</b>\n\nQuyidagi amallardan birini tanlang:", {
             parse_mode: 'HTML',
             reply_markup: {
                 inline_keyboard: [
-                    [{ text: "ðŸ“¸ Eko-Nazorat Murojaatlari", callback_data: "admin_rep_view_0" }],
-                    [{ text: "ðŸ“Š Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
-                    [{ text: "ðŸ“¢ Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
-                    [{ text: "ðŸ“œ Tarqatilgan xabarlar tarixi", callback_data: "admin_bcast_hist_0" }],
-                    [{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]
+                    [{ text: "📸 Eko-Nazorat Murojaatlari", callback_data: "admin_rep_view_0" }],
+                    [{ text: "📊 Statistika va Foydalanuvchilar", callback_data: "admin_stats" }],
+                    [{ text: "📢 Xabar tarqatish (Broadcast)", callback_data: "admin_broadcast" }],
+                    [{ text: "📜 Tarqatilgan xabarlar tarixi", callback_data: "admin_bcast_hist_0" }],
+                    [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
                 ]
             }
         });
@@ -993,7 +993,7 @@ bot.on('callback_query', (query) => {
         if (index !== -1) {
             feedData[index].solved = true;
             fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
-            bot.answerCallbackQuery(query.id, { text: "âœ… Hal qilindi deb belgilandi!", show_alert: false });
+            bot.answerCallbackQuery(query.id, { text: "✅ Hal qilindi deb belgilandi!", show_alert: false });
             sendAdminReportMsg(chatId, index, query.message.message_id);
         }
         return;
@@ -1006,9 +1006,9 @@ bot.on('callback_query', (query) => {
         if (index !== -1) {
             feedData.splice(index, 1);
             fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
-            bot.answerCallbackQuery(query.id, { text: "ðŸ—‘ Murojaat o'chirildi!", show_alert: false });
+            bot.answerCallbackQuery(query.id, { text: "🗑 Murojaat o'chirildi!", show_alert: false });
             if (feedData.length === 0) {
-                bot.editMessageCaption("Barcha murojaatlar o'chirildi.", { chat_id: chatId, message_id: query.message.message_id, reply_markup: { inline_keyboard: [[{ text: "ðŸ”™ Orqaga", callback_data: "admin_panel" }]] } });
+                bot.editMessageCaption("Barcha murojaatlar o'chirildi.", { chat_id: chatId, message_id: query.message.message_id, reply_markup: { inline_keyboard: [[{ text: "🔙 Orqaga", callback_data: "admin_panel" }]] } });
             } else {
                 sendAdminReportMsg(chatId, index >= feedData.length ? feedData.length - 1 : index, query.message.message_id);
             }
@@ -1022,17 +1022,17 @@ bot.on('callback_query', (query) => {
         const report = feedData.find(r => r.id === id);
         if (!report) return bot.answerCallbackQuery(query.id, { text: "Murojaat topilmadi", show_alert: true });
         
-        let msgText = `ðŸ’¬ <b>Murojaat izohlari (Boshqaruv):</b>\n\n`;
+        let msgText = `💬 <b>Murojaat izohlari (Boshqaruv):</b>\n\n`;
         let kb = [];
         if (!report.comments || report.comments.length === 0) {
             msgText += "<i>Hozircha hech qanday izoh yo'q.</i>";
         } else {
             report.comments.forEach((c, i) => {
                 msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
-                kb.push([{ text: `ðŸ—‘ ${i+1}-izohni o'chirish`, callback_data: `admin_rep_cdel_${id}_${c.id}` }]);
+                kb.push([{ text: `🗑 ${i+1}-izohni o'chirish`, callback_data: `admin_rep_cdel_${id}_${c.id}` }]);
             });
         }
-        kb.push([{ text: "ðŸ”™ Orqaga", callback_data: `admin_rep_view_${feedData.findIndex(r=>r.id===id)}` }]);
+        kb.push([{ text: "🔙 Orqaga", callback_data: `admin_rep_view_${feedData.findIndex(r=>r.id===id)}` }]);
         
         bot.deleteMessage(chatId, query.message.message_id).catch(()=>{});
         bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
@@ -1050,17 +1050,17 @@ bot.on('callback_query', (query) => {
             fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
             bot.answerCallbackQuery(query.id, { text: "Izoh o'chirildi!", show_alert: false });
             
-            let msgText = `ðŸ’¬ <b>Murojaat izohlari (Boshqaruv):</b>\n\n`;
+            let msgText = `💬 <b>Murojaat izohlari (Boshqaruv):</b>\n\n`;
             let kb = [];
             if (report.comments.length === 0) {
                 msgText += "<i>Hozircha hech qanday izoh yo'q.</i>";
             } else {
                 report.comments.forEach((c, i) => {
                     msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
-                    kb.push([{ text: `ðŸ—‘ ${i+1}-izohni o'chirish`, callback_data: `admin_rep_cdel_${reportId}_${c.id}` }]);
+                    kb.push([{ text: `🗑 ${i+1}-izohni o'chirish`, callback_data: `admin_rep_cdel_${reportId}_${c.id}` }]);
                 });
             }
-            kb.push([{ text: "ðŸ”™ Orqaga", callback_data: `admin_rep_view_${feedData.findIndex(r=>r.id===reportId)}` }]);
+            kb.push([{ text: "🔙 Orqaga", callback_data: `admin_rep_view_${feedData.findIndex(r=>r.id===reportId)}` }]);
             bot.editMessageText(msgText, { chat_id: chatId, message_id: query.message.message_id, parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
         }
         return;
@@ -1083,13 +1083,13 @@ bot.on('callback_query', (query) => {
     if (data.startsWith('request_more_')) {
         const type = data.replace('request_more_', '');
         bot.answerCallbackQuery(query.id, { text: "So'rovingiz adminga yuborildi. Rahmat!", show_alert: true });
-        bot.sendMessage(ADMIN_ID, `âš ï¸ <b>Yangi savollar so'rovi:</b>\n<a href="tg://user?id=${chatId}">${query.from.first_name || 'Foydalanuvchi'}</a> (${chatId}) foydalanuvchisi <b>${type}</b> bo'limini to'liq yakunladi va yangi ma'lumotlar/savollar qo'shishingizni so'rayapti!`, { parse_mode: 'HTML' });
+        bot.sendMessage(ADMIN_ID, `⚠️ <b>Yangi savollar so'rovi:</b>\n<a href="tg://user?id=${chatId}">${query.from.first_name || 'Foydalanuvchi'}</a> (${chatId}) foydalanuvchisi <b>${type}</b> bo'limini to'liq yakunladi va yangi ma'lumotlar/savollar qo'shishingizni so'rayapti!`, { parse_mode: 'HTML' });
     }
     
     // ----- ADMIN FUNKSIYALARI TUGMALARI -----
     if (data === 'admin_stats') {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
-        bot.sendMessage(chatId, "â³ Statistika hisoblanmoqda... Kuting.");
+        bot.sendMessage(chatId, "⏳ Statistika hisoblanmoqda... Kuting.");
         
         // Barcha foydalanuvchilarni tekshirib chiqish (bloklaganlarni aniqlash uchun)
         let activeCount = 0;
@@ -1109,27 +1109,27 @@ bot.on('callback_query', (query) => {
                     await bot.sendChatAction(user.id, 'typing');
                     user.is_blocked = false;
                     activeCount++;
-                    usersList += `âœ… ${fullName}\n`;
+                    usersList += `✅ ${fullName}\n`;
                 } catch (err) {
                     user.is_blocked = true;
                     blockedCount++;
-                    blockedList += `âŒ ${fullName}\n`;
+                    blockedList += `❌ ${fullName}\n`;
                 }
             }
             
             // O'zgarishlarni saqlab qo'yamiz
             fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
             
-            let statsText = `<tg-emoji emoji-id="5469891106315446822">ðŸ“Š</tg-emoji> <b>To'liq Statistika:</b>\n\n`;
-            statsText += `ðŸ‘¥ Jami obunachilar: <b>${usersData.length}</b> ta\n`;
-            statsText += `âœ… Faol foydalanuvchilar: <b>${activeCount}</b> ta\n`;
-            statsText += `âŒ Botni bloklaganlar: <b>${blockedCount}</b> ta\n`;
+            let statsText = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>To'liq Statistika:</b>\n\n`;
+            statsText += `👥 Jami obunachilar: <b>${usersData.length}</b> ta\n`;
+            statsText += `✅ Faol foydalanuvchilar: <b>${activeCount}</b> ta\n`;
+            statsText += `❌ Botni bloklaganlar: <b>${blockedCount}</b> ta\n`;
             
             let keyboard = {
                 inline_keyboard: [
-                    [{ text: "âœ… Faollarni ko'rish", callback_data: "admin_list_active" }],
-                    [{ text: "âŒ Bloklaganlarni ko'rish", callback_data: "admin_list_blocked" }],
-                    [{ text: "ðŸ”™ Orqaga", callback_data: "admin_panel" }]
+                    [{ text: "✅ Faollarni ko'rish", callback_data: "admin_list_active" }],
+                    [{ text: "❌ Bloklaganlarni ko'rish", callback_data: "admin_list_blocked" }],
+                    [{ text: "🔙 Orqaga", callback_data: "admin_panel" }]
                 ]
             };
             
@@ -1140,7 +1140,7 @@ bot.on('callback_query', (query) => {
     if (data === 'admin_list_active') {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
         let activeUsers = usersData.filter(u => !u.is_blocked);
-        let listText = "âœ… <b>Faol foydalanuvchilar ro'yxati:</b>\n\n";
+        let listText = "✅ <b>Faol foydalanuvchilar ro'yxati:</b>\n\n";
         activeUsers.forEach((user, i) => {
             listText += `${i + 1}. <a href="tg://user?id=${user.id}">${user.first_name || 'Foydalanuvchi'}</a> ${user.username ? '(@' + user.username + ')' : ''}\n`;
         });
@@ -1157,9 +1157,9 @@ bot.on('callback_query', (query) => {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
         let blockedUsers = usersData.filter(u => u.is_blocked);
         if (blockedUsers.length === 0) {
-            return bot.sendMessage(chatId, "âŒ Botni bloklagan foydalanuvchilar yo'q.");
+            return bot.sendMessage(chatId, "❌ Botni bloklagan foydalanuvchilar yo'q.");
         }
-        let listText = "âŒ <b>Botni bloklagan foydalanuvchilar:</b>\n\n";
+        let listText = "❌ <b>Botni bloklagan foydalanuvchilar:</b>\n\n";
         blockedUsers.forEach((user, i) => {
             listText += `${i + 1}. <a href="tg://user?id=${user.id}">${user.first_name || 'Foydalanuvchi'}</a> ${user.username ? '(@' + user.username + ')' : ''}\n`;
         });
@@ -1169,7 +1169,7 @@ bot.on('callback_query', (query) => {
     if (data === 'admin_broadcast') {
         if (chatId !== ADMIN_ID) return bot.answerCallbackQuery(query.id);
         isBroadcasting = true;
-        bot.sendMessage(chatId, "ðŸ“ <b>Xabar tarqatish rejimi:</b>\n\nTarqatmoqchi bo'lgan xabaringizni yuboring (Rasm, video yoki matn bo'lishi mumkin). Bekor qilish uchun /cancel deb yozing.", { parse_mode: 'HTML' });
+        bot.sendMessage(chatId, "📝 <b>Xabar tarqatish rejimi:</b>\n\nTarqatmoqchi bo'lgan xabaringizni yuboring (Rasm, video yoki matn bo'lishi mumkin). Bekor qilish uchun /cancel deb yozing.", { parse_mode: 'HTML' });
     }
     
     if (data.startsWith('admin_bcast_hist_')) {
@@ -1211,7 +1211,7 @@ bot.on('callback_query', (query) => {
         
         if (index !== -1) {
             const broadcast = broadcastsData[index];
-            bot.answerCallbackQuery(query.id, { text: "â³ O'chirish jarayoni boshlandi... Bu biroz vaqt olishi mumkin.", show_alert: true });
+            bot.answerCallbackQuery(query.id, { text: "⏳ O'chirish jarayoni boshlandi... Bu biroz vaqt olishi mumkin.", show_alert: true });
             
             let delSuccess = 0;
             let delFail = 0;
@@ -1226,10 +1226,10 @@ bot.on('callback_query', (query) => {
                                 broadcastsData.splice(index, 1);
                                 fs.writeFileSync('./data/broadcasts.json', JSON.stringify(broadcastsData, null, 2));
                                 
-                                bot.sendMessage(chatId, `âœ… <b>O'chirish yakunlandi!</b>\n\nMuvaffaqiyatli o'chirildi: ${delSuccess}\nO'chirib bo'lmadi (eski xabar bo'lishi mumkin): ${delFail}`, { parse_mode: 'HTML' });
+                                bot.sendMessage(chatId, `✅ <b>O'chirish yakunlandi!</b>\n\nMuvaffaqiyatli o'chirildi: ${delSuccess}\nO'chirib bo'lmadi (eski xabar bo'lishi mumkin): ${delFail}`, { parse_mode: 'HTML' });
                                 
                                 if (broadcastsData.length === 0) {
-                                    bot.editMessageText("Barcha tarqatilgan xabarlar o'chirib bo'lingan.", { chat_id: chatId, message_id: query.message.message_id, reply_markup: { inline_keyboard: [[{ text: "ðŸ”™ Orqaga", callback_data: "admin_panel" }]] } });
+                                    bot.editMessageText("Barcha tarqatilgan xabarlar o'chirib bo'lingan.", { chat_id: chatId, message_id: query.message.message_id, reply_markup: { inline_keyboard: [[{ text: "🔙 Orqaga", callback_data: "admin_panel" }]] } });
                                 } else {
                                     sendAdminBroadcastHistMsg(chatId, index >= broadcastsData.length ? broadcastsData.length - 1 : index, query.message.message_id);
                                 }
@@ -1262,12 +1262,12 @@ function sendRandomQuestion(chatId, type) {
     
     // Agar hamma savollar yechib bo'lingan bo'lsa
     if (unansweredIndexes.length === 0) {
-        let text = `<tg-emoji emoji-id="5330558871129836783">ðŸ†</tg-emoji> <b>Barakalla!</b>\n\nSiz ushbu bo'limdagi barcha (jami ${allQuestions.length} ta) savollarni yechib bo'ldingiz! Ayni paytda yangi savollar qolmadi.`;
+        let text = `<tg-emoji emoji-id="5330558871129836783">🏆</tg-emoji> <b>Barakalla!</b>\n\nSiz ushbu bo'limdagi barcha (jami ${allQuestions.length} ta) savollarni yechib bo'ldingiz! Ayni paytda yangi savollar qolmadi.`;
         let keyboard = {
             inline_keyboard: [
-                [{ text: "ðŸ”„ Qayta hammasini boshlash", callback_data: `restart_all_${type}` }],
-                [{ text: "ðŸ‘¨â€ðŸ’» Adminga murojaat (Yangi manba qo'shish)", callback_data: `request_more_${type}` }],
-                [{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]
+                [{ text: "🔄 Qayta hammasini boshlash", callback_data: `restart_all_${type}` }],
+                [{ text: "👨‍💻 Adminga murojaat (Yangi manba qo'shish)", callback_data: `request_more_${type}` }],
+                [{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]
             ]
         };
         bot.sendMessage(chatId, text, { parse_mode: 'HTML', reply_markup: keyboard });
@@ -1291,8 +1291,8 @@ function sendSpecificQuestion(chatId, type, qIndex) {
     const dbTotal = quizData[type].length;
     const qolgan = dbTotal - answeredCount;
     
-    let text = `<tg-emoji emoji-id="5469891106315446822">ðŸ“Š</tg-emoji> <b>Qolgan savollar: ${qolgan} / ${dbTotal}</b>\n\n`;
-    text += type === 'puzzles' ? `<tg-emoji emoji-id="5330558871129836783">ðŸŽ­</tg-emoji> <b>Vaziyat:</b>\n<blockquote>${questionObj.story}</blockquote>\n\n<tg-emoji emoji-id="5463297803235113601">â“</tg-emoji> <b>${questionObj.question}</b>` : `<tg-emoji emoji-id="5463297803235113601">â“</tg-emoji> <b>Savol:</b>\n<blockquote>${questionObj.question}</blockquote>\n`;
+    let text = `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Qolgan savollar: ${qolgan} / ${dbTotal}</b>\n\n`;
+    text += type === 'puzzles' ? `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Vaziyat:</b>\n<blockquote>${questionObj.story}</blockquote>\n\n<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>${questionObj.question}</b>` : `<tg-emoji emoji-id="5463297803235113601">❓</tg-emoji> <b>Savol:</b>\n<blockquote>${questionObj.question}</blockquote>\n`;
     
     let optionsWithIndex = questionObj.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
     // Variantlarni tasodifiy aralashtirish
@@ -1304,8 +1304,8 @@ function sendSpecificQuestion(chatId, type, qIndex) {
     });
     
     keyboard.push([
-        { text: "ðŸ  Bosh menyu", callback_data: "menu_back" },
-        { text: "ðŸ›‘ Tugatish", callback_data: `finish_${type}` }
+        { text: "🏠 Bosh menyu", callback_data: "menu_back" },
+        { text: "🛑 Tugatish", callback_data: `finish_${type}` }
     ]);
     
     let imagePath = null;
@@ -1336,8 +1336,8 @@ function sendSpecificQuestion(chatId, type, qIndex) {
 const adminMenuOptions = {
     reply_markup: {
         inline_keyboard: [
-            [{ text: "ðŸ“Š Statistika", callback_data: "admin_stats" }],
-            [{ text: "âœ‰ï¸ Hammaga xabar yuborish", callback_data: "admin_broadcast" }]
+            [{ text: "📊 Statistika", callback_data: "admin_stats" }],
+            [{ text: "✉️ Hammaga xabar yuborish", callback_data: "admin_broadcast" }]
         ]
     }
 };
@@ -1349,24 +1349,24 @@ function sendAdminReportMsg(chatId, index, messageId) {
     let keyboard = [];
     
     if (!report.solved) {
-        keyboard.push([{ text: "âœ… Hal qilinganligini belgilash", callback_data: `admin_rep_solve_${report.id}` }]);
+        keyboard.push([{ text: "✅ Hal qilinganligini belgilash", callback_data: `admin_rep_solve_${report.id}` }]);
     } else {
-        keyboard.push([{ text: "âœ… HAL QILINDI", callback_data: "dummy" }]);
+        keyboard.push([{ text: "✅ HAL QILINDI", callback_data: "dummy" }]);
     }
     
-    keyboard.push([{ text: `ðŸ’¬ Izohlarni boshqarish (${report.comments ? report.comments.length : 0})`, callback_data: `admin_rep_comments_${report.id}` }]);
-    keyboard.push([{ text: "ðŸ—‘ Bazadan o'chirish", callback_data: `admin_rep_del_${report.id}` }]);
+    keyboard.push([{ text: `💬 Izohlarni boshqarish (${report.comments ? report.comments.length : 0})`, callback_data: `admin_rep_comments_${report.id}` }]);
+    keyboard.push([{ text: "🗑 Bazadan o'chirish", callback_data: `admin_rep_del_${report.id}` }]);
     
     let nav = [];
-    if (index > 0) nav.push({ text: "â¬…ï¸ Oldingi", callback_data: `admin_rep_view_${index - 1}` });
+    if (index > 0) nav.push({ text: "⬅️ Oldingi", callback_data: `admin_rep_view_${index - 1}` });
     nav.push({ text: `${index + 1} / ${feedData.length}`, callback_data: "dummy" });
-    if (index < feedData.length - 1) nav.push({ text: "Keyingi âž¡ï¸", callback_data: `admin_rep_view_${index + 1}` });
+    if (index < feedData.length - 1) nav.push({ text: "Keyingi ➡️", callback_data: `admin_rep_view_${index + 1}` });
     keyboard.push(nav);
     
-    keyboard.push([{ text: "ðŸ”™ Orqaga", callback_data: "admin_panel" }]);
+    keyboard.push([{ text: "🔙 Orqaga", callback_data: "admin_panel" }]);
     
-    let statusText = report.solved ? "âœ… <b>HAL QILINDI</b>\n\n" : "";
-    let msgText = `ðŸ“¸ <b>Eko-Nazorat Murojaati</b>\n\n${statusText}ID: <code>${report.id}</code>\nSana: ${report.date || ''}\n\nMatn: ${report.caption || 'Yo\'q'}`;
+    let statusText = report.solved ? "✅ <b>HAL QILINDI</b>\n\n" : "";
+    let msgText = `📸 <b>Eko-Nazorat Murojaati</b>\n\n${statusText}ID: <code>${report.id}</code>\nSana: ${report.date || ''}\n\nMatn: ${report.caption || 'Yo\'q'}`;
     
     if (messageId) {
         bot.deleteMessage(chatId, messageId).catch(() => {});
@@ -1379,17 +1379,17 @@ function sendAdminBroadcastHistMsg(chatId, index, messageId) {
     const broadcast = broadcastsData[index];
     
     let keyboard = [];
-    keyboard.push([{ text: "ðŸ—‘ Barchadan o'chirish (Recall)", callback_data: `admin_bcast_del_${broadcast.id}` }]);
+    keyboard.push([{ text: "🗑 Barchadan o'chirish (Recall)", callback_data: `admin_bcast_del_${broadcast.id}` }]);
     
     let nav = [];
-    if (index > 0) nav.push({ text: "â¬…ï¸ Oldingi", callback_data: `admin_bcast_hist_${index - 1}` });
+    if (index > 0) nav.push({ text: "⬅️ Oldingi", callback_data: `admin_bcast_hist_${index - 1}` });
     nav.push({ text: `${index + 1} / ${broadcastsData.length}`, callback_data: "dummy" });
-    if (index < broadcastsData.length - 1) nav.push({ text: "Keyingi âž¡ï¸", callback_data: `admin_bcast_hist_${index + 1}` });
+    if (index < broadcastsData.length - 1) nav.push({ text: "Keyingi ➡️", callback_data: `admin_bcast_hist_${index + 1}` });
     keyboard.push(nav);
     
-    keyboard.push([{ text: "ðŸ”™ Orqaga", callback_data: "admin_panel" }]);
+    keyboard.push([{ text: "🔙 Orqaga", callback_data: "admin_panel" }]);
     
-    let msgText = `ðŸ“œ <b>Tarqatilgan Xabar</b>\n\nSana: ${broadcast.date}\nQamrov: ${broadcast.sent_messages.length} ta foydalanuvchiga yuborilgan\n\nMatn (qisqacha):\n<i>${broadcast.preview}</i>`;
+    let msgText = `📜 <b>Tarqatilgan Xabar</b>\n\nSana: ${broadcast.date}\nQamrov: ${broadcast.sent_messages.length} ta foydalanuvchiga yuborilgan\n\nMatn (qisqacha):\n<i>${broadcast.preview}</i>`;
     
     if (messageId) {
         bot.editMessageText(msgText, { chat_id: chatId, message_id: messageId, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(() => {
@@ -1405,20 +1405,20 @@ bot.onText(/\/admin/, (msg) => {
     const chatId = msg.chat.id;
     if (chatId !== ADMIN_ID) return; // Faqat adminga ruxsat
     
-    bot.sendMessage(chatId, "âš™ï¸ <b>Admin Panelga xush kelibsiz!</b>\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'HTML', ...adminMenuOptions });
+    bot.sendMessage(chatId, "⚙️ <b>Admin Panelga xush kelibsiz!</b>\n\nQuyidagi menyudan kerakli bo'limni tanlang:", { parse_mode: 'HTML', ...adminMenuOptions });
 });
 
 bot.onText(/\/resetmenus/, (msg) => {
     const chatId = msg.chat.id;
     if (chatId !== ADMIN_ID) return;
     
-    bot.sendMessage(chatId, "ðŸ”„ Barcha foydalanuvchilar uchun eski Mini App tugmalarini tozalash boshlandi...");
+    bot.sendMessage(chatId, "🔄 Barcha foydalanuvchilar uchun eski Mini App tugmalarini tozalash boshlandi...");
     let count = 0;
     usersData.forEach((u, i) => {
         setTimeout(() => {
             bot.setChatMenuButton({ chat_id: u.id, menu_button: { type: 'default' } }).then(() => count++).catch(() => {});
             if (i === usersData.length - 1) {
-                bot.sendMessage(chatId, `âœ… Tozalash yakunlandi. Jami: ${count} ta foydalanuvchi menyusi yangilandi.`);
+                bot.sendMessage(chatId, `✅ Tozalash yakunlandi. Jami: ${count} ta foydalanuvchi menyusi yangilandi.`);
             }
         }, i * 50);
     });
@@ -1455,11 +1455,11 @@ bot.on('message', async (msg) => {
                     // Don't send multiple confirmations for media group
                     if (!msg.media_group_id || !userStates[chatId].lastMediaGroup) {
                         userStates[chatId].lastMediaGroup = msg.media_group_id;
-                        bot.sendMessage(chatId, "âœ… <b>Rasm qabul qilindi.</b> Yana rasm yuborishingiz yoki quyidagi <b>'Davom etish âž¡ï¸'</b> tugmasini bosishingiz mumkin.", {
+                        bot.sendMessage(chatId, "✅ <b>Rasm qabul qilindi.</b> Yana rasm yuborishingiz yoki quyidagi <b>'Davom etish ➡️'</b> tugmasini bosishingiz mumkin.", {
                             parse_mode: 'HTML',
                             reply_markup: {
                                 inline_keyboard: [
-                                    [{ text: "Davom etish âž¡ï¸", callback_data: "report_continue" }]
+                                    [{ text: "Davom etish ➡️", callback_data: "report_continue" }]
                                 ]
                             }
                         });
@@ -1480,7 +1480,7 @@ bot.on('message', async (msg) => {
             if (msg.text === '/cancel' || msg.text === 'Bekor qilish') {
                 const reportId = userStates[chatId].reportId;
                 delete userStates[chatId];
-                bot.sendMessage(chatId, "Izoh yozish bekor qilindi.", { reply_markup: { inline_keyboard: [[{ text: "ðŸ”™ Orqaga", callback_data: `report_view_${reportId}` }]] } });
+                bot.sendMessage(chatId, "Izoh yozish bekor qilindi.", { reply_markup: { inline_keyboard: [[{ text: "🔙 Orqaga", callback_data: `report_view_${reportId}` }]] } });
                 return;
             }
             if (msg.text && !msg.text.startsWith('/')) {
@@ -1497,13 +1497,13 @@ bot.on('message', async (msg) => {
                     });
                     fs.writeFileSync('./data/feed.json', JSON.stringify(feedData, null, 2));
                     
-                    let msgText = `âœ… Izohingiz qo'shildi!\n\nðŸ’¬ <b>Murojaat izohlari:</b>\n\n`;
+                    let msgText = `✅ Izohingiz qo'shildi!\n\n💬 <b>Murojaat izohlari:</b>\n\n`;
                     report.comments.forEach((c, i) => {
                         msgText += `<b>${i+1}. ${c.name}:</b> ${c.text}\n`;
                     });
                     let kb = [
-                        [{ text: "ðŸ“ Izoh yozish", callback_data: `report_add_comment_${reportId}` }],
-                        [{ text: "ðŸ”™ Orqaga (Rasmga qaytish)", callback_data: `report_view_${reportId}` }]
+                        [{ text: "📝 Izoh yozish", callback_data: `report_add_comment_${reportId}` }],
+                        [{ text: "🔙 Orqaga (Rasmga qaytish)", callback_data: `report_view_${reportId}` }]
                     ];
                     bot.sendMessage(chatId, msgText, { parse_mode: 'HTML', reply_markup: { inline_keyboard: kb } });
                 }
@@ -1532,7 +1532,7 @@ bot.on('message', async (msg) => {
             if (msg.location) {
                 userStates[chatId].location = msg.location;
                 userStates[chatId].step = 'awaiting_comment';
-                bot.sendMessage(chatId, "ðŸ“ <b>Juda yaxshi. Endi muammo haqida qisqacha izoh yozing.</b>\n\n(Nima muammo borligini tushuntiring)", {
+                bot.sendMessage(chatId, "📝 <b>Juda yaxshi. Endi muammo haqida qisqacha izoh yozing.</b>\n\n(Nima muammo borligini tushuntiring)", {
                     parse_mode: 'HTML',
                     reply_markup: { remove_keyboard: true }
                 });
@@ -1554,7 +1554,7 @@ bot.on('message', async (msg) => {
                 const rep = userStates[chatId];
                 const name = msg.from.first_name + (msg.from.username ? ` (@${msg.from.username})` : '');
                 const locUrl = `https://www.google.com/maps?q=${rep.location.latitude},${rep.location.longitude}`;
-                const caption = `ðŸš¨ <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\nðŸ‘¤ <b>Yuboruvchi:</b> <a href="tg://user?id=${chatId}">${name}</a>\nðŸ“ <b>Manzil:</b> <a href="${locUrl}">Xaritada ko'rish</a>\nðŸ“ <b>Tavsif:</b> ${rep.comment}`;
+                const caption = `🚨 <b>YANGI EKO-MUAMMO KELIB TUSHDI!</b>\n\n👤 <b>Yuboruvchi:</b> <a href="tg://user?id=${chatId}">${name}</a>\n📍 <b>Manzil:</b> <a href="${locUrl}">Xaritada ko'rish</a>\n📝 <b>Tavsif:</b> ${rep.comment}`;
                 
                 const mediaGroup = rep.photos.map((photoId, index) => ({
                     type: 'photo',
@@ -1574,16 +1574,16 @@ bot.on('message', async (msg) => {
                     bot.sendMessage(ADMIN_ID, `Murojaat-ID: ${approvalId}\nUshbu murojaatni botning "Eko-Lentasi"ga chiqarasizmi?`, {
                         reply_markup: {
                             inline_keyboard: [
-                                [{ text: "âœ… Lentaga chiqarish", callback_data: `approve_${approvalId}` }],
-                                [{ text: "âŒ Rad etish", callback_data: `reject_${approvalId}` }]
+                                [{ text: "✅ Lentaga chiqarish", callback_data: `approve_${approvalId}` }],
+                                [{ text: "❌ Rad etish", callback_data: `reject_${approvalId}` }]
                             ]
                         }
                     });
                     
-                    bot.sendMessage(chatId, "ðŸŽ‰ <b>Rahmat!</b> Murojaatingiz Adminga tasdiqlash uchun yuborildi. Tasdiqlangach, botning Eko-Lentasiga joylanadi!", { parse_mode: 'HTML' });
+                    bot.sendMessage(chatId, "🎉 <b>Rahmat!</b> Murojaatingiz Adminga tasdiqlash uchun yuborildi. Tasdiqlangach, botning Eko-Lentasiga joylanadi!", { parse_mode: 'HTML' });
                 }).catch(err => {
                     console.log("Error sending report:", err);
-                    bot.sendMessage(chatId, "âŒ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
+                    bot.sendMessage(chatId, "❌ Xatolik yuz berdi. Iltimos keyinroq qayta urinib ko'ring.");
                 });
                 
                 delete userStates[chatId];
@@ -1600,7 +1600,7 @@ bot.on('message', async (msg) => {
                 if (docType === 'Slayd') {
                     userStates[chatId].topic = msg.text;
                     userStates[chatId].step = 'awaiting_slide_count';
-                    bot.sendMessage(chatId, `ðŸ”¢ <b>2-qadam:</b> Necha bet (slayd) bo'lsin? Faqat son yozing (Masalan: 5, 10, 15):`, { parse_mode: 'HTML' });
+                    bot.sendMessage(chatId, `🔢 <b>2-qadam:</b> Necha bet (slayd) bo'lsin? Faqat son yozing (Masalan: 5, 10, 15):`, { parse_mode: 'HTML' });
                     return;
                 }
                 
@@ -1641,18 +1641,18 @@ bot.on('message', async (msg) => {
                 userStates[chatId].count = count;
                 userStates[chatId].step = 'awaiting_slide_color';
                 
-                bot.sendMessage(chatId, `ðŸŽ¨ <b>3-qadam: Dizayn rangini tanlang:</b>`, {
+                bot.sendMessage(chatId, `🎨 <b>3-qadam: Dizayn rangini tanlang:</b>`, {
                     parse_mode: 'HTML',
                     reply_markup: {
                         inline_keyboard: [
-                            [{text: "ðŸ”´ Qizil (Crimson)", callback_data: "slcolor_dc143c"}, {text: "ðŸ”µ Ko'k (Navy)", callback_data: "slcolor_000080"}],
-                            [{text: "ðŸŸ¢ Yashil (Forest)", callback_data: "slcolor_228b22"}, {text: "ðŸŸ¡ Sariq (Gold)", callback_data: "slcolor_ffd700"}],
-                            [{text: "ðŸŸ£ Binafsha (Purple)", callback_data: "slcolor_800080"}, {text: "ðŸŸ  Apelsin (Orange)", callback_data: "slcolor_ff8c00"}],
-                            [{text: "âš« Qora (Onyx)", callback_data: "slcolor_353839"}, {text: "âšª Kulrang (Slate)", callback_data: "slcolor_708090"}],
-                            [{text: "ðŸ©µ Havorang (Sky)", callback_data: "slcolor_87ceeb"}, {text: "ðŸ§ª Zumrad (Emerald)", callback_data: "slcolor_50c878"}],
-                            [{text: "ðŸ· To'q Qizil (Maroon)", callback_data: "slcolor_800000"}, {text: "ðŸŒŒ Tungi osmon", callback_data: "slcolor_191970"}],
-                            [{text: "ðŸŸ¤ Jigar rang (Chocolate)", callback_data: "slcolor_d2691e"}, {text: "ðŸŒ¸ Pushti (Hot Pink)", callback_data: "slcolor_ff69b4"}],
-                            [{text: "âŒ Bekor qilish", callback_data: "menu_ai_generate"}]
+                            [{text: "🔴 Qizil (Crimson)", callback_data: "slcolor_dc143c"}, {text: "🔵 Ko'k (Navy)", callback_data: "slcolor_000080"}],
+                            [{text: "🟢 Yashil (Forest)", callback_data: "slcolor_228b22"}, {text: "🟡 Sariq (Gold)", callback_data: "slcolor_ffd700"}],
+                            [{text: "🟣 Binafsha (Purple)", callback_data: "slcolor_800080"}, {text: "🟠 Apelsin (Orange)", callback_data: "slcolor_ff8c00"}],
+                            [{text: "⚫ Qora (Onyx)", callback_data: "slcolor_353839"}, {text: "⚪ Kulrang (Slate)", callback_data: "slcolor_708090"}],
+                            [{text: "🩵 Havorang (Sky)", callback_data: "slcolor_87ceeb"}, {text: "🧪 Zumrad (Emerald)", callback_data: "slcolor_50c878"}],
+                            [{text: "🍷 To'q Qizil (Maroon)", callback_data: "slcolor_800000"}, {text: "🌌 Tungi osmon", callback_data: "slcolor_191970"}],
+                            [{text: "🟤 Jigar rang (Chocolate)", callback_data: "slcolor_d2691e"}, {text: "🌸 Pushti (Hot Pink)", callback_data: "slcolor_ff69b4"}],
+                            [{text: "❌ Bekor qilish", callback_data: "menu_ai_generate"}]
                         ]
                     }
                 });
@@ -1665,7 +1665,7 @@ bot.on('message', async (msg) => {
     // Agar xabar tarqatish yoqilgan bo'lsa va bu admin bo'lsa
     if (chatId === ADMIN_ID && isBroadcasting && !msg.text?.startsWith('/')) {
         isBroadcasting = false;
-        bot.sendMessage(chatId, "â³ Xabar tarqatish boshlandi... Iltimos kuting.");
+        bot.sendMessage(chatId, "⏳ Xabar tarqatish boshlandi... Iltimos kuting.");
         
         let successCount = 0;
         let failCount = 0;
@@ -1692,7 +1692,7 @@ bot.on('message', async (msg) => {
                     .then(() => {
                         return bot.copyMessage(uId, chatId, msg.message_id, {
                             reply_markup: {
-                                inline_keyboard: [[{ text: "ðŸ’¬ Izoh qoldirish", callback_data: `feedback_bcast_${newBroadcast.id}` }]]
+                                inline_keyboard: [[{ text: "💬 Izoh qoldirish", callback_data: `feedback_bcast_${newBroadcast.id}` }]]
                             }
                         });
                     })
@@ -1707,7 +1707,7 @@ bot.on('message', async (msg) => {
                         if (index === usersData.length - 1) {
                             broadcastsData.unshift(newBroadcast);
                             fs.writeFileSync('./data/broadcasts.json', JSON.stringify(broadcastsData, null, 2));
-                            bot.sendMessage(chatId, `âœ… <b>Xabar tarqatish yakunlandi!</b>\n\nYetib bordi: ${successCount} ta\nYetib bormadi (bloklaganlar): ${failCount} ta`, { parse_mode: 'HTML' });
+                            bot.sendMessage(chatId, `✅ <b>Xabar tarqatish yakunlandi!</b>\n\nYetib bordi: ${successCount} ta\nYetib bormadi (bloklaganlar): ${failCount} ta`, { parse_mode: 'HTML' });
                         }
                     });
             }, index * 50); // Telegram limitiga tushmaslik uchun 50ms kechikish
@@ -1716,9 +1716,63 @@ bot.on('message', async (msg) => {
         return; // Tarqatish paytida pastdagi xato xabari chiqmasligi uchun funksiyani to'xtatamiz
     }
     
-    // Boshqa har qanday (buyruq bo'lmagan) xabarlar uchun
+    // --- 2- va 4- G'OYALAR: QIDIRUV VA SUN'IY INTELLEKT TABIATSHUNOS ---
     if (msg.text && !msg.text.startsWith('/')) {
-        bot.sendMessage(chatId, "âš ï¸ Iltimos botdan foydalanish uchun /start tugmasini bosing.");
+        const query = msg.text.toLowerCase().trim();
+        
+        // 1. Qizil Kitobdan izlash (2-g'oya)
+        const animalsData = redbookData.filter(i => !i.name.includes("(O'simlik)"));
+        const plantsData = redbookData.filter(i => i.name.includes("(O'simlik)"));
+        
+        let matches = [];
+        // Hayvonlar
+        animalsData.forEach((a, idx) => {
+            if (a.name.toLowerCase().includes(query)) matches.push({ type: 'animals', name: a.name, idx: idx });
+        });
+        // O'simliklar
+        plantsData.forEach((p, idx) => {
+            if (p.name.toLowerCase().includes(query)) matches.push({ type: 'plants', name: p.name, idx: idx });
+        });
+        
+        if (matches.length > 0) {
+            if (matches.length === 1) {
+                // To'g'ridan-to'g'ri ko'rsatish
+                bot.sendMessage(chatId, "✅ <b>Qizil Kitobdan topildi!</b>", { parse_mode: 'HTML' }).then(m => {
+                    sendRedbookPage(chatId, matches[0].idx, null, matches[0].type);
+                });
+            } else {
+                // Agar bir nechta topsa, ro'yxat qilib tugmalar beramiz (maksimal 10 ta)
+                let btns = [];
+                for (let i = 0; i < Math.min(matches.length, 10); i++) {
+                    btns.push([{ text: "🟢 " + matches[i].name.replace("(O'simlik)", "").trim(), callback_data: "redbook_page_" + matches[i].idx + "_" + matches[i].type }]);
+                }
+                btns.push([{ text: "🔙 Bosh menyu", callback_data: "menu_back" }]);
+                bot.sendMessage(chatId, `🔍 <b>Qizil Kitobdan ${matches.length} ta natija topildi!</b>\nKerakli sahifani tanlang:`, {
+                    parse_mode: 'HTML',
+                    reply_markup: { inline_keyboard: btns }
+                });
+            }
+            return;
+        }
+        
+        // 2. Agar Qizil Kitobdan topilmasa, Sun'iy Intellekt tabiatshunos javob beradi (4-g'oya)
+        bot.sendMessage(chatId, "🌱 <i>Tabiatshunos AI sizning xabaringizni o'qib chiqmoqda... (Kuting)</i>", { parse_mode: 'HTML' }).then(async (waitMsg) => {
+            try {
+                const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                
+                const prompt = "Siz O'zbekiston tabiati, ekologiyasi, Qizil Kitob flora va faunasini juda yaxshi biladigan professor, ekolog-tabiatshunossiz. Foydalanuvchining quyidagi xabariga do'stona, ilmiy va o'zbek tilida chiroyli javob bering. Uning ekologiya, tabiat yoki o'simlik/hayvonlar haqidagi savoli yoki mulohazasiga yordam bering. Foydalanuvchi xabari: " + msg.text;
+                
+                const result = await model.generateContent(prompt);
+                const response = result.response.text();
+                
+                bot.deleteMessage(chatId, waitMsg.message_id).catch(()=>{});
+                bot.sendMessage(chatId, "🤖 <b>Ekolog-AI javobi:</b>\n\n" + response, { parse_mode: 'Markdown' });
+            } catch (err) {
+                bot.deleteMessage(chatId, waitMsg.message_id).catch(()=>{});
+                bot.sendMessage(chatId, "⚠️ Tizimda kichik uzilish. Iltimos, savolingizni keyinroq qayta yozing yoki /start orqali menyuga qayting.");
+            }
+        });
     }
 });
 
@@ -1734,10 +1788,10 @@ function sendQuestNode(chatId, nodeId) {
     
     if (keyboard.length === 0) {
         // O'yin tugadi, menyuga qaytish tugmasi
-        keyboard.push([{ text: "ðŸ  Bosh menyu", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "🏠 Bosh menyu", callback_data: "menu_back" }]);
     } else {
         // O'yin jarayonida orqaga (bosh menyuga) qaytish tugmasi
-        keyboard.push([{ text: "â¬…ï¸ Orqaga", callback_data: "menu_back" }]);
+        keyboard.push([{ text: "⬅️ Orqaga", callback_data: "menu_back" }]);
     }
     
     // Ball qoshish (agar score_delta bo'lsa)
@@ -1760,7 +1814,7 @@ function sendQuestNode(chatId, nodeId) {
         imagePath = './data/puzzle_bg.jpg';
     }
     
-    let text = `<tg-emoji emoji-id="5330558871129836783">ðŸŽ­</tg-emoji> <b>Eko-Qahramon Sarguzashti</b> <i>(Jami bazada: ${questData.length} ta vaziyat)</i>:\n<blockquote>${node.story}</blockquote>\n`;
+    let text = `<tg-emoji emoji-id="5330558871129836783">🎭</tg-emoji> <b>Eko-Qahramon Sarguzashti</b> <i>(Jami bazada: ${questData.length} ta vaziyat)</i>:\n<blockquote>${node.story}</blockquote>\n`;
     
     if (imagePath) {
         sendFastPhoto(chatId, imagePath, { caption: text, parse_mode: 'HTML', reply_markup: { inline_keyboard: keyboard } }).catch(err => {
@@ -1780,25 +1834,25 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
     if (pageIdx < 0 || pageIdx >= targetData.length) return;
     
     const animal = targetData[pageIdx];
-    let msg = `<tg-emoji emoji-id="5242628160297641831">ðŸ“•</tg-emoji> <b>QIZIL KITOB (O'zbekiston)</b> - ${category === 'plants' ? "O'simliklar" : "Hayvonot"} olami\n\n`;
-    msg += `<tg-emoji emoji-id="5465540480538254161">ðŸ·ï¸</tg-emoji> <b>Nomi:</b> ${animal.name}\n`;
-    msg += `<tg-emoji emoji-id="5370930189322688800">ðŸ“Œ</tg-emoji> <b>Holati:</b> ${animal.status}\n\n`;
+    let msg = `<tg-emoji emoji-id="5242628160297641831">📕</tg-emoji> <b>QIZIL KITOB (O'zbekiston)</b> - ${category === 'plants' ? "O'simliklar" : "Hayvonot"} olami\n\n`;
+    msg += `<tg-emoji emoji-id="5465540480538254161">🏷️</tg-emoji> <b>Nomi:</b> ${animal.name}\n`;
+    msg += `<tg-emoji emoji-id="5370930189322688800">📌</tg-emoji> <b>Holati:</b> ${animal.status}\n\n`;
     
-    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">ðŸ—ºï¸</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>\n`;
-    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">ðŸ”ï¸</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>\n`;
-    if (animal.soni) msg += `<tg-emoji emoji-id="5469891106315446822">ðŸ“Š</tg-emoji> <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>\n`;
-    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">ðŸ¾</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>\n`;
-    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">âš ï¸</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>\n`;
-    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">âœ…</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>\n`;
-    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">ðŸ›¡ï¸</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>\n`;
-    if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">ðŸ“</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>\n`;
+    if (animal.tarqalishi) msg += `<tg-emoji emoji-id="5386541175672953432">🗺️</tg-emoji> <b>Tarqalishi:</b>\n<blockquote>${animal.tarqalishi}</blockquote>\n`;
+    if (animal.yashash_joyi) msg += `<tg-emoji emoji-id="5339098060683222770">🏔️</tg-emoji> <b>Yashash joyi:</b>\n<blockquote>${animal.yashash_joyi}</blockquote>\n`;
+    if (animal.soni) msg += `<tg-emoji emoji-id="5469891106315446822">📊</tg-emoji> <b>Soni:</b>\n<blockquote>${animal.soni}</blockquote>\n`;
+    if (animal.yashash_tarzi) msg += `<tg-emoji emoji-id="5249490306855878586">🐾</tg-emoji> <b>Yashash tarzi:</b>\n<blockquote>${animal.yashash_tarzi}</blockquote>\n`;
+    if (animal.cheklovchi_omillar) msg += `<tg-emoji emoji-id="5809782942536306227">⚠️</tg-emoji> <b>Cheklovchi omillar:</b>\n<blockquote>${animal.cheklovchi_omillar}</blockquote>\n`;
+    if (animal.kopaytirish) msg += `<tg-emoji emoji-id="5373299568161087824">✅</tg-emoji> <b>Ko'paytirish:</b>\n<blockquote>${animal.kopaytirish}</blockquote>\n`;
+    if (animal.muhofaza) msg += `<tg-emoji emoji-id="5810150084930702668">🛡️</tg-emoji> <b>Muhofaza choralari:</b>\n<blockquote>${animal.muhofaza}</blockquote>\n`;
+    if (animal.desc) msg += `<tg-emoji emoji-id="5372951800364163934">📝</tg-emoji> <b>Ma'lumot:</b>\n<blockquote>${animal.desc}</blockquote>\n`;
     
     let navRow = [];
-    if (pageIdx > 0) navRow.push({ text: "âª Oldingi", callback_data: `redbook_page_${pageIdx - 1}_${category}` });
-    navRow.push({ text: `ðŸ“„ ${pageIdx + 1} / ${targetData.length}`, callback_data: "ignore" });
-    if (pageIdx < targetData.length - 1) navRow.push({ text: "Keyingi â©", callback_data: `redbook_page_${pageIdx + 1}_${category}` });
+    if (pageIdx > 0) navRow.push({ text: "⏪ Oldingi", callback_data: `redbook_page_${pageIdx - 1}_${category}` });
+    navRow.push({ text: `📄 ${pageIdx + 1} / ${targetData.length}`, callback_data: "ignore" });
+    if (pageIdx < targetData.length - 1) navRow.push({ text: "Keyingi ⏩", callback_data: `redbook_page_${pageIdx + 1}_${category}` });
     
-    let keyboard = { inline_keyboard: [ navRow, [{ text: "ðŸ”™ Orqaga", callback_data: "menu_redbook" }, { text: "ðŸ  Bosh menyu", callback_data: "menu_back" }] ] };
+    let keyboard = { inline_keyboard: [ navRow, [{ text: "🔙 Orqaga", callback_data: "menu_redbook" }, { text: "🏠 Bosh menyu", callback_data: "menu_back" }] ] };
     
     let imagePath = null;
     if (animal.image && fs.existsSync('./data/images/' + animal.image)) {
@@ -1807,8 +1861,15 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
     
     let aiPhoto = null;
     if (!imagePath) {
-        const keyword = encodeURIComponent(animal.name + " high quality realistic nature");
-        aiPhoto = "https://image.pollinations.ai/prompt/" + keyword + "?width=800&height=600&nologo=true";
+        let query = animal.name;
+        if (category === 'plants') {
+            query = "beautiful rare botanical plant flower " + animal.name;
+        } else {
+            query = "wildlife animal high quality realistic nature " + animal.name;
+        }
+        const keyword = encodeURIComponent(query);
+        const seed = Math.floor(Math.random() * 10000);
+        aiPhoto = "https://image.pollinations.ai/prompt/" + keyword + "?width=800&height=600&nologo=true&seed=" + seed;
     }
     
     if (messageId) {
@@ -1824,13 +1885,14 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
                 message_id: messageId,
                 reply_markup: keyboard
             }).then(resp => {
-                if (resp && resp.photo && resp.photo.length > 0) {
+                if (resp && resp.photo && resp.photo.length > 0 && imagePath) {
                     fileIdsCache[imagePath] = resp.photo[resp.photo.length - 1].file_id;
                     if (!isSaving && !pendingSave) { pendingSave = true; setTimeout(syncToTelegram, 5000); }
                 }
             }).catch(e => {
                 bot.deleteMessage(chatId, messageId).catch(() => {});
-                sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
+                if (imagePath) sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
+                else bot.sendPhoto(chatId, aiPhoto, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
             });
         } else {
             bot.editMessageText(msg, {
@@ -1844,16 +1906,18 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
             });
         }
     } else {
-        if (imagePath) {
-            sendFastPhoto(chatId, imagePath, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{});
+        if (imagePath || aiPhoto) {
+            let mediaObj = imagePath ? (fileIdsCache[imagePath] || fs.createReadStream(imagePath)) : aiPhoto;
+            bot.sendPhoto(chatId, mediaObj, { caption: msg, parse_mode: 'HTML', reply_markup: keyboard }).catch(()=>{
+                bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
+            });
         } else {
             bot.sendMessage(chatId, msg, { parse_mode: 'HTML', reply_markup: keyboard });
         }
     }
 }
-
 async function generateAndSendPPTX(chatId, topic, count, colorHex) {
-    bot.sendMessage(chatId, `â³ <b>Haqiqiy Taqdimot yasalmoqda...</b>\nðŸ“ Mavzu: "${topic}"\nðŸ”¢ Betlar: ${count}\n\n<i>Dizayn, rasmlar va ma'lumotlar ustida ishlanmoqda (1-2 daqiqa ketishi mumkin)...</i>`, { parse_mode: 'HTML' });
+    bot.sendMessage(chatId, `⏳ <b>Haqiqiy Taqdimot yasalmoqda...</b>\n📝 Mavzu: "${topic}"\n🔢 Betlar: ${count}\n\n<i>Dizayn, rasmlar va ma'lumotlar ustida ishlanmoqda (1-2 daqiqa ketishi mumkin)...</i>`, { parse_mode: 'HTML' });
     try {
         const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -1915,11 +1979,11 @@ Shablon (Har bir obyekt bitta slayd):
         const fileName = `./data/Taqdimot_${Date.now()}.pptx`;
         await pptx.writeFile({ fileName: fileName });
         
-        await bot.sendDocument(chatId, fileName, { caption: `âœ… <b>Taqdimotingiz muvaffaqiyatli tayyorlandi!</b>\n\nðŸ“ Mavzu: ${topic}\nðŸ”¢ Sahifalar soni: ${slidesData.length}\nðŸ“„ Format: Microsoft PowerPoint (.pptx)\n\n<i>Eco Law Bot orqali yaratildi.</i>`, parse_mode: 'HTML' });
+        await bot.sendDocument(chatId, fileName, { caption: `✅ <b>Taqdimotingiz muvaffaqiyatli tayyorlandi!</b>\n\n📝 Mavzu: ${topic}\n🔢 Sahifalar soni: ${slidesData.length}\n📄 Format: Microsoft PowerPoint (.pptx)\n\n<i>Eco Law Bot orqali yaratildi.</i>`, parse_mode: 'HTML' });
         fs.unlinkSync(fileName);
     } catch (err) {
         console.error("PPTX Error:", err);
-        bot.sendMessage(chatId, "âŒ <b>Kechirasiz, taqdimot yaratishda xatolik yuz berdi.</b> Bunga internet tezligi yoki AI serverlari bandligi sabab bo'lishi mumkin. Iltimos qaytadan urinib ko'ring.", { parse_mode: 'HTML' });
+        bot.sendMessage(chatId, "❌ <b>Kechirasiz, taqdimot yaratishda xatolik yuz berdi.</b> Bunga internet tezligi yoki AI serverlari bandligi sabab bo'lishi mumkin. Iltimos qaytadan urinib ko'ring.", { parse_mode: 'HTML' });
     }
 }
 
