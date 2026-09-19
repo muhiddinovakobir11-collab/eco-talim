@@ -1,4 +1,4 @@
-const TelegramBot = require('node-telegram-bot-api');
+﻿const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const http = require('http');
@@ -231,7 +231,7 @@ setInterval(() => {
     }
 }, 60 * 1000);
 
-console.log('Eco Law Bot ishga tushdi (DB kutilmoqda)...');
+console.log('Eco Talim ishga tushdi (DB kutilmoqda)...');
 
 const originalWriteFileSync = fs.writeFileSync;
 let dbMessageId = null;
@@ -383,7 +383,6 @@ function getMainMenuOptions(chatId) {
     let keyboard = [
         [{ text: "📸 Eko-Nazorat", callback_data: "menu_report" }],
         [{ text: "🎯 Ekologiya Quiz", callback_data: "menu_quizzes" }],
-        [{ text: "🤖 AI Slayd/Referat", callback_data: "menu_ai_generate" }],
         [{ text: "🔮 Jumboqli Vaziyatlar", callback_data: "menu_puzzles" }],
         [{ text: "🦸‍♂️ Eko-Qahramon", callback_data: "menu_hero" }],
         [{ text: "📕 Qizil Kitob", callback_data: "menu_redbook" }],
@@ -439,7 +438,7 @@ bot.onText(/\/start/, (msg) => {
         if (changed) fs.writeFileSync('./data/users.json', JSON.stringify(usersData, null, 2));
     }
     
-    const introText = `🌟 <b>Assalomu alaykum! Eco Law Botga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin! Quyidagi menyulardan birini tanlab boshlang.</blockquote>\n\n📲 <b>Murojaat uchun:</b> @akoshprod`;
+    const introText = `🌟 <b>Assalomu alaykum! Eco Talim botiga xush kelibsiz.</b>\n<blockquote>Bu yerda siz O'zbekistonning ekologiyaga doir qonunlarini qiziqarli tarzda o'rganishingiz mumkin! Quyidagi menyulardan birini tanlab boshlang.</blockquote>\n\n📲 <b>Murojaat uchun:</b> @akoshprod`;
     const videoPath = './data/intro.mp4';
     
     if (fs.existsSync(videoPath)) {
@@ -759,7 +758,7 @@ bot.on('callback_query', (query) => {
     }
     
     // Test va savollar bo'limlari uchun umumiy tutib oluvchi
-    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back' && data !== 'menu_hero' && data !== 'menu_leaderboard' && data !== 'menu_redbook' && data !== 'menu_ai_generate') {
+    if (data.startsWith('menu_') && data !== 'menu_learn' && data !== 'menu_back' && data !== 'menu_hero' && data !== 'menu_leaderboard' && data !== 'menu_redbook') {
         const type = data.replace('menu_', ''); // quizzes, puzzles, terms, penalties, truefalse bo'ladi
         sendRandomQuestion(chatId, type);
     }
@@ -842,34 +841,6 @@ bot.on('callback_query', (query) => {
         bot.sendMessage(chatId, msg, { parse_mode: 'HTML', ...getMainMenuOptions(chatId) });
         return;
     }
-    
-    if (data === 'menu_ai_generate') {
-        bot.sendMessage(chatId, `?? <b>AI Yordamchi Menu</b>\n\nNima yaratmoqchisiz? Quyidagi 8 ta yo'nalishdan birini tanlang:`, {
-            parse_mode: 'HTML',
-            reply_markup: {
-                inline_keyboard: [
-                    [{ text: "?? Slayd (Taqdimot)", callback_data: "ai_gen_Slayd" }, { text: "?? Referat", callback_data: "ai_gen_Referat" }],
-                    [{ text: "?? Kurs ishi", callback_data: "ai_gen_Kurs ishi" }, { text: "?? Ilmiy Maqola", callback_data: "ai_gen_Maqola" }],
-                    [{ text: "?? Ochiq Dars Ishlanmasi", callback_data: "ai_gen_Dars ishlanmasi" }, { text: "?? Ekologik Loyiha", callback_data: "ai_gen_Loyiha" }],
-                    [{ text: "?? Insho", callback_data: "ai_gen_Insho" }, { text: "?? Test (Quiz) Tuzish", callback_data: "ai_gen_Test" }],
-                    [{ text: "?? Orqaga", callback_data: "menu_back" }]
-                ]
-            }
-        });
-        return;
-    }
-    
-    if (data.startsWith('ai_gen_')) {
-        const docType = data.replace('ai_gen_', '');
-        userStates[chatId] = { step: 'awaiting_ai_topic', type: docType };
-        
-        if (docType === 'Slayd') {
-            bot.sendMessage(chatId, `📊 <b>Haqiqiy Slayd (PPTX) yasalmoqda!</b>\n\n1-qadam: Slayd qaysi mavzuda bo'lishini yozib yuboring (Masalan: "Orol dengizi fojiasi"):`, {
-                parse_mode: 'HTML',
-                reply_markup: { inline_keyboard: [[{ text: "❌ Bekor qilish", callback_data: "menu_ai_generate" }]] }
-            });
-            return;
-        }
 
         bot.sendMessage(chatId, `✅ <b>Siz tanladingiz: ${docType}</b>\n\nEndi menga qaysi mavzuda yozib berishim kerakligini va qanday talablaringiz borligini batafsil yozib yuboring.\n\n<i>Masalan: "Orol dengizi qurishi bo'yicha 5 betlik matn" yoki "Chiqindilarni qayta ishlash mavzusida qiziqarli testlar"</i>`, {
             parse_mode: 'HTML',
@@ -877,17 +848,6 @@ bot.on('callback_query', (query) => {
                 inline_keyboard: [[{ text: "❌ Bekor qilish", callback_data: "menu_ai_generate" }]]
             }
         });
-        return;
-    }
-
-    if (data.startsWith('slcolor_')) {
-        const colorHex = data.split('_')[1];
-        if (userStates[chatId] && userStates[chatId].step === 'awaiting_slide_color') {
-            const topic = userStates[chatId].topic;
-            const count = userStates[chatId].count;
-            delete userStates[chatId];
-            generateAndSendPPTX(chatId, topic, count, colorHex);
-        }
         return;
     }
     
@@ -1589,12 +1549,6 @@ bot.on('message', async (msg) => {
                 delete userStates[chatId];
                 return;
             }
-            
-            if (state === 'awaiting_ai_topic') {
-                if (!msg.text) {
-                    bot.sendMessage(chatId, "Iltimos, mavzuni matn ko'rinishida yozib yuboring.");
-                    return;
-                }
                 
                 const docType = userStates[chatId].type || "Matn";
                 if (docType === 'Slayd') {
@@ -1631,13 +1585,6 @@ bot.on('message', async (msg) => {
                 }
                 return;
             }
-            
-            if (state === 'awaiting_slide_count') {
-                const count = parseInt(msg.text);
-                if (isNaN(count) || count < 1 || count > 20) {
-                    bot.sendMessage(chatId, "Iltimos, 1 dan 20 gacha bo'lgan to'g'ri son kiriting.");
-                    return;
-                }
                 userStates[chatId].count = count;
                 userStates[chatId].step = 'awaiting_slide_color';
                 
@@ -1716,9 +1663,63 @@ bot.on('message', async (msg) => {
         return; // Tarqatish paytida pastdagi xato xabari chiqmasligi uchun funksiyani to'xtatamiz
     }
     
-    // Boshqa har qanday (buyruq bo'lmagan) xabarlar uchun
+    // --- 2- va 4- G'OYALAR: QIDIRUV VA SUN'IY INTELLEKT TABIATSHUNOS ---
     if (msg.text && !msg.text.startsWith('/')) {
-        bot.sendMessage(chatId, "⚠️ Iltimos botdan foydalanish uchun /start tugmasini bosing.");
+        const query = msg.text.toLowerCase().trim();
+        
+        // 1. Qizil Kitobdan izlash (2-g'oya)
+        const animalsData = redbookData.filter(i => !i.name.includes("(O'simlik)"));
+        const plantsData = redbookData.filter(i => i.name.includes("(O'simlik)"));
+        
+        let matches = [];
+        // Hayvonlar
+        animalsData.forEach((a, idx) => {
+            if (a.name.toLowerCase().includes(query)) matches.push({ type: 'animals', name: a.name, idx: idx });
+        });
+        // O'simliklar
+        plantsData.forEach((p, idx) => {
+            if (p.name.toLowerCase().includes(query)) matches.push({ type: 'plants', name: p.name, idx: idx });
+        });
+        
+        if (matches.length > 0) {
+            if (matches.length === 1) {
+                // To'g'ridan-to'g'ri ko'rsatish
+                bot.sendMessage(chatId, "✅ <b>Qizil Kitobdan topildi!</b>", { parse_mode: 'HTML' }).then(m => {
+                    sendRedbookPage(chatId, matches[0].idx, null, matches[0].type);
+                });
+            } else {
+                // Agar bir nechta topsa, ro'yxat qilib tugmalar beramiz (maksimal 10 ta)
+                let btns = [];
+                for (let i = 0; i < Math.min(matches.length, 10); i++) {
+                    btns.push([{ text: "🟢 " + matches[i].name.replace("(O'simlik)", "").trim(), callback_data: "redbook_page_" + matches[i].idx + "_" + matches[i].type }]);
+                }
+                btns.push([{ text: "🔙 Bosh menyu", callback_data: "menu_back" }]);
+                bot.sendMessage(chatId, `🔍 <b>Qizil Kitobdan ${matches.length} ta natija topildi!</b>\nKerakli sahifani tanlang:`, {
+                    parse_mode: 'HTML',
+                    reply_markup: { inline_keyboard: btns }
+                });
+            }
+            return;
+        }
+        
+        // 2. Agar Qizil Kitobdan topilmasa, Sun'iy Intellekt tabiatshunos javob beradi (4-g'oya)
+        bot.sendMessage(chatId, "🌱 <i>Tabiatshunos AI sizning xabaringizni o'qib chiqmoqda... (Kuting)</i>", { parse_mode: 'HTML' }).then(async (waitMsg) => {
+            try {
+                const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                
+                const prompt = "Siz O'zbekiston tabiati, ekologiyasi, Qizil Kitob flora va faunasini juda yaxshi biladigan professor, ekolog-tabiatshunossiz. Foydalanuvchining quyidagi xabariga do'stona, ilmiy va o'zbek tilida chiroyli javob bering. Uning ekologiya, tabiat yoki o'simlik/hayvonlar haqidagi savoli yoki mulohazasiga yordam bering. Foydalanuvchi xabari: " + msg.text;
+                
+                const result = await model.generateContent(prompt);
+                const response = result.response.text();
+                
+                bot.deleteMessage(chatId, waitMsg.message_id).catch(()=>{});
+                bot.sendMessage(chatId, "🤖 <b>Ekolog-AI javobi:</b>\n\n" + response, { parse_mode: 'Markdown' });
+            } catch (err) {
+                bot.deleteMessage(chatId, waitMsg.message_id).catch(()=>{});
+                bot.sendMessage(chatId, "⚠️ Tizimda kichik uzilish. Iltimos, savolingizni keyinroq qayta yozing yoki /start orqali menyuga qayting.");
+            }
+        });
     }
 });
 
@@ -1862,76 +1863,7 @@ function sendRedbookPage(chatId, pageIdx, messageId = null, category = 'animals'
         }
     }
 }
-async function generateAndSendPPTX(chatId, topic, count, colorHex) {
-    bot.sendMessage(chatId, `⏳ <b>Haqiqiy Taqdimot yasalmoqda...</b>\n📝 Mavzu: "${topic}"\n🔢 Betlar: ${count}\n\n<i>Dizayn, rasmlar va ma'lumotlar ustida ishlanmoqda (1-2 daqiqa ketishi mumkin)...</i>`, { parse_mode: 'HTML' });
-    try {
-        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const prompt = `Siz professional dizayner va ekologsiz. "${topic}" mavzusida ${count} betdan iborat taqdimot tayyorlang. JAVOBNI FAQAT QAT'IY JSON FORMATIDA (ARRAY) BERING. Boshqa hech qanday so'z yozmang.
-Shablon (Har bir obyekt bitta slayd):
-[
-  {
-    "title": "Slayd Sarlavhasi (uzbek tilida)",
-    "body": "Slayd haqida qisqacha ma'lumot (3-4 gap)",
-    "keyword": "Rasm qidirish uchun 1-2 ta INGLIZCHA so'z (masalan: green nature)"
-  }
-]`;
-        const result = await model.generateContent(prompt);
-        let text = result.response.text();
-        text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-        
-        let slidesData = JSON.parse(text);
-        if (!Array.isArray(slidesData)) throw new Error("Invalid JSON from Gemini");
-
-        const pptxgen = require('pptxgenjs');
-        let pptx = new pptxgen();
-        pptx.layout = 'LAYOUT_16x9';
-        
-        // Asosiy shablon
-        pptx.defineSlideMaster({
-            title: "MAIN",
-            background: { color: colorHex }
-        });
-        
-        for (let i = 0; i < slidesData.length; i++) {
-            const s = slidesData[i];
-            let slide = pptx.addSlide();
-            slide.background = { color: colorHex };
-            
-            // Sarlavha
-            slide.addText(s.title || "Slayd", {
-                x: 0.5, y: 0.5, w: '90%', h: 1.0, 
-                fontSize: 32, bold: true, color: 'FFFFFF', align: 'center', fontFace: 'Arial'
-            });
-            
-            // Matn
-            slide.addText(s.body || "", {
-                x: 0.5, y: 1.8, w: '45%', h: 4.5,
-                fontSize: 20, color: 'FFFFFF', align: 'left', valign: 'top', fontFace: 'Arial'
-            });
-            
-            // Rasm (Pollinations bepul AI rasmlari)
-            if (s.keyword) {
-                const keyword = encodeURIComponent(s.keyword + ' high quality realistic');
-                const imgUrl = `https://image.pollinations.ai/prompt/${keyword}?width=600&height=450&nologo=true`;
-                slide.addImage({
-                    path: imgUrl,
-                    x: 5.5, y: 1.8, w: 4.0, h: 3.5,
-                    sizing: { type: 'cover', w: 4.0, h: 3.5 }
-                });
-            }
-        }
-        
-        const fileName = `./data/Taqdimot_${Date.now()}.pptx`;
-        await pptx.writeFile({ fileName: fileName });
-        
-        await bot.sendDocument(chatId, fileName, { caption: `✅ <b>Taqdimotingiz muvaffaqiyatli tayyorlandi!</b>\n\n📝 Mavzu: ${topic}\n🔢 Sahifalar soni: ${slidesData.length}\n📄 Format: Microsoft PowerPoint (.pptx)\n\n<i>Eco Law Bot orqali yaratildi.</i>`, parse_mode: 'HTML' });
-        fs.unlinkSync(fileName);
-    } catch (err) {
-        console.error("PPTX Error:", err);
-        bot.sendMessage(chatId, "❌ <b>Kechirasiz, taqdimot yaratishda xatolik yuz berdi.</b> Bunga internet tezligi yoki AI serverlari bandligi sabab bo'lishi mumkin. Iltimos qaytadan urinib ko'ring.", { parse_mode: 'HTML' });
-    }
-}
 
 // Dummy HTTP server for Render web service binding
+
 
