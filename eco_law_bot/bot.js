@@ -456,6 +456,7 @@ bot.onText(/\/start/, (msg) => {
 bot.on('callback_query', (query) => {
     const chatId = query.message.chat.id;
     const data = query.data;
+    bot.answerCallbackQuery(query.id).catch(()=>{});
     
     if (data.startsWith('approve_appr_')) {
         const approvalId = data.replace('approve_', '');
@@ -1934,5 +1935,6 @@ Shablon (Har bir obyekt bitta slayd):
 }
 
 // Dummy HTTP server for Render web service binding
+
 
 
