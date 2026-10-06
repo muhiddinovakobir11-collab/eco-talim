@@ -225,7 +225,16 @@ setInterval(() => {
         if (!isPolling) {
             console.log("Polling to'xtab qolgan, qayta ishga tushirilmoqda...");
             bot.startPolling();
-    bot.on('polling_error', (err) => console.log(err));
+    bot.on('polling_error', (err) => {
+        console.log(err);
+        if (err.code === 'EFATAL' || err.message.includes('409')) {
+            setTimeout(() => {
+                if (!bot.isPolling()) {
+                    bot.startPolling();
+                }
+            }, 10000);
+        }
+    });
         }
     } catch (e) {
         console.error("Polling restart xatosi:", e);
@@ -320,7 +329,16 @@ async function initTelegramDB() {
     }
     
     bot.startPolling();
-    bot.on('polling_error', (err) => console.log(err));
+    bot.on('polling_error', (err) => {
+        console.log(err);
+        if (err.code === 'EFATAL' || err.message.includes('409')) {
+            setTimeout(() => {
+                if (!bot.isPolling()) {
+                    bot.startPolling();
+                }
+            }, 10000);
+        }
+    });
     console.log("Bot xabarlarni qabul qilishni boshladi.");
 }
 
