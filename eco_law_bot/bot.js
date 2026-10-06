@@ -224,7 +224,7 @@ setInterval(() => {
         const isPolling = typeof bot.isPolling === 'function' ? bot.isPolling() : bot.isPolling;
         if (!isPolling) {
             console.log("Polling to'xtab qolgan, qayta ishga tushirilmoqda...");
-            bot.startPolling();
+            bot.deleteWebHook().then(() => bot.startPolling()).catch(() => bot.startPolling());
         }
     } catch (e) {
         console.error("Polling restart xatosi:", e);
@@ -318,7 +318,7 @@ async function initTelegramDB() {
         console.error("Telegram DB ni o'qishda xatolik:", e);
     }
     
-    bot.startPolling();
+    bot.deleteWebHook().then(() => bot.startPolling()).catch(() => bot.startPolling());
     console.log("Bot xabarlarni qabul qilishni boshladi.");
 }
 
