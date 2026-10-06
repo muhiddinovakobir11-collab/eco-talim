@@ -1938,3 +1938,5 @@ Shablon (Har bir obyekt bitta slayd):
 
 
 
+
+// Perezagruzka (Restart) trigger: 2026-10-06 14:28:42
