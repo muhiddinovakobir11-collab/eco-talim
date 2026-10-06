@@ -1940,3 +1940,13 @@ Shablon (Har bir obyekt bitta slayd):
 
 
 // Perezagruzka (Restart) trigger: 2026-10-06 14:28:42
+
+const http = require('http');
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('Bot is running!\n');
+});
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log('Dummy server is running on port ' + PORT);
+});
