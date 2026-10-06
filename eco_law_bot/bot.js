@@ -216,6 +216,18 @@ process.on('unhandledRejection', (reason, promise) => {
 
 bot.on('polling_error', (error) => {
     console.error("Polling xatosi:", error.message);
+    if (error.code === 'EFATAL' || (error.message && error.message.includes('409'))) {
+        console.log("To'qnashuv aniqlandi, polling qayta ishga tushirilmoqda (restart)...");
+        bot.stopPolling().then(() => {
+            setTimeout(() => {
+                bot.startPolling();
+            }, 10000); // 10 soniya kutamiz eski bot o'lishi uchun
+        }).catch(() => {
+            setTimeout(() => {
+                bot.startPolling();
+            }, 10000);
+        });
+    }
 });
 
 // Polling tasodifan to'xtab qolsa, uni avtomatik qayta ishga tushirish
