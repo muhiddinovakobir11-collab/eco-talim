@@ -225,6 +225,7 @@ setInterval(() => {
         if (!isPolling) {
             console.log("Polling to'xtab qolgan, qayta ishga tushirilmoqda...");
             bot.startPolling();
+    bot.on('polling_error', (err) => console.log(err));
         }
     } catch (e) {
         console.error("Polling restart xatosi:", e);
@@ -319,6 +320,7 @@ async function initTelegramDB() {
     }
     
     bot.startPolling();
+    bot.on('polling_error', (err) => console.log(err));
     console.log("Bot xabarlarni qabul qilishni boshladi.");
 }
 
